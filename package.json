@@ -6,9 +6,10 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "next dev --experimental-https",
+		"dev": "next dev ",
 		"build": "next build",
 		"start": "next start",
+		"prod": "pnpm dev",
 		"lint": "pnpm biome check --write",
 		"test": "vitest",
 		"generate": "graphql-codegen --config .graphqlrc.ts",
