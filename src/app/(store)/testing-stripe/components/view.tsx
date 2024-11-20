@@ -1,8 +1,8 @@
 "use client";
 
 import CheckoutPage from "@/app/(store)/testing-stripe/components/CheckoutPage";
-import { convertToSubcurrency } from "@/app/(store)/testing-stripe/lib/convertToSubcurrency";
 import { env } from "@/env.mjs";
+import { convertToSubcurrency } from "@/lib/convertToSubcurrency";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 

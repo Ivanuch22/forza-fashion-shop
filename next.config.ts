@@ -1,3 +1,4 @@
+import path from "path";
 import MDX from "@next/mdx";
 import type { NextConfig } from "next/types";
 
@@ -40,6 +41,11 @@ const nextConfig: NextConfig = {
 			...config,
 			resolve: {
 				...config.resolve,
+				alias: {
+					...config.resolve.alias,
+					"@": path.resolve(__dirname, "src"),
+					"@ui": path.resolve(__dirname, "src/ui"),
+				},
 				extensionAlias: {
 					".js": [".js", ".ts"],
 					".jsx": [".jsx", ".tsx"],

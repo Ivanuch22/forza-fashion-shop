@@ -1,5 +1,5 @@
 "use client";
-import { convertToSubcurrency } from "@/app/(store)/testing-stripe/lib/convertToSubcurrency";
+import { convertToSubcurrency } from "@/lib/convertToSubcurrency";
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { type FormEvent, useEffect, useState } from "react";
 

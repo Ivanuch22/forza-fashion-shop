@@ -14,6 +14,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 		alternates: { canonical: `${publicUrl}/products` },
 	};
 };
+// Тип для параметрів запиту
 type Props = {
 	searchParams: {
 		cursor: string;

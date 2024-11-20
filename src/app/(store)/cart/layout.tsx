@@ -1,13 +1,13 @@
 import { getLocale, getTranslations } from "@/i18n/server";
 import type { ReactNode } from "react";
 
-import { convertToSubcurrency } from "@/app/(store)/testing-stripe/lib/convertToSubcurrency";
 import { env } from "@/env.mjs";
 import * as Checkout from "@/lib/checkout";
 import { CartEmpty } from "@/ui/checkout/cart-empty";
 import { CartSummaryTable } from "@/ui/checkout/cart-summary-table";
 import { StripeElementsContainer } from "@/ui/checkout/stripe-elements-container";
 import { cookies } from "next/headers";
+import { convertToSubcurrency } from "@/lib/convertToSubcurrency";
 
 async function fetchClientSicret(amount: number) {
 	let secret = fetch(`${env.NEXT_PUBLIC_URL}/api/create-payment-intent`, {

@@ -1,9 +1,9 @@
+import type React from "react";
+
 export default async function CategoryLayout({
 	children,
-	modal,
 }: Readonly<{
 	children: React.ReactNode;
-	modal: React.ReactNode;
 }>) {
 	return (
 		<>

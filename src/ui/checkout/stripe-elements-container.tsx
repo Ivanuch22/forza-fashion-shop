@@ -1,8 +1,8 @@
 "use client";
 
-import { convertToSubcurrency } from "@/app/(store)/testing-stripe/lib/convertToSubcurrency";
 import { env } from "@/env.mjs";
 import type { CheckoutFindQuery } from "@/gql/graphql";
+import { convertToSubcurrency } from "@/lib/convertToSubcurrency";
 import { invariant } from "@/lib/invariant";
 import { Elements } from "@stripe/react-stripe-js";
 import { type StripeElementLocale, type StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
