@@ -1,0 +1,22 @@
+query ProductListByCollection($slug: String = "", $first: Int = 10) {
+	collection(channel: "default-channel", slug: $slug) {
+		backgroundImage {
+			alt
+			url
+		}
+		name
+		products(first: $first) {
+			totalCount
+			edges {
+				node {
+					...ProductListItem
+				}
+			}
+		}
+		id
+		seoTitle
+		slug
+		description
+		descriptionJson
+	}
+}

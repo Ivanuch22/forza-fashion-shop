@@ -1,0 +1,17 @@
+mutation DraftOrderCreate($input: DraftOrderCreateInput = { userEmail: "" }) {
+	draftOrderCreate(input: $input) {
+		order {
+			id
+			status
+		}
+		errors {
+			field
+			message
+			addressType
+			code
+			orderLines
+			warehouse
+			variants
+		}
+	}
+}

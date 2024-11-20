@@ -1,0 +1,17 @@
+query GetApparelChildren($first1: Int = 4) {
+	category(id: "Q2F0ZWdvcnk6Mjc==") {
+		children(first: $first1) {
+			edges {
+				node {
+					backgroundImage {
+						alt
+						url
+					}
+					id
+					name
+					slug
+				}
+			}
+		}
+	}
+}

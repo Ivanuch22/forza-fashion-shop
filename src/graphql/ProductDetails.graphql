@@ -1,0 +1,61 @@
+query ProductDetails($slug: String!) {
+	product(slug: $slug, channel: "default-channel") {
+		id
+		name
+		slug
+		description
+		seoTitle
+		seoDescription
+		category {
+			id
+			name
+			parent {
+				name
+			}
+		}
+		variants {
+			...VariantDetails
+		}
+		images {
+			alt
+			id
+			sortOrder
+			url(format: WEBP)
+		}
+		pricing {
+			onSale
+			discount {
+				currency
+				gross {
+					amount
+					currency
+				}
+				net {
+					amount
+					currency
+				}
+				tax {
+					amount
+					currency
+				}
+			}
+			priceRange {
+				start {
+					currency
+					gross {
+						amount
+						currency
+					}
+					tax {
+						amount
+						currency
+					}
+					net {
+						amount
+						currency
+					}
+				}
+			}
+		}
+	}
+}
