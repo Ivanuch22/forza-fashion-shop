@@ -22,6 +22,7 @@
 		"@graphql-codegen/cli": "5.0.3",
 		"@graphql-typed-document-node/core": "3.2.0",
 		"@next/mdx": "15.0.4-canary.8",
+		"@radix-ui/react-accordion": "1.2.1",
 		"@radix-ui/react-checkbox": "1.1.2",
 		"@radix-ui/react-collapsible": "1.1.1",
 		"@radix-ui/react-dialog": "1.1.2",
@@ -138,7 +139,10 @@
 				"react-dom": "19.0.0-rc-33c7bd9a-20241104",
 				"@stripe/stripe-js": ">=4.9.0"
 			},
-			"allowAny": ["@types/react", "@types/react-dom"]
+			"allowAny": [
+				"@types/react",
+				"@types/react-dom"
+			]
 		}
 	},
 	"engines": {
@@ -147,7 +151,9 @@
 	},
 	"packageManager": "pnpm@9.13.0",
 	"release": {
-		"branches": ["main"],
+		"branches": [
+			"main"
+		],
 		"plugins": [
 			"@semantic-release/commit-analyzer",
 			"@semantic-release/release-notes-generator",
@@ -158,6 +164,8 @@
 		]
 	},
 	"lint-staged": {
-		"*": ["pnpm biome check --write --staged --no-errors-on-unmatched --files-ignore-unknown=true"]
+		"*": [
+			"pnpm biome check --write --staged --no-errors-on-unmatched --files-ignore-unknown=true"
+		]
 	}
 }

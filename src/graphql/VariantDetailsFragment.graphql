@@ -10,5 +10,11 @@ fragment VariantDetails on ProductVariant {
 				amount
 			}
 		}
+		priceUndiscounted {
+          gross {
+            amount
+            currency
+          }
+        }
 	}
 }

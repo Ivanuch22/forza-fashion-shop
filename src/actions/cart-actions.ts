@@ -102,7 +102,7 @@ export async function increaseQuantity(productId: string) {
 	}
 	await Commerce.cartChangeQuantity({
 		productId,
-		cartId: cart.cart.id,
+		cartId: cart.id,
 		operation: "INCREASE",
 	});
 }
@@ -114,7 +114,7 @@ export async function decreaseQuantity(productId: string) {
 	}
 	await Commerce.cartChangeQuantity({
 		productId,
-		cartId: cart.cart.id,
+		cartId: cart.id,
 		operation: "DECREASE",
 	});
 }

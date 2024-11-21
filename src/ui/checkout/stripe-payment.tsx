@@ -1,7 +1,7 @@
 "use client";
-
 import { clearCartCookieAction } from "@/actions/cart-actions";
 import { useTranslations } from "@/i18n/client";
+import { formatMoney } from "@/lib/graphql";
 import { useDebouncedValue } from "@/lib/hooks";
 import { saveShippingRateAction } from "@/ui/checkout/checkout-actions";
 import { type AddressSchema, getAddressSchema } from "@/ui/checkout/checkout-form-schema";
@@ -25,7 +25,7 @@ import {
 import type * as Commerce from "commerce-kit";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { type ChangeEvent, type FormEventHandler, useEffect, useState, useTransition } from "react";
+import { type ChangeEvent, type FormEventHandler, useState, useTransition } from "react";
 
 export const StripePayment = ({
 	shippingRateId,
@@ -70,7 +70,7 @@ const PaymentForm = ({
 		postalCodeRequired: ft("postalCodeRequired"),
 	});
 
-	const { checkout, changeCheckout } = useCheckoutStore((state) => state);
+	const { checkout } = useCheckoutStore((state) => state);
 
 	const [formErrorMessage, setFormErrorMessage] = useState<string | null>(null);
 	const [fieldErrors, setFieldErrors] = useState<
@@ -94,7 +94,7 @@ const PaymentForm = ({
 		email: "",
 	});
 
-	const [isBillingAddressPending, debouncedBillingAddress] = useDebouncedValue(billingAddressValues, 1000);
+	const [isBillingAddressPending] = useDebouncedValue(billingAddressValues, 1000);
 	const [shippingRateId, setShippingRateId] = useState<string | null>(cartShippingRateId);
 
 	const [sameAsShipping, setSameAsShipping] = useState(true);
@@ -236,9 +236,13 @@ const PaymentForm = ({
 					},
 					body: JSON.stringify({ input: inputTemplate }),
 				});
+
 				if (!createOrderInSaleor.ok) {
 					setIsLoading(false);
-					setFormErrorMessage(createOrderInSaleor.message ?? t("unexpectedError"));
+
+					// Використовуємо statusText або отримуємо повідомлення з тіла відповіді
+					const errorMessage = await createOrderInSaleor.text(); // або .json() якщо сервер повертає JSON
+					setFormErrorMessage(errorMessage || t("unexpectedError"));
 				}
 
 				// clear cart cookie after successful payment for payment methods that do not require redirect
@@ -376,7 +380,10 @@ const PaymentForm = ({
 					{isBillingAddressPending || isLoading || isTransitioning ? (
 						<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 					) : (
-						t("payNowButton")
+						<>
+							{t("payNowButton")}  • {" "}
+							{checkout?.totalPrice?.gross?.amount && formatMoney(checkout?.totalPrice?.gross?.amount || 0, checkout?.totalPrice?.gross?.currency || "")}
+						</>
 					)}
 				</Button>
 			)}

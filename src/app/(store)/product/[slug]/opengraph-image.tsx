@@ -14,9 +14,9 @@ export const alt = "";
 export default async function Image(props: { params: Promise<{ slug: string }> }) {
 	const params = await props.params;
 	const locale = await getLocale();
-	const geistRegular = fetch(new URL("./Geist-Regular.ttf", import.meta.url)).then((res) =>
-		res.arrayBuffer(),
-	);
+	// const geistRegular = fetch(new URL("./Geist-Regular.ttf", import.meta.url)).then((res) =>
+	// 	res.arrayBuffer(),
+	// );
 	// const geistBold = fetch(new URL("./Geist-Bold.ttf", import.meta.url)).then((res) =>
 	// 	res.arrayBuffer(),
 	// );

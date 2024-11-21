@@ -14,16 +14,20 @@ export const generateMetadata = async (): Promise<Metadata> => {
 		alternates: { canonical: `${publicUrl}/products` },
 	};
 };
+
 // Тип для параметрів запиту
 type Props = {
-	searchParams: {
-		cursor: string;
-	};
+	searchParams: Promise<{
+		cursor?: string;  // Зробимо цей параметр опціональним
+	}>;
 };
 
 export default async function AllProductsPage({ searchParams }: Props) {
 	const t = await getTranslations("/products.page");
-	const { cursor } = searchParams;
+	const searchParamsAwait = await searchParams;  // Перевіряємо, чи є параметр 'cursor'
+	const cursor = searchParamsAwait?.cursor || ""
+
+
 	const { products } = await executeGraphQL(ProductListPaginatedDocument, {
 		variables: {
 			first: ProductsPerPage,

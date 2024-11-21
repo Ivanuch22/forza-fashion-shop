@@ -15,7 +15,8 @@ export interface CounterStoreProviderProps {
 }
 
 export const CounterStoreProvider = ({ children }: CounterStoreProviderProps) => {
-	const storeRef = useRef<CounterStoreApi>();
+	const storeRef = useRef<CounterStoreApi | null>(null);
+
 	if (!storeRef.current) {
 		storeRef.current = createCounterStore();
 	}

@@ -3,6 +3,14 @@ fragment ProductListItem on Product {
 	name
 	slug
 	pricing {
+		priceRangeUndiscounted {
+            start {
+              gross {
+                amount
+                currency
+              }
+            }
+          }
 		priceRange {
 			start {
 				gross {

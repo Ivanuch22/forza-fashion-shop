@@ -9,7 +9,6 @@ import { Badge } from "@/ui/shadcn/badge";
 import type { PaymentIntent } from "@stripe/stripe-js";
 import * as Commerce from "commerce-kit";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import Image from "next/image";
 import { type ComponentProps, Fragment } from "react";
 
@@ -47,7 +46,7 @@ export default async function OrderDetailsPage(props: {
 	};
 
 	return (
-		<article className="max-w-3xl pb-32">
+		<article className="max-w-3xl m-[0_auto] px-10 pb-32">
 			<ClearCookieClientComponent cartId={order.order.id} cookieId={cookie?.id} />
 			<h1 className="mt-4 inline-flex items-center text-3xl font-bold leading-none tracking-tight">
 				{t("title")}
@@ -92,12 +91,10 @@ export default async function OrderDetailsPage(props: {
 											})}
 										</dd>
 									</div>
-
 									<div className="max-sm:col-span-2 max-sm:grid max-sm:grid-cols-subgrid">
 										<dt className="text-sm font-semibold text-foreground">{t("quantity")}</dt>
 										<dd className="text-sm text-accent-foreground">{line.quantity}</dd>
 									</div>
-
 									<div className="max-sm:col-span-2 max-sm:grid max-sm:grid-cols-subgrid">
 										<dt className="text-sm font-semibold text-foreground">{t("total")}</dt>
 										<dd className="text-sm text-accent-foreground">
@@ -139,7 +136,7 @@ export default async function OrderDetailsPage(props: {
 				)}
 			</ul>
 
-			<div className="pl-20 sm:pl-40">
+			<div className="text-center m-[0_auto]">
 				<h2 className="sr-only">{t("detailsTitle")}</h2>
 				{isDigital(order.lines) && (
 					<div className="mb-8">

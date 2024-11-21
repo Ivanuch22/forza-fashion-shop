@@ -59,6 +59,7 @@ export default async function CategoryPage(props: {
 	const { products } = category;
 
 	const t = await getTranslations("/category.page");
+	console.log(category)
 
 	return (
 		<main className="pb-8">

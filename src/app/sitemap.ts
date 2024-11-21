@@ -1,34 +1,52 @@
 import { publicUrl } from "@/env.mjs";
-import * as Commerce from "commerce-kit";
+import { ProductListPaginatedDocument } from "@/gql/graphql";
+import { executeGraphQL } from "@/lib/graphql";
 import type { MetadataRoute } from "next";
+import { ProductsPerPage } from "@/lib/graphql";
 
-const Categories = [
-	{ name: "Apparel", slug: "apparel" },
-	{ name: "Accessories", slug: "accessories" },
-];
+// const Categories = [
+// 	{ name: "Apparel", slug: "apparel" },
+// 	{ name: "Accessories", slug: "accessories" },
+// ];
 
 type Item = MetadataRoute.Sitemap[number];
+interface IProcutsUrls {
+	url: string,
+	lastModified: Date,
+	changeFrequency: "daily" | "always" | "hourly" | "weekly" | "monthly" | "yearly" | "never" | undefined,
+	priority: number
+}
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	const products = await Commerce.productBrowse({ first: 100 });
-	const productUrls = products.map(
-		(product) =>
-			({
-				url: `${publicUrl}/product/${product.metadata.slug}`,
-				lastModified: new Date(product.updated * 1000),
-				changeFrequency: "daily",
-				priority: 0.8,
-			}) satisfies Item,
-	);
+	// const products = await Commerce.productBrowse({ first: 100 });
+	const { products } = await executeGraphQL(ProductListPaginatedDocument, {
+		variables: {
+			first: ProductsPerPage,
+			after: "",
+		},
+		revalidate: 60,
+	});
+	let productUrls: IProcutsUrls[] = [];
+	if (products) {
+		productUrls = products.edges.map(
+			(product) =>
+				({
+					url: `${publicUrl}/product/${product.node.slug}`,
+					lastModified: new Date(0 * 1000),
+					changeFrequency: "daily",
+					priority: 0.8,
+				}) satisfies Item,
+		);
+	}
 
-	const categoryUrls = Categories.map(
-		(category) =>
-			({
-				url: `${publicUrl}/category/${category.slug}`,
-				lastModified: new Date(),
-				changeFrequency: "daily",
-				priority: 0.5,
-			}) satisfies Item,
-	);
+	// const categoryUrls = Categories.map(
+	// 	(category) =>
+	// 		({
+	// 			url: `${publicUrl}/category/${category.slug}`,
+	// 			lastModified: new Date(),
+	// 			changeFrequency: "daily",
+	// 			priority: 0.5,
+	// 		}) satisfies Item,
+	// );
 
 	return [
 		{
@@ -38,6 +56,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			priority: 1,
 		},
 		...productUrls,
-		...categoryUrls,
+		// ...categoryUrls,
 	];
 }

@@ -1,28 +1,59 @@
 "use client";
 
 import { env } from "@/env.mjs";
-import type { CheckoutFindQuery } from "@/gql/graphql";
-import { convertToSubcurrency } from "@/lib/convertToSubcurrency";
 import { invariant } from "@/lib/invariant";
+import { useCheckoutStore } from "@/zustand/providers/checkout-store-provider";
 import { Elements } from "@stripe/react-stripe-js";
 import { type StripeElementLocale, type StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
-import { type ReactNode, useMemo } from "react";
+import { type ReactNode, useMemo, useState, useEffect } from "react";
 
+import { convertToSubcurrency } from "@/lib/convertToSubcurrency";
+
+async function fetchClientSecret(amount: number): Promise<string | undefined> {
+	const response = await fetch(`${env.NEXT_PUBLIC_URL}/api/create-payment-intent`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ amount: convertToSubcurrency(amount) }),
+	});
+
+	// Парсимо відповідь і типізуємо її як { clientSecret?: string }
+	const data = await response.json().catch(() => ({ clientSecret: undefined })) as { clientSecret?: string };
+
+	// Перевірка, чи містить відповідь необхідну властивість
+	if (data.clientSecret && typeof data.clientSecret === "string") {
+		return data.clientSecret;
+	} else {
+		return undefined;
+	}
+}
 export const StripeElementsContainer = ({
 	children,
-	clientSecret,
-	publishableKey,
 	stripeAccount,
-	cart,
 	locale: currentLocale,
 }: {
 	children: ReactNode;
-	clientSecret?: string;
-	publishableKey?: string;
 	stripeAccount?: string;
 	locale: string;
-	cart: CheckoutFindQuery["checkout"];
 }) => {
+	const { checkout: cart } = useCheckoutStore(store => store)
+	const [clientSecret, setClientSecret] = useState("")
+	useEffect(() => {
+		// Огорніть асинхронну функцію у звичайну функцію
+		const getClientSecret = async () => {
+			if (cart?.totalPrice?.gross?.amount) {
+				const getSecret = await fetchClientSecret(cart?.totalPrice?.gross?.amount || 0);
+				if (getSecret) {
+					setClientSecret(getSecret);
+				}
+			}
+		};
+		getClientSecret();
+	}, [cart]);
+	useEffect(() => {
+		console.log(clientSecret, "clieent secret")
+	}, [clientSecret])
 	const stripePublishableKey = env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 
 	invariant(stripePublishableKey, "Stripe publishable key is required");
@@ -31,13 +62,10 @@ export const StripeElementsContainer = ({
 		[stripePublishableKey],
 	);
 
-	console.log(clientSecret, "clientSecret");
 	if (!clientSecret) {
 		return null;
 	}
-
 	const locale = supportedStripeLocales.includes(currentLocale) ? currentLocale : ("auto" as const);
-
 	const options = {
 		clientSecret,
 		appearance: {

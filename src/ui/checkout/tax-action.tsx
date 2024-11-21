@@ -9,5 +9,5 @@ export const saveTaxIdAction = async ({ taxId }: { taxId: string }) => {
 		throw new Error("No cart id found in cookies");
 	}
 
-	await Commerce.cartSaveTax({ cartId: cart.cart.id, taxId });
+	await Commerce.cartSaveTax({ cartId: cart.id, taxId });
 };

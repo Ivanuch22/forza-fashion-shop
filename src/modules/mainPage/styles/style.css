@@ -1,35 +1,35 @@
-body {
-	overflow-x: hidden;
-}
-.embla {
+.main_embla {
 	padding: 0 10px;
+	overflow: hidden;
 	margin: auto;
-	--slide-height: 500;
 	--slide-spacing: 1rem;
 	--slide-size: 100%;
 }
-.embla__viewport {
+.main_embla__viewport {
 	padding-bottom: 20px;
+	max-height: 540px;
+	
 }
-.embla__container {
+.main_embla__container {
 	display: flex;
 	touch-action: pan-y pinch-zoom;
 	margin-left: calc(var(--slide-spacing) * -1);
 }
-.embla__slide {
+.main_embla__slide {
 	transform: translate3d(0, 0, 0);
 	flex: 0 0 100%;
 	min-width: 0;
 	padding-left: var(--slide-spacing);
+	height: auto;
 }
-.embla__link {
+.main_embla__link {
 	border-radius: 20px;
 	overflow: hidden;
 	display: block;
 	min-width: 100%;
 	height: auto;
 }
-.embla__slide__number {
+.main_embla__slide__number {
 	box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
 	border-radius: 1.8rem;
 	font-size: 4rem;
@@ -37,22 +37,21 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: var(--slide-height);
 	user-select: none;
 }
-.embla__controls {
+.main_embla__controls {
 	display: grid;
 	grid-template-columns: auto 1fr;
 	justify-content: space-between;
 	gap: 1.2rem;
 }
-.embla__buttons {
+.main_embla__buttons {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 0.6rem;
 	align-items: center;
 }
-.embla__button {
+.main_embla__button {
 	-webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
 	-webkit-appearance: none;
 	appearance: none;
@@ -74,14 +73,14 @@ body {
 	align-items: center;
 	justify-content: center;
 }
-.embla__button:disabled {
+.main_embla__button:disabled {
 	color: var(--detail-high-contrast);
 }
-.embla__button__svg {
+.main_embla__button__svg {
 	width: 35%;
 	height: 35%;
 }
-.embla__selected-snap-display {
+.main_embla__selected-snap-display {
 	justify-self: flex-end;
 	align-self: center;
 	color: var(--text-low-contrast);

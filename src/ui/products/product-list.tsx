@@ -1,7 +1,7 @@
 import type { ProductListItemFragment } from "@/gql/graphql";
 import { getLocale } from "@/i18n/server";
 import { formatMoney, getStripeAmountFromDecimal } from "@/lib/utils";
-import { JsonLd, mappedProductsToJsonLd } from "@/ui/json-ld";
+// import { JsonLd, mappedProductsToJsonLd } from "@/ui/json-ld";
 import { YnsLink } from "@/ui/yns-link";
 import Image from "next/image";
 
@@ -31,7 +31,7 @@ export const ProductList = async ({ products }: { products: ProductListItemFragm
 									)}
 									<div className="p-4">
 										<h2 className="text-lg font-semibold text-neutral-700">{product?.name}</h2>
-										<footer className="text-sm font-medium text-neutral-900">
+										<footer className="text-sm font-medium text-neutral-900 flex items-center gap-2">
 											{product?.pricing?.priceRange?.start?.gross?.amount && (
 												<p>
 													{formatMoney({
@@ -40,6 +40,18 @@ export const ProductList = async ({ products }: { products: ProductListItemFragm
 															currency: product?.pricing?.priceRange?.start?.gross?.currency,
 														}),
 														currency: product?.pricing?.priceRange?.start?.gross?.currency,
+														locale,
+													})}
+												</p>
+											)}
+											{product?.pricing?.priceRangeUndiscounted?.start?.gross?.amount && (
+												<p className="text-xs line-through ">
+													{formatMoney({
+														amount: getStripeAmountFromDecimal({
+															amount: product?.pricing?.priceRangeUndiscounted?.start?.gross?.amount,
+															currency: product?.pricing?.priceRangeUndiscounted?.start?.gross?.currency,
+														}),
+														currency: product?.pricing?.priceRangeUndiscounted?.start?.gross?.currency,
 														locale,
 													})}
 												</p>

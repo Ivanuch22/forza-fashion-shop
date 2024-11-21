@@ -1,7 +1,10 @@
+// @ts-nocheck
+
 "use client";
 import { CartModalAddSideEffect } from "@/app/(store)/@modal/(.)cart-overlay/cart-side-effect";
 import Cart from "@/app/(store)/@modal/(.)cart-overlay/components/cart";
 import ExitButton from "@/app/(store)/@modal/(.)cart-overlay/components/exit-button";
+import Loading from "@/app/(store)/@modal/(.)cart-overlay/components/loading";
 import type { CheckoutFindQuery } from "@/gql/graphql";
 import { formatMoney } from "@/lib/graphql";
 import { Button } from "@/ui/shadcn/button";
@@ -16,8 +19,8 @@ const ClientBlock = ({
 }: { searchParams: { add?: string }; checkoutID: string }) => {
 	const [cart, setCart] = useState<CheckoutFindQuery["checkout"]>();
 	const { checkout } = useCheckoutStore((state) => state);
-	console.log(checkout);
 	const [checkoutId, setCheckoutId] = useState("");
+	const [loading, setLoading] = useState(false)
 	const [currency, setCurrency] = useState("USD");
 	useEffect(() => {
 		setCart(checkout);
@@ -67,8 +70,9 @@ const ClientBlock = ({
 				</div>
 				<p className="mt-0.5 text-sm text-neutral-500">Shipping and taxes will be added at the next step</p>
 				<Button asChild={true} size={"lg"} className="mt-6 w-full rounded-[5px] text-lg">
-					<YnsLink href={`/cart`}>
-						Checkout • {formatMoney(cart?.totalPrice?.gross?.amount || 0, currency)}{" "}
+					<YnsLink className="font-bold block" onClick={() => setLoading(true)} href={`/cart`}>
+
+						{loading ? <Loading></Loading> : `Checkout • ${formatMoney(cart?.totalPrice?.gross?.amount || 0, currency)}${" "}`}
 					</YnsLink>
 				</Button>
 			</div>

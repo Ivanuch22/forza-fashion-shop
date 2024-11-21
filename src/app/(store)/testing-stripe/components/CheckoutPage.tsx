@@ -8,16 +8,13 @@ export default function CheckoutPage({ amount }: { amount: number }) {
 	const elements = useElements();
 	const [errorMessage, setErrorMessage] = useState<string>();
 	const [clientSecret, setClientSecret] = useState("");
-	const [loading, setLoading] = useState(false);
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		setLoading(true);
 		if (!stripe || !elements) return;
 		const { error: subimtError } = await elements?.submit();
 		if (subimtError) {
 			setErrorMessage(subimtError.message);
-			setLoading(false);
 			return;
 		}
 		const { error } = await stripe.confirmPayment({
@@ -27,6 +24,7 @@ export default function CheckoutPage({ amount }: { amount: number }) {
 				return_url: `http://localhost:3000/payment-success?amount=${amount} `,
 			},
 		});
+		console.log(error)
 	};
 
 	useEffect(() => {
@@ -38,7 +36,16 @@ export default function CheckoutPage({ amount }: { amount: number }) {
 			body: JSON.stringify({ amount: convertToSubcurrency(amount) }),
 		})
 			.then((res) => res.json())
-			.then((data) => setClientSecret(data.clientSecret));
+			.then((data: unknown) => {
+				// Перевіряємо, чи є у data поле clientSecret
+				if (typeof data === "object" && data !== null && "clientSecret" in data) {
+					const { clientSecret } = data as { clientSecret: string };
+					setClientSecret(clientSecret);
+				} else {
+					console.error("Invalid response data");
+				}
+			})
+			.catch((error) => console.error("Error fetching payment intent:", error));
 	}, [amount]);
 
 	return (

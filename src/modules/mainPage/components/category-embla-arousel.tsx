@@ -13,27 +13,10 @@ import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import type React from "react";
 import "../styles/style.css";
-
-interface INode {
-	__typename?: "CategoryCountableEdge" | undefined;
-	node: {
-		__typename?: "Category" | undefined;
-		id: string;
-		name: string;
-		slug: string;
-		backgroundImage?:
-			| {
-					__typename?: "Image" | undefined;
-					alt?: string | undefined;
-					url: string;
-			  }
-			| null
-			| undefined;
-	};
-}
+import type { CategoryCountableEdge } from "@/gql/graphql";
 
 type PropType = {
-	slides: INode[];
+	slides: CategoryCountableEdge[];
 	options: EmblaOptionsType;
 };
 
@@ -44,15 +27,15 @@ const CategoryEmblaCarousel: React.FC<PropType> = ({ slides, options }) => {
 	const { selectedSnap, snapCount } = useSelectedSnapDisplay(emblaApi);
 
 	return (
-		<section className="embla">
+		<section className="main_embla">
 			{/* Слайдер до 768px і сітка після 768px */}
-			<div className="embla__viewport md:hidden" ref={emblaRef}>
-				<div className="embla__container">
+			<div className="main_embla__viewport md:hidden" ref={emblaRef}>
+				<div className="main_embla__container">
 					{slides.map(({ node }) => (
-						<div className="embla__slide" key={node.id}>
+						<div className="main_embla__slide" key={node.id}>
 							<YnsLink
 								href={`/category/${node?.slug}`}
-								className="embla__link bg-white shadow-lg rounded-lg font-sans text-black group relative max-w-[90vw] overflow-hidden"
+								className="main_embla__link bg-white shadow-lg rounded-lg font-sans text-black group relative max-w-[90vw] overflow-hidden"
 							>
 								{node?.backgroundImage && (
 									<Image
@@ -101,8 +84,8 @@ const CategoryEmblaCarousel: React.FC<PropType> = ({ slides, options }) => {
 			</div>
 
 			{/* Контролери для слайдера */}
-			<div className="embla__controls md:hidden md:opacity-0 md:h-0">
-				<div className="embla__buttons">
+			<div className="main_embla__controls md:hidden md:opacity-0 md:h-0">
+				<div className="main_embla__buttons">
 					<PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
 					<NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
 				</div>

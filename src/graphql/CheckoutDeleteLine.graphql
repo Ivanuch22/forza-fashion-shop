@@ -6,7 +6,7 @@ mutation CheckoutDeleteLine($checkoutId: ID!, $lineIds: [ID!]!) {
 			field
 		}
 		checkout {
-			...Checkout
+			...CheckoutDetails
 		}
 	}
 }

@@ -1,0 +1,70 @@
+fragment CheckoutDetails on Checkout {
+  id
+  email
+  lines {
+    id
+    quantity
+    totalPrice {
+      gross {
+        amount
+        currency
+      }
+    }
+    undiscountedTotalPrice {
+          amount
+          currency
+        }
+        undiscountedUnitPrice {
+          amount
+          currency
+        }
+    variant {
+      product {
+        id
+        name
+        slug
+        thumbnail {
+          url
+          alt
+        }
+        category {
+          name
+        }
+      }
+      
+      pricing {
+        price {
+          gross {
+            amount
+            currency
+          }
+        }
+      }
+      name
+      id
+    }
+  }
+  totalPrice {
+    gross {
+      amount
+      currency
+    }
+  }
+  discount {
+    amount
+    currency
+  }
+  languageCode
+  availablePaymentGateways {
+    currencies
+    id
+    name
+    config {
+      field
+      value
+    }
+  }
+  discountName
+  quantity
+  voucherCode
+}
