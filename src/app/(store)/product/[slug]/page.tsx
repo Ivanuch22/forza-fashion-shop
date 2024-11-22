@@ -249,7 +249,7 @@ async function SimilarProducts({ id }: { id: string }) {
 	}
 
 	return (
-		<section className="py-12 px-10">
+		<section className="py-12 px-5 lg:px-10">
 			<div className="mb-8">
 				<h2 className="text-2xl font-bold tracking-tight">You May Also Like</h2>
 			</div>

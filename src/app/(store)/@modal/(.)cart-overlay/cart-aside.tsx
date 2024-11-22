@@ -8,7 +8,7 @@ export const CartAsideContainer = ({
 }) => {
 	return (
 		<CartAsideDrawer>
-			<div className="flex h-full min-h-[100vh] flex-col">{children}</div>
+			<div className=" flex flex-1 flex-col">{children}</div>
 		</CartAsideDrawer>
 	);
 };

@@ -36,7 +36,7 @@ export const CartAsideDrawer = ({ children }: { children: ReactNode }) => {
 		>
 			<DrawerTitle className="sr-only">Shopping cart</DrawerTitle>
 			<DrawerContent
-				className="sm:fixed sm:bottom-0 left-auto sm:right-0 sm:top-0 sm:mt-0 sm:flex sm:h-full sm:w-2/3 sm:flex-col sm:overflow-hidden rounded-none sm:bg-white sm:shadow-xl lg:w-1/3"
+				className="max-h-full min-h-full overflow-y-auto sm:fixed sm:bottom-0 left-auto sm:right-0 sm:top-0 sm:mt-0 sm:flex sm:h-full sm:w-2/3 sm:flex-col sm:overflow-hidden rounded-none sm:bg-white sm:shadow-xl lg:w-1/3"
 				aria-describedby="cart-overlay-description"
 				onPointerDownOutside={() => {
 					setOpen(false);
