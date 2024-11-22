@@ -2,7 +2,6 @@ import type { ProductDetailsQuery } from "@/gql/graphql";
 import { formatMoney } from "@/lib/graphql";
 import { formatProductName } from "@/lib/utils";
 // import type * as Commerce from "commerce-kit";
-import { getDecimalFromStripeAmount } from "commerce-kit/currencies";
 import type { ItemList, Product, Thing, WebSite, WithContext } from "schema-dts";
 import type Stripe from "stripe";
 
