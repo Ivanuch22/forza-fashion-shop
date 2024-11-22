@@ -9,12 +9,12 @@ export const ProductList = async ({ products }: { products: ProductListItemFragm
 	const locale = await getLocale();
 	return (
 		<>
-			<ul className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+			<ul className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
 				{products.map((product, idx) => {
 					return (
 						<li key={product?.id} className="group">
 							<YnsLink href={`/product/${product?.slug}`}>
-								<article className="overflow-hidden rounded border bg-white">
+								<article className="min-h-full overflow-hidden rounded border bg-white">
 									{product?.thumbnail?.url && (
 										<div className="aspect-square w-full overflow-hidden bg-neutral-100">
 											<Image

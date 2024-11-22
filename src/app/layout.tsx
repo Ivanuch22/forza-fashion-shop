@@ -32,7 +32,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
 	return (
 		<html lang={locale} className={` ${poppins.className} h-full antialiased`}>
-			<body className="flex min-h-full flex-col">
+			<body className="text-[1.5rem] tracking-[calc(1 + 0.8 / 1.0)] flex min-h-full flex-col">
 				<IntlClientProvider messages={messages} locale={locale}>
 					<div className="flex min-h-full flex-1 flex-col bg-white" vaul-drawer-wrapper="">
 						{children}

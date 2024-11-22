@@ -19,7 +19,7 @@ export default async function StoreLayout({
 				<CounterStoreProvider>
 					<Nav />
 					<TooltipProvider>
-						<main className="mx-auto flex w-full flex-1 flex-col  pt-2 ">
+						<main className="mx-auto flex w-full flex-1 flex-col">
 							{children}
 							{modal}
 						</main>

@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import image from "@/assets/mainPageImage.webp";
+import WhyChooseUs from "@/components/why-choose-us";
 import { publicUrl } from "@/env.mjs";
 import {
 	type CategoryCountableEdge,
@@ -24,7 +25,7 @@ export const metadata = {
 
 export default async function Home() {
 	const [data, getCategory, { collections }] = await Promise.all([
-		executeGraphQL(ProductListDocument, { revalidate: 60 }),
+		executeGraphQL(ProductListDocument, { variables: { first: 8 }, revalidate: 60 }),
 		executeGraphQL(GetApparelChildrenDocument, { variables: { first1: 10 }, revalidate: 60 }),
 		executeGraphQL(CollectionListDocument, { variables: { first1: 10 }, revalidate: 60 }),
 	]);
@@ -43,7 +44,7 @@ export default async function Home() {
 				<div className="mx-auto grid grid-cols-1 items-center justify-items-center gap-8 px-8 sm:px-16 md:grid-cols-1">
 					<div className="relative z-[5] text-center text-white flex flex-col justify-center max-w-[29.5rem] pt-[11%]">
 						<h2 className="text-balance text-3xl font-bold tracking-tight md:text-4xl">{t("hero.title")}</h2>
-						<p className="text-white mt-[1rem] text-pretty">{t("hero.description")}</p>
+						<p className="text-white text-[1rem] mt-[1rem] text-pretty">{t("hero.description")}</p>
 					</div>
 					<div className="h-full absolute left-[0] top-[0] w-full block bg-[rgba(5,5,5,_.1)] overflow-hidden">
 						<Image
@@ -60,24 +61,35 @@ export default async function Home() {
 					</div>
 				</div>
 			</section>
-			<div className="sm:px-6 lg:px-8">
+			<div className="sm:px-6 lg:px-8 m-[0_auto] lg:max-w-[1500px] lg:w-auto">
 				<section className="w-full py-8">
-					<h1 className="text-[rgba(5,5,5,0.9)] font-bold flex justify-center items-end gap-4 flex-wrap text-center text-2xl tracking-[0.06em] mt-0 mb-8 mx-0 my-12 px-6">
+					<h4 className="text-[rgba(5,5,5,0.9)] font-bold flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] tracking-[0.06em] mb-6 mx-0 my-12 px-6 mt-6">
 						Collections
-					</h1>
+					</h4>
 					{collectionSlides.length > 0 && (
 						<CollectionEmblaCarousel slides={collectionSlides} options={OPTIONS} />
 					)}
 				</section>
 				<section className="w-full py-8 ">
-					<h1 className="text-[rgba(5,5,5,0.9)] font-bold  flex justify-center items-end gap-4 flex-wrap text-center text-2xl tracking-[0.06em] mt-0 mb-8 mx-0 my-12 px-6">
+					<h4 className="text-[rgba(5,5,5,0.9)] font-bold  flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] tracking-[0.06em] mb-6 mx-0 my-12 px-6 mt-6">
 						Apparel
-					</h1>
+					</h4>
 					{categorySlides.length > 0 && <CategoryEmblaCarousel slides={categorySlides} options={OPTIONS} />}
 				</section>
-				<div className="px-2">
+				<section className="md:max-w-[560px] lg:max-w-[780px] m-[0_auto] w-full py-8 text-[rgb(5,5,5)]">
+					<h5 className="tracking-[0.02rem]   font-bold flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] mb-6 mx-0 my-12 px-6 mt-6">
+
+						Inspired Living from Dusk to Dawn</h5>
+					<p style={{ fontFamily: "'HarmoniaSansProCyr', sans-serif" }} className="px-5 tracking-[0.02rem] text-[1rem] text-center">
+						At Ridge & Dawn, we believe that life’s journey is defined by the small details. From home decor that inspires to apparel and footwear that empowers, and tech accessories that simplify your everyday, our curated collections are designed to elevate your lifestyle.</p>
+				</section>
+				<div className="px-2 py-5">
+					<h5 className="tracking-[0.02rem]   font-bold flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] mb-6 mx-0 my-12 px-6 mt-6">
+						Discover Our Collection
+					</h5>
 					<ProductList products={products} />
 				</div>
+				<WhyChooseUs />
 			</div>
 		</main>
 	);

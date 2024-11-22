@@ -25,6 +25,9 @@ import edjsHTML from "editorjs-html";
 import type { EmblaOptionsType } from "embla-carousel";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { JsonLd, mappedProductToJsonLd } from "@/ui/json-ld";
+import WhyChooseUs from "@/components/why-choose-us";
+import Guarantee from "@/components/guarantee/guarantee";
 
 const parser = edjsHTML();
 
@@ -142,7 +145,7 @@ export default async function SingleProductPage(props: {
 						<h1 className="text-3xl font-bold leading-none tracking-tight text-foreground">{product.name}</h1>
 						<div className="flex items-center">
 							{selectedVariant?.pricing?.price?.gross.amount && (
-								<p className="mt-2 text-2xl font-medium leading-none tracking-tight text-foreground/70 text-[rgb(189,_9,_27)]">
+								<p className="mt-2 text-2xl font-semibold leading-none tracking-tight  text-[rgb(189,_9,_27)]">
 									{formatMoney({
 										amount: getStripeAmountFromDecimal({
 											amount: selectedVariant?.pricing?.price?.gross.amount,
@@ -154,7 +157,7 @@ export default async function SingleProductPage(props: {
 								</p>
 							)}
 							{selectedVariant?.pricing?.priceUndiscounted?.gross.amount && (
-								<p className="mt-2 text-xl line-through ml-2 font-medium leading-none tracking-tight text-foreground/70 text-[rgb(189,_9,_27)]">
+								<p className="mt-2 text-lg line-through ml-2 font-semibold leading-none tracking-tight text-foreground/70">
 									{formatMoney({
 										amount: getStripeAmountFromDecimal({
 											amount: selectedVariant?.pricing?.priceUndiscounted?.gross.amount,
@@ -229,8 +232,10 @@ export default async function SingleProductPage(props: {
 			{/* <Suspense>
 				<SimilarProducts id={product.id} />
 			</Suspense> */}
+			<Guarantee />
+			<WhyChooseUs />
 
-			{/* <JsonLd jsonLd={mappedProductToJsonLd(product)} /> */}
+			<JsonLd jsonLd={mappedProductToJsonLd(product)} />
 		</>
 	);
 }

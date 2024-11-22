@@ -36,21 +36,20 @@ const CategoryEmblaCarousel: React.FC<PropType> = ({ slides, options }) => {
 						<div className="main_embla__slide" key={node.id}>
 							<YnsLink
 								href={`/collection/${node?.slug}`}
-								className="main_embla__link bg-white shadow-lg rounded-lg font-sans text-black group relative max-w-[90vw] overflow-hidden"
+								className="main_embla__link bg-white shadow-lg rounded-lg  text-black group relative max-w-[90vw] overflow-hidden"
 							>
 								{node?.backgroundImage && (
 									<Image
 										alt={node?.backgroundImage?.alt || "Cover image"}
-										className="w-full h-auto scale-105 object-cover transition-all group-hover:scale-100 group-hover:opacity-75"
+										className="w-full h-auto scale-105 object-cover transition-all group-hover:scale-[108%] group-hover:opacity-75"
 										sizes="(max-width: 1024x) 100vw, (max-width: 1280px) 50vw, 620px"
 										src={node?.backgroundImage?.url || ""}
 										width={100}
 										height={100}
 									/>
 								)}
-								<div className="justify-end gap-2 px-4 py-2 text-neutral-600">
-									<h3 className="text-lg font-bold tracking-tight">{deslugify(node.slug)}</h3>
-									<p>shopNow</p>
+								<div className="justify-end gap-2 px-4 py-6 text-black">
+									<h3 className="text-xl font-bold text-center">{deslugify(node.slug)}</h3>
 								</div>
 							</YnsLink>
 						</div>
@@ -59,26 +58,25 @@ const CategoryEmblaCarousel: React.FC<PropType> = ({ slides, options }) => {
 			</div>
 
 			{/* Сітка після 768px */}
-			<div className="hidden md:grid md:grid-cols-3 md:gap-10">
+			<div className="hidden md:grid md:grid-cols-3 md:gap-10 pb-5">
 				{slides.map(({ node }) => (
 					<YnsLink
 						href={`/collection/${node?.slug}`}
-						className="bg-white shadow-lg rounded-lg font-sans text-black group relative overflow-hidden"
+						className="bg-white shadow-lg rounded-lg  text-black group relative overflow-hidden"
 						key={node.id}
 					>
 						{node?.backgroundImage && (
 							<Image
 								alt={node?.backgroundImage?.alt || "Cover image"}
-								className="w-full h-auto scale-105 object-cover transition-all group-hover:scale-100 group-hover:opacity-75"
+								className="w-full h-auto scale-105 object-cover transition-all group-hover:scale-[108%] group-hover:opacity-75"
 								sizes="(max-width: 1024x) 100vw, (max-width: 1280px) 50vw, 620px"
 								src={node?.backgroundImage?.url || ""}
 								width={100}
 								height={100}
 							/>
 						)}
-						<div className="justify-end gap-2 px-4 py-2 text-neutral-600">
-							<h3 className="text-lg font-bold tracking-tight">{deslugify(node.slug)}</h3>
-							<p>shopNow</p>
+						<div className="justify-end gap-2 px-4 py-6 text-black">
+							<h3 className="text-xl font-bold text-center">{deslugify(node.slug)}</h3>
 						</div>
 					</YnsLink>
 				))}

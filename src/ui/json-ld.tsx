@@ -1,4 +1,5 @@
 import type { ProductDetailsQuery } from "@/gql/graphql";
+import { formatMoney } from "@/lib/graphql";
 import { formatProductName } from "@/lib/utils";
 // import type * as Commerce from "commerce-kit";
 import { getDecimalFromStripeAmount } from "commerce-kit/currencies";
@@ -21,10 +22,7 @@ export const mappedProductToJsonLd = (product: ProductDetailsQuery["product"]): 
 		sku: variants[0]?.sku || "",
 		offers: {
 			"@type": "Offer",
-			price: getDecimalFromStripeAmount({
-				amount: variants[0]?.pricing?.price?.gross?.amount ?? 0,
-				currency: variants[0]?.pricing?.price?.gross?.currency || "",
-			}),
+			price: formatMoney(variants[0]?.pricing?.price?.gross?.amount ?? 0, variants[0]?.pricing?.price?.gross?.currency || ""),
 			priceCurrency: variants[0]?.pricing?.price?.gross?.currency,
 			availability:
 				(variants[0]?.quantityAvailable ?? 0 > 0)

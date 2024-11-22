@@ -44,7 +44,7 @@ export const ProductBottomStickyCard = ({
 						</h3>
 
 						{selectedVariant?.pricing?.price?.gross?.amount && (
-							<p className="text-xs sm:text-sm">
+							<p className="text-xs sm:text-sm text-[rgb(189,_9,_27)]">
 								{formatMoney({
 									amount: getStripeAmountFromDecimal({
 										amount: selectedVariant?.pricing?.price?.gross?.amount,

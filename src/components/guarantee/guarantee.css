@@ -1,0 +1,15 @@
+#Slide-template--18466364227834__slideshow_6WEydz-1 .banner__media::after {
+  opacity: 0.0;
+}
+.color-scheme-template--18466364227834__slideshow_6WEydz-slide_zCbQ4R.color-custom {
+  --color-background: 255, 255, 255;
+--gradient-background: #ffffff;
+--color-foreground: 46, 42, 57;
+--color-button: 221, 29, 29;
+--color-button-text: 255, 255, 255;
+--color-base-outline-button-labels: 221, 29, 29;
+}
+.banner__heading{
+  
+  --hightlight-color:#f3f3f3
+}
