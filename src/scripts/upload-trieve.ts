@@ -1,7 +1,7 @@
+import { UploadTrieveProductsListDocument } from "@/gql/graphql";
+import { executeGraphQL } from "@/lib/graphql";
 import NextEnv from "@next/env";
 
-import * as Commerce from "commerce-kit";
-import { mapProducts } from "commerce-kit/internal";
 import { type ChunkReqPayload, TrieveSDK } from "trieve-ts-sdk";
 NextEnv.loadEnvConfig(".");
 
@@ -17,40 +17,36 @@ if (!datasetId || !apiKey) {
 
 export const trieve = new TrieveSDK({ apiKey, datasetId });
 
-const stripe = Commerce.provider({
-	secretKey: env.STRIPE_SECRET_KEY,
-	tagPrefix: undefined,
-});
+// Замість Stripe тепер отримуємо продукти з Saleor
+const getAllProducts = await executeGraphQL(UploadTrieveProductsListDocument, { variables: { first: 500 }, revalidate: 60 });
 
-const data = await stripe.products.list({
-	limit: 100,
-	active: true,
-	expand: ["data.default_price"],
-});
-const chunks = mapProducts(data).flatMap((product): ChunkReqPayload | ChunkReqPayload[] => {
-	if (!product.default_price.unit_amount) {
+const products = getAllProducts.products?.edges ?? [];
+
+const chunks = products.flatMap(({ node: product }): ChunkReqPayload | ChunkReqPayload[] => {
+	if (!product?.pricing?.priceRange?.start?.gross?.amount) {
 		return [];
 	}
-	const link = product.metadata.variant
-		? `/product/${product.metadata.slug}?variant=${product.metadata.variant}`
-		: `/product/${product.metadata.slug}`;
+	const link = product?.variants?.[0]
+		? `/product/${product?.slug}?variant=${product?.variants[0]?.id}`
+		: `/product/${product?.slug}`;
+
 	return {
 		chunk_html: `
-Product Name: ${product.name}
+Product Name: ${product?.name}
 
-Description: ${product.description}
+Description: ${product?.description}
 `.trim(),
-		image_urls: product.images,
-		tracking_id: product.id,
+		image_urls: product?.media?.map(media => media.url) ?? [],
+		tracking_id: product?.id,
 		upsert_by_tracking_id: true,
 		link,
 		metadata: {
-			name: product.name,
-			description: product.description,
-			slug: product.metadata.slug,
-			image_url: product.images[0],
-			amount: product.default_price.unit_amount,
-			currency: product.default_price.currency,
+			name: product?.name,
+			description: product?.description || "",
+			slug: product?.slug,
+			image_url: product?.media?.[0]?.url,
+			amount: product?.pricing?.priceRange?.start?.gross.amount,
+			currency: product?.pricing?.priceRange?.start?.gross.currency,
 		} satisfies TrieveProductMetadata,
 	};
 });

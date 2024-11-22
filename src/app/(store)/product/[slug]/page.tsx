@@ -28,6 +28,7 @@ import { notFound } from "next/navigation";
 import { JsonLd, mappedProductToJsonLd } from "@/ui/json-ld";
 import WhyChooseUs from "@/components/why-choose-us";
 import Guarantee from "@/components/guarantee/guarantee";
+import { Suspense } from "react";
 
 const parser = edjsHTML();
 
@@ -140,7 +141,7 @@ export default async function SingleProductPage(props: {
 			</Breadcrumb>
 
 			<StickyBottom selectedVariant={selectedVariant} product={product} locale={locale}>
-				<div className="mt-4 grid gap-4 lg:grid-cols-12">
+				<div className="mt-4 grid gap-4 lg:grid-cols-12 pb-5">
 					<div className="lg:col-span-5 lg:col-start-7 row-start-2 lg:row-start-auto  px-4 sm:px-6 lg:px-8">
 						<h1 className="text-3xl font-bold leading-none tracking-tight text-foreground">{product.name}</h1>
 						<div className="flex items-center">
@@ -229,9 +230,9 @@ export default async function SingleProductPage(props: {
 				</div>
 			</StickyBottom>
 
-			{/* <Suspense>
-				<SimilarProducts id={product.id} />
-			</Suspense> */}
+			<Suspense>
+				<SimilarProducts id={product?.id} />
+			</Suspense>
 			<Guarantee />
 			<WhyChooseUs />
 
@@ -242,17 +243,17 @@ export default async function SingleProductPage(props: {
 
 async function SimilarProducts({ id }: { id: string }) {
 	const products = await getRecommendedProducts({ productId: id, limit: 4 });
-
+	console.log(products, "similar products")
 	if (!products) {
 		return null;
 	}
 
 	return (
-		<section className="py-12">
+		<section className="py-12 px-10">
 			<div className="mb-8">
 				<h2 className="text-2xl font-bold tracking-tight">You May Also Like</h2>
 			</div>
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+			<div className="grid  sm:grid-cols-2 grid-cols-2 lg:grid-cols-4 gap-6">
 				{products.map((product) => {
 					const trieveMetadata = product.metadata as TrieveProductMetadata;
 					return (
@@ -280,7 +281,10 @@ async function SimilarProducts({ id }: { id: string }) {
 								<div className="flex items-center justify-between">
 									<span>
 										{formatMoney({
-											amount: trieveMetadata.amount,
+											amount: getStripeAmountFromDecimal({
+												amount: trieveMetadata?.amount,
+												currency: trieveMetadata?.currency,
+											}),
 											currency: trieveMetadata.currency,
 										})}
 									</span>

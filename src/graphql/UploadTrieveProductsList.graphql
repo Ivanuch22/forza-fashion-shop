@@ -1,0 +1,50 @@
+query UploadTrieveProductsList($first: Int = 12) {
+  products(first: $first, channel: "default-channel") {
+    edges {
+      node {
+        id
+        name
+        slug
+        pricing {
+          priceRangeUndiscounted {
+            start {
+              gross {
+                amount
+                currency
+              }
+            }
+          }
+          priceRange {
+            start {
+              gross {
+                amount
+                currency
+              }
+            }
+            stop {
+              gross {
+                amount
+                currency
+              }
+            }
+          }
+        }
+        category {
+          id
+          name
+        }
+        thumbnail(size: 1024, format: WEBP) {
+          url
+          alt
+        }
+        variants {
+          id
+        }
+        media {
+          url
+        }
+        description
+      }
+    }
+  }
+}
