@@ -15,7 +15,6 @@ const Guarantee = () => {
                   alt="asdf"
                   width={1500}
                   height={1000}
-
                 />
               </div>
               <div className="sm:absolute sm:top-[20%] sm:left-[10%] sm:text-white ">

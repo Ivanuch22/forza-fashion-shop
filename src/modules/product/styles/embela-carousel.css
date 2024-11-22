@@ -3,6 +3,8 @@
 	--slide-height: 19rem;
 	--slide-spacing: 1rem;
 	--slide-size: 100%;
+	max-width: 675px;
+
 }
 .product_embla__viewport {
 	overflow: hidden;
