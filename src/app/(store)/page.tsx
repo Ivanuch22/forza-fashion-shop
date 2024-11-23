@@ -22,10 +22,28 @@ export const metadata = {
 const WhyChooseUs = dynamic(() => import('@/components/why-choose-us'), {
 	loading: () => <p>Loading...</p>,
 })
+
+export const headers = [
+	{
+		source: '/_next/static/(.*)',
+		headers: [
+			{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }
+		],
+	},
+];
+
 export default async function Home() {
 	const [getCategory, { collections }, t] = await Promise.all([
-		executeGraphQL(GetApparelChildrenDocument, { variables: { first1: 10 }, revalidate: 60 }),
-		executeGraphQL(CollectionListDocument, { variables: { first1: 10 }, revalidate: 60 }),
+		executeGraphQL(GetApparelChildrenDocument, {
+			variables: { first1: 10 },
+			revalidate: 60, // ISR (оновлення кожні 60 секунд)
+			cache: 'force-cache' // використання кешу для збереження результатів
+		}),
+		executeGraphQL(CollectionListDocument, {
+			variables: { first1: 10 },
+			revalidate: 60, // ISR
+			cache: 'force-cache' // кешування
+		}),
 		getTranslations("/")
 	]);
 
