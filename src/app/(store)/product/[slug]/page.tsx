@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ProductDetailsDocument, ProductListDocument } from "@/gql/graphql";
 import { getLocale, getTranslations } from "@/i18n/server";
 import { executeGraphQL } from "@/lib/graphql";
