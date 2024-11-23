@@ -44,14 +44,14 @@ export default async function Home() {
 					<div className="h-full absolute left-[0] top-[0] w-full block bg-[rgba(5,5,5,_.1)] overflow-hidden">
 						<Image
 							alt="Cup of Coffee"
-							loading="eager"
-							priority={true}
-							className="block max-w-full absolute top-[0] left-[0] h-full w-full [transition:opacity_.4s_cubic-bezier(.25,.46,.45,.94)] align-bottom"
+							loading="eager" // Використовуйте лише "eager", якщо це критично для дизайну
+							priority={true} // Добре, для важливого вмісту
+							className="block max-w-full absolute top-[0] left-[0] h-full w-full"
 							height={450}
 							width={450}
 							src={image}
 							style={{ objectFit: "cover" }}
-							sizes="(max-width: 640px) 70vw, 450px"
+							sizes="(max-width: 640px) 100vw, 450px" // Оптимізує розміри зображення під пристрої
 						/>
 					</div>
 				</div>
