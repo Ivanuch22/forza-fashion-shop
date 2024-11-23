@@ -1,12 +1,7 @@
-// @ts-nocheck
-import { publicUrl } from "@/env.mjs";
 import { ProductDetailsDocument, ProductListDocument } from "@/gql/graphql";
 import { getLocale, getTranslations } from "@/i18n/server";
 import { executeGraphQL } from "@/lib/graphql";
-import { getRecommendedProducts } from "@/lib/search/trieve";
-
 import { cn, deslugify, formatMoney, getStripeAmountFromDecimal } from "@/lib/utils";
-import type { TrieveProductMetadata } from "@/scripts/upload-trieve";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -18,16 +13,18 @@ import {
 import { StickyBottom } from "@/ui/sticky-bottom";
 import { YnsLink } from "@/ui/yns-link";
 
-import EmblaCarousel from "@/modules/product/components/image-embela-carousel";
 import { AddToCartButton } from "@/ui/add-to-cart-button";
 import edjsHTML from "editorjs-html";
 import type { EmblaOptionsType } from "embla-carousel";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { JsonLd, mappedProductToJsonLd } from "@/ui/json-ld";
-import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import SimilarProducts from "@/components/SimilarProducts/SimilarProducts";
+import { Suspense } from "react";
 
+const EmblaCarousel = dynamic(() => import("@/modules/product/components/image-embela-carousel"), {
+	loading: () => <p>Loading...</p>,
+})
 
 const WhyChooseUs = dynamic(() => import('@/components/why-choose-us'), {
 	loading: () => <p>Loading...</p>,
@@ -74,7 +71,7 @@ export async function generateMetadata(props: {
 }
 
 export async function generateStaticParams() {
-	const { products } = await executeGraphQL(ProductListDocument, { revalidate: 60 });
+	const { products } = await executeGraphQL(ProductListDocument, { variables: { first: 4 }, revalidate: 60 });
 
 	const paths = products?.edges.map(({ node: { slug } }) => ({ slug })) || [];
 	return paths;
@@ -97,6 +94,7 @@ export default async function SingleProductPage(props: {
 	if (!product) {
 		notFound();
 	}
+
 
 	const t = await getTranslations("/product.page");
 	const locale = await getLocale();
@@ -235,78 +233,12 @@ export default async function SingleProductPage(props: {
 				</div>
 			</StickyBottom>
 			<Suspense>
-				<SimilarProducts id={product?.id} />
+				<SimilarProducts id={product.id} />
 			</Suspense>
 			<Guarantee />
 			<WhyChooseUs />
 
 			<JsonLd jsonLd={mappedProductToJsonLd(product)} />
 		</>
-	);
-}
-
-async function SimilarProducts({ id }: { id: string }) {
-	const products = await getRecommendedProducts({ productId: id, limit: 4 });
-	if (!products) {
-		return null;
-	}
-
-	return (
-		<section className="py-12 px-5 lg:px-10">
-			<div className="mb-8">
-				<h2 className="text-2xl font-bold tracking-tight">You May Also Like</h2>
-			</div>
-			<div className="grid  sm:grid-cols-2 grid-cols-2 lg:grid-cols-4 gap-6">
-				{products.map((product) => {
-					console.log(product, "similar producst")
-					const trieveMetadata = product.metadata as TrieveProductMetadata;
-					return (
-						<div key={product.tracking_id} className="bg-card rounded overflow-hidden shadow group">
-							{trieveMetadata.image_url && (
-								<YnsLink href={`${publicUrl}${product.link}`} className="block" prefetch={false}>
-									<Image
-										className={
-											"w-full rounded-lg bg-neutral-100 object-cover object-center group-hover:opacity-80 transition-opacity"
-										}
-										src={trieveMetadata.image_url}
-										width={300}
-										height={300}
-										sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 300px"
-										alt=""
-									/>
-								</YnsLink>
-							)}
-							<div className="p-4">
-								<h3 className="text-lg font-semibold mb-2">
-									<YnsLink href={product.link || "#"} className="hover:text-primary" prefetch={false}>
-										{trieveMetadata.name}
-									</YnsLink>
-								</h3>
-								<div className="flex items-center justify-between">
-									<span className="text-sm md:text-lg ">
-										{formatMoney({
-											amount: getStripeAmountFromDecimal({
-												amount: trieveMetadata?.amount,
-												currency: trieveMetadata?.currency,
-											}),
-											currency: trieveMetadata.currency,
-										})}
-									</span>
-									<p className="text-xs line-through ">
-										{formatMoney({
-											amount: getStripeAmountFromDecimal({
-												amount: trieveMetadata?.discount,
-												currency: trieveMetadata?.currency,
-											}),
-											currency: trieveMetadata.currency,
-										})}
-									</p>
-								</div>
-							</div>
-						</div>
-					);
-				})}
-			</div>
-		</section>
 	);
 }
