@@ -102,6 +102,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 						{scrollSnaps.map((_, index) => (
 							<DotButton
 								key={index}
+								aria-label={`slider button ${index}`}
 								onClick={() => onDotButtonClick(index)}
 								className={"product_embla__dot".concat(
 									index === selectedIndex ? " embla__dot--selected" : "",

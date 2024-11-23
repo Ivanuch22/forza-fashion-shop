@@ -202,6 +202,7 @@ export default async function SingleProductPage(props: {
 											variant.id && (
 												<li key={variant.id}>
 													<YnsLink
+														aria-label={`product variant ${variant.name}`}
 														scroll={false}
 														prefetch={true}
 														href={`/product/${product.slug}?variant=${variant.id}`}
