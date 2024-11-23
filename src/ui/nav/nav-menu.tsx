@@ -3,7 +3,6 @@ import { executeGraphQL } from "@/lib/graphql";
 import RadixAccordion from "@/ui/nav/RadixAccordion";
 import RadixAccordionMobile from "@/ui/nav/RadixAccordionMobile";
 import { NavMobileMenu } from "@/ui/nav/nav-mobile-menu.client";
-import Link from "next/link";
 
 
 // export const NavMenu = async() => {
