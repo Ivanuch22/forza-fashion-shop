@@ -42,6 +42,7 @@ export const generateMetadata = async (props: {
 	};
 };
 
+
 export default async function CollectionPage(props: {
 	params: Promise<{ slug: string }>;
 	searchParams: Promise<{ cursor?: string }>;

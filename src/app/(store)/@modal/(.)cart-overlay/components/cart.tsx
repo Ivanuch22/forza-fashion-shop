@@ -67,7 +67,7 @@ const Cart = ({ line, checkoutId }: { line: CheckoutLine; checkoutId: string }) 
 				<p className="text-[16px] mb-[5px]">{line?.variant?.name || ""}</p>
 				{line && <QuantityChanges onMinus={onMinus} onPlus={onPlus} line={line} />}
 			</div>
-			<div className="absolute right-[10px] w-[15px] h-[15px] overflow-hidden flex justify-center items-center top-[20px]">
+			<div className="absolute right-[10px] w-[15px] h-[15px] overflow-hidden flex justify-center items-center top-[25px]">
 				<DeleteButton onClick={onDelete} />{" "}
 			</div>
 			<p className="absolute bottom-[40px]  right-[10px] text-gray-500  text-[16px] font-semibold line-through leading-none">

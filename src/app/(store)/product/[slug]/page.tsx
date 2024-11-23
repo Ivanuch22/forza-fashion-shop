@@ -72,7 +72,7 @@ export async function generateMetadata(props: {
 }
 
 export async function generateStaticParams() {
-	const { products } = await executeGraphQL(ProductListDocument, { variables: { first: 4 }, revalidate: 60 });
+	const { products } = await executeGraphQL(ProductListDocument, { variables: { first: 100 }, revalidate: 60 });
 
 	const paths = products?.edges.map(({ node: { slug } }) => ({ slug })) || [];
 	return paths;
