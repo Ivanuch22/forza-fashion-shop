@@ -23,14 +23,6 @@ const WhyChooseUs = dynamic(() => import('@/components/why-choose-us'), {
 	loading: () => <p>Loading...</p>,
 })
 
-export const headers = [
-	{
-		source: '/_next/static/(.*)',
-		headers: [
-			{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }
-		],
-	},
-];
 
 export default async function Home() {
 	const [getCategory, { collections }, t] = await Promise.all([
