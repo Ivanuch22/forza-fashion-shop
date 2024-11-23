@@ -54,8 +54,7 @@ export default async function Home() {
 					<div className="h-full absolute left-[0] top-[0] w-full block bg-[rgba(5,5,5,_.1)] overflow-hidden">
 						<Image
 							alt="Cup of Coffee"
-							loading="eager" // Використовуйте лише "eager", якщо це критично для дизайну
-							priority={true} // Добре, для важливого вмісту
+							loading="lazy" // Використовуйте лише "eager", якщо це критично для дизайну
 							className="block max-w-full absolute top-[0] left-[0] h-full w-full"
 							height={450}
 							width={450}
@@ -71,15 +70,15 @@ export default async function Home() {
 					<h4 className="text-[rgba(5,5,5,0.9)] font-bold flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] tracking-[0.06em] mb-6 mx-0 my-12 px-6 mt-6">
 						Collections
 					</h4>
-					{/* {collectionSlides.length > 0 && (
+					{collectionSlides.length > 0 && (
 						<CollectionEmblaCarousel type="collection" slides={collectionSlides} options={OPTIONS} />
-					)} */}
+					)}
 				</section>
 				<section className="w-full py-8 ">
 					<h4 className="text-[rgba(5,5,5,0.9)] font-bold  flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] tracking-[0.06em] mb-6 mx-0 my-12 px-6 mt-6">
 						Apparel
 					</h4>
-					{/* {categorySlides.length > 0 && <CollectionEmblaCarousel type="category" slides={categorySlides} options={OPTIONS} />} */}
+					{categorySlides.length > 0 && <CollectionEmblaCarousel type="category" slides={categorySlides} options={OPTIONS} />}
 				</section>
 				<section className="md:max-w-[560px] lg:max-w-[780px] m-[0_auto] w-full py-8 text-[rgb(5,5,5)]">
 					<h5 className="tracking-[0.02rem]   font-bold flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] mb-6 mx-0 my-12 px-6 mt-6">
