@@ -23,12 +23,12 @@ const WhyChooseUs = dynamic(() => import('@/components/why-choose-us'), {
 	loading: () => <p>Loading...</p>,
 })
 export default async function Home() {
-	const [getCategory, { collections }] = await Promise.all([
+	const [getCategory, { collections }, t] = await Promise.all([
 		executeGraphQL(GetApparelChildrenDocument, { variables: { first1: 10 }, revalidate: 60 }),
 		executeGraphQL(CollectionListDocument, { variables: { first1: 10 }, revalidate: 60 }),
+		getTranslations("/")
 	]);
 
-	const t = await getTranslations("/");
 	const OPTIONS: EmblaOptionsType = { dragFree: false };
 	const categorySlides = getCategory.category?.children?.edges || [];
 	const collectionSlides = collections?.edges || [];
@@ -61,15 +61,15 @@ export default async function Home() {
 					<h4 className="text-[rgba(5,5,5,0.9)] font-bold flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] tracking-[0.06em] mb-6 mx-0 my-12 px-6 mt-6">
 						Collections
 					</h4>
-					{collectionSlides.length > 0 && (
+					{/* {collectionSlides.length > 0 && (
 						<CollectionEmblaCarousel type="collection" slides={collectionSlides} options={OPTIONS} />
-					)}
+					)} */}
 				</section>
 				<section className="w-full py-8 ">
 					<h4 className="text-[rgba(5,5,5,0.9)] font-bold  flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] tracking-[0.06em] mb-6 mx-0 my-12 px-6 mt-6">
 						Apparel
 					</h4>
-					{categorySlides.length > 0 && <CollectionEmblaCarousel type="category" slides={categorySlides} options={OPTIONS} />}
+					{/* {categorySlides.length > 0 && <CollectionEmblaCarousel type="category" slides={categorySlides} options={OPTIONS} />} */}
 				</section>
 				<section className="md:max-w-[560px] lg:max-w-[780px] m-[0_auto] w-full py-8 text-[rgb(5,5,5)]">
 					<h5 className="tracking-[0.02rem]   font-bold flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] mb-6 mx-0 my-12 px-6 mt-6">

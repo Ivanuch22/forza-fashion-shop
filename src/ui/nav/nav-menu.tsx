@@ -5,20 +5,6 @@ import RadixAccordionMobile from "@/ui/nav/RadixAccordionMobile";
 import { NavMobileMenu } from "@/ui/nav/nav-mobile-menu.client";
 
 
-// export const NavMenu = async() => {
-// 	const navLinks = await executeGraphQL(GetNavigationDocument, {
-// 		variables: { slug: "navbar" },
-// 		revalidate: 60 * 60 * 24,
-// 	});
-//   return (
-//     <div>
-//       <h1>Navigation</h1>
-//     </div>
-//   );
-// };
-
-
-
 export const NavMenu = async () => {
 	const navLinks = await executeGraphQL(GetNavigationDocument, {
 		variables: { slug: "navbar" },
