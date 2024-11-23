@@ -19,7 +19,7 @@ const CartDetails = ({ locale }: { locale: string, }) => {
       <Accordion type="single" defaultValue="item-1" collapsible className="[&[data-state=open]>svg]:rotate-180 lg:hidden  sticky top-1 max-w-lg m-[0_auto] lg:mr-auto">
         <AccordionItem
           value={"value-1"}
-          className="border-none pr-5"
+          className="border-none"
         >
           <AccordionTrigger className=" text-lg sm:text-xl flex justify-between hover:no-underline ">
             <h1 className="lg:mb-4 lg:text-3xl flex text-[16px] lg:font-bold leading-none tracking-tight">
