@@ -1,10 +1,12 @@
 // @ts-nocheck
+
 import image from "@/assets/mainPageImage.webp";
 import MainProductList from "@/components/mainProductList/mainProductList";
 import { publicUrl } from "@/env.mjs";
 import {
 	CollectionListDocument,
 	GetApparelChildrenDocument,
+	ProductListDocument,
 } from "@/gql/graphql";
 import { getTranslations } from "@/i18n/server";
 import { executeGraphQL } from "@/lib/graphql";
@@ -13,8 +15,6 @@ import type { EmblaOptionsType } from "embla-carousel";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import type { Metadata } from "next/types";
-import { Suspense } from "react";
-
 export const metadata = {
 	alternates: { canonical: publicUrl },
 } satisfies Metadata;
@@ -25,7 +25,7 @@ const WhyChooseUs = dynamic(() => import('@/components/why-choose-us'), {
 
 
 export default async function Home() {
-	const [getCategory, { collections }, t] = await Promise.all([
+	const [getCategory, { collections }, t, getProducts] = await Promise.all([
 		executeGraphQL(GetApparelChildrenDocument, {
 			variables: { first1: 10 },
 			revalidate: 60, // ISR (оновлення кожні 60 секунд)
@@ -36,8 +36,18 @@ export default async function Home() {
 			revalidate: 60, // ISR
 			cache: 'force-cache' // кешування
 		}),
-		getTranslations("/")
+		getTranslations("/"),
+		executeGraphQL(ProductListDocument, {
+			variables: { first: 8 },
+			cache: 'force-cache', // кешування
+			revalidate: 60
+		}),
+
 	]);
+	if (!getProducts.products) throw Error("No products found");
+
+	const products = getProducts.products.edges.map(({ node: product }) => product);
+
 
 	const OPTIONS: EmblaOptionsType = { dragFree: false };
 	const categorySlides = getCategory.category?.children?.edges || [];
@@ -87,9 +97,7 @@ export default async function Home() {
 					<p style={{ fontFamily: "'HarmoniaSansProCyr', sans-serif" }} className="px-5 tracking-[0.02rem] text-[1rem] text-center">
 						At Ridge & Dawn, we believe that life’s journey is defined by the small details. From home decor that inspires to apparel and footwear that empowers, and tech accessories that simplify your everyday, our curated collections are designed to elevate your lifestyle.</p>
 				</section>
-				<Suspense>
-					<MainProductList />
-				</Suspense>
+				<MainProductList products={products} />
 				<WhyChooseUs />
 			</div>
 		</main>
