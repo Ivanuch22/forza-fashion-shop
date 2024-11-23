@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 import image from "@/assets/mainPageImage.webp";
-import MainProductList from "@/components/mainProductList/mainProductList";
 import { publicUrl } from "@/env.mjs";
 import {
 	CollectionListDocument,
@@ -10,16 +9,22 @@ import {
 } from "@/gql/graphql";
 import { getTranslations } from "@/i18n/server";
 import { executeGraphQL } from "@/lib/graphql";
-import CollectionEmblaCarousel from "@/modules/mainPage/components/category-embla-arousel";
 import type { EmblaOptionsType } from "embla-carousel";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import type { Metadata } from "next/types";
+
 export const metadata = {
 	alternates: { canonical: publicUrl },
 } satisfies Metadata;
 
 const WhyChooseUs = dynamic(() => import('@/components/why-choose-us'), {
+	loading: () => <p>Loading...</p>,
+})
+const CollectionEmblaCarousel = dynamic(() => import("@/modules/mainPage/components/category-embla-arousel"), {
+	loading: () => <p>Loading...</p>,
+})
+const MainProductList = dynamic(() => import('@/components/mainProductList/mainProductList'), {
 	loading: () => <p>Loading...</p>,
 })
 

@@ -15,7 +15,7 @@ export const NavMobileMenu = ({ className, children }: { className?: string; chi
 	return (
 		<div className={className}>
 			<Drawer direction={"left"} open={isOpen} onOpenChange={setIsOpen}>
-				<DrawerTrigger>
+				<DrawerTrigger aria-label="mobile menu">
 					<MenuIcon />
 				</DrawerTrigger>
 				<DrawerContent className="fixed top-[-100px] bottom-0 left-0 sm:fixed sm:bottom-0 rigth-auto sm:right-0 sm:top-0 sm:mt-0 sm:flex sm:h-full w-2/3 sm:flex-col sm:overflow-hidden rounded-none sm:bg-white sm:shadow-xl lg:w-1/3">
