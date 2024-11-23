@@ -30,8 +30,8 @@ export const ProductList = async ({ products }: { products: ProductListItemFragm
 										</div>
 									)}
 									<div className="p-4">
-										<h2 className="text-lg font-semibold text-neutral-700">{product?.name}</h2>
-										<footer className="text-sm font-medium text-neutral-900 flex items-center gap-2">
+										<h2 className="text-base md:text-lg font-semibold text-neutral-700">{product?.name}</h2>
+										<footer className="flex-wrap text-sm font-medium text-neutral-900 flex items-center gap-2">
 											{product?.pricing?.priceRange?.start?.gross?.amount && (
 												<p>
 													{formatMoney({

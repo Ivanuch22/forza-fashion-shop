@@ -1,15 +1,22 @@
-query ProductListByCategory($slug: String!) {
-	category(slug: $slug) {
-		name
-		description
-		seoDescription
-		seoTitle
-		products(first: 100, channel: "default-channel") {
-			edges {
-				node {
-					...ProductListItem
-				}
-			}
-		}
-	}
+query ProductListByCategory($first: Int!, $after: String, $filter: ProductFilterInput = {}) {
+  products(
+    first: $first
+    channel: "default-channel"
+    after: $after
+    filter: $filter
+  ) {
+    totalCount
+    pageInfo {
+hasPreviousPage
+startCursor
+      endCursor
+      hasNextPage
+    }
+    edges {
+      node {
+				...ProductListItem
+      }
+      cursor
+    }
+  }
 }

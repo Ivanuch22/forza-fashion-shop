@@ -1,37 +1,41 @@
 fragment ProductListItem on Product {
-	id
-	name
-	slug
-	pricing {
-		priceRangeUndiscounted {
-            start {
-              gross {
-                amount
-                currency
-              }
-            }
-          }
-		priceRange {
-			start {
-				gross {
-					amount
-					currency
-				}
-			}
-			stop {
-				gross {
-					amount
-					currency
-				}
-			}
-		}
-	}
-	category {
-		id
-		name
-	}
-	thumbnail(size: 1024, format: WEBP) {
-		url
-		alt
-	}
+  id
+  name
+  slug
+  pricing {
+    priceRangeUndiscounted {
+      start {
+        gross {
+          amount
+          currency
+        }
+      }
+    }
+    priceRange {
+      start {
+        gross {
+          amount
+          currency
+        }
+      }
+      stop {
+        gross {
+          amount
+          currency
+        }
+      }
+    }
+  }
+  category {
+    name
+    description
+    seoDescription
+    seoTitle
+    slug
+    id
+  }
+  thumbnail(size: 1024, format: WEBP) {
+    url
+    alt
+  }
 }

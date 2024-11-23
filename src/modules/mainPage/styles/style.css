@@ -50,7 +50,7 @@
 	gap: 0.6rem;
 	align-items: center;
 }
-.main_embla__button {
+.embla__button {
 	-webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
 	-webkit-appearance: none;
 	appearance: none;
@@ -72,14 +72,14 @@
 	align-items: center;
 	justify-content: center;
 }
-.main_embla__button:disabled {
+.embla__button:disabled {
 	color: var(--detail-high-contrast);
 }
-.main_embla__button__svg {
+.embla__button__svg {
 	width: 35%;
 	height: 35%;
 }
-.main_embla__selected-snap-display {
+.embla__selected-snap-display {
 	justify-self: flex-end;
 	align-self: center;
 	color: var(--text-low-contrast);

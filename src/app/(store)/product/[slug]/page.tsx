@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 import { publicUrl } from "@/env.mjs";
 import { ProductDetailsDocument, ProductListDocument } from "@/gql/graphql";
 import { getLocale, getTranslations } from "@/i18n/server";
@@ -26,9 +25,17 @@ import type { EmblaOptionsType } from "embla-carousel";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { JsonLd, mappedProductToJsonLd } from "@/ui/json-ld";
-import WhyChooseUs from "@/components/why-choose-us";
-import Guarantee from "@/components/guarantee/guarantee";
 import { Suspense } from "react";
+import dynamic from "next/dynamic";
+
+
+const WhyChooseUs = dynamic(() => import('@/components/why-choose-us'), {
+	loading: () => <p>Loading...</p>,
+})
+
+const Guarantee = dynamic(() => import('@/components/guarantee/guarantee'), {
+	loading: () => <p>Loading...</p>,
+})
 
 const parser = edjsHTML();
 
@@ -73,6 +80,7 @@ export async function generateStaticParams() {
 	return paths;
 }
 
+
 export default async function SingleProductPage(props: {
 	params: Promise<{ slug: string }>;
 	searchParams: Promise<{ variant?: string }>;
@@ -86,7 +94,6 @@ export default async function SingleProductPage(props: {
 		},
 		revalidate: 60,
 	});
-	console.log(product)
 	if (!product) {
 		notFound();
 	}
@@ -94,14 +101,12 @@ export default async function SingleProductPage(props: {
 	const t = await getTranslations("/product.page");
 	const locale = await getLocale();
 	const category = product.category;
-
 	const variants = product.variants || [];
 	const selectedVariantID = searchParams.variant;
 	const selectedVariant = variants?.find(({ id }) => id === selectedVariantID) || variants[0];
 	const isAvailable = variants?.some((variant) => Boolean(variant.quantityAvailable)) ?? false;
 	const parseDescription = product?.description && JSON.parse(product?.description);
 	const description = product?.description ? parser.parse(parseDescription) : "";
-
 	const OPTIONS: EmblaOptionsType = {};
 
 	return (
@@ -229,7 +234,6 @@ export default async function SingleProductPage(props: {
 					</div>
 				</div>
 			</StickyBottom>
-
 			<Suspense>
 				<SimilarProducts id={product?.id} />
 			</Suspense>
@@ -243,7 +247,6 @@ export default async function SingleProductPage(props: {
 
 async function SimilarProducts({ id }: { id: string }) {
 	const products = await getRecommendedProducts({ productId: id, limit: 4 });
-	console.log(products, "similar products")
 	if (!products) {
 		return null;
 	}
@@ -255,6 +258,7 @@ async function SimilarProducts({ id }: { id: string }) {
 			</div>
 			<div className="grid  sm:grid-cols-2 grid-cols-2 lg:grid-cols-4 gap-6">
 				{products.map((product) => {
+					console.log(product, "similar producst")
 					const trieveMetadata = product.metadata as TrieveProductMetadata;
 					return (
 						<div key={product.tracking_id} className="bg-card rounded overflow-hidden shadow group">
@@ -279,7 +283,7 @@ async function SimilarProducts({ id }: { id: string }) {
 									</YnsLink>
 								</h3>
 								<div className="flex items-center justify-between">
-									<span>
+									<span className="text-sm md:text-lg ">
 										{formatMoney({
 											amount: getStripeAmountFromDecimal({
 												amount: trieveMetadata?.amount,
@@ -288,6 +292,15 @@ async function SimilarProducts({ id }: { id: string }) {
 											currency: trieveMetadata.currency,
 										})}
 									</span>
+									<p className="text-xs line-through ">
+										{formatMoney({
+											amount: getStripeAmountFromDecimal({
+												amount: trieveMetadata?.discount,
+												currency: trieveMetadata?.currency,
+											}),
+											currency: trieveMetadata.currency,
+										})}
+									</p>
 								</div>
 							</div>
 						</div>

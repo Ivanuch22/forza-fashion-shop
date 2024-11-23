@@ -1,0 +1,18 @@
+query GetAllCollections($first: Int = 10) {
+  collections(first: $first, channel: "default-channel") {
+    edges {
+      cursor
+      node {
+        id
+        seoTitle
+        slug
+        description
+        backgroundImage {
+          alt
+          url
+        }
+        name
+      }
+    }
+  }
+}

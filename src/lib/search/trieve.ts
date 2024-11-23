@@ -11,8 +11,6 @@ export const trieve = apiKey && datasetId ? new TrieveSDK({ apiKey, datasetId })
 export const getRecommendedProducts = cache(({ productId, limit }: { productId: string; limit: number }) =>
 	unstable_cache(
 		async () => {
-			console.log(trieve, "sldfkj")
-
 			if (!trieve) {
 				return null;
 			}

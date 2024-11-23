@@ -47,6 +47,7 @@ Description: ${product?.description}
 			image_url: product?.media?.[0]?.url,
 			amount: product?.pricing?.priceRange?.start?.gross.amount,
 			currency: product?.pricing?.priceRange?.start?.gross.currency,
+			discount: product?.pricing?.priceRange?.start?.gross.currency,
 		} satisfies TrieveProductMetadata,
 	};
 });
@@ -62,4 +63,5 @@ export type TrieveProductMetadata = {
 	image_url: string | undefined;
 	amount: number;
 	currency: string;
+	discount: string | number;
 };

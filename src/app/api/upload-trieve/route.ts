@@ -47,6 +47,7 @@ Description: ${product?.description}
         image_url: product?.media?.[0]?.url,
         amount: product?.pricing?.priceRange?.start?.gross.amount,
         currency: product?.pricing?.priceRange?.start?.gross.currency,
+        discount: product?.pricing?.priceRangeUndiscounted?.start?.gross?.amount || "",
       } satisfies TrieveProductMetadata,
     };
   });

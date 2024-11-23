@@ -1,0 +1,18 @@
+query GetAllCategories($first: Int = 10) {
+  categories(first: $first) {
+    edges {
+      cursor
+      node {
+        id
+        seoTitle
+        slug
+        description
+        backgroundImage {
+          alt
+          url
+        }
+        name
+      }
+    }
+  }
+}

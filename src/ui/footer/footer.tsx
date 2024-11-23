@@ -41,7 +41,7 @@ export async function Footer() {
 
 	return (
 		<footer className="w-full bg-neutral-50 p-6 text-neutral-800 md:py-12">
-			<div className="container flex flex-row flex-wrap justify-center gap-16 text-sm sm:justify-between">
+			<div className=" flex flex-row flex-wrap justify-center gap-16 text-sm sm:justify-between">
 				<div className="">
 					<div className="flex w-full max-w-sm flex-col gap-2">
 						<h3 className="font-semibold">{t("newsletterTitle")}</h3>
@@ -66,7 +66,7 @@ export async function Footer() {
 					))}
 				</nav>
 			</div>
-			<div className="container mt-8 flex  flex-col items-center justify-between gap-4 text-sm text-neutral-500 md:flex-row">
+			<div className=" mt-8 flex  flex-col items-center justify-between gap-4 text-sm text-neutral-500 md:flex-row">
 				<div>
 					<p>© 2024 Your Next Store</p>
 					<p>Delightfully commerce for everyone</p>

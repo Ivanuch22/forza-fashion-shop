@@ -32,7 +32,7 @@ export default async function SearchPage(props: { searchParams: Promise<{ q?: st
 
 	return (
 		<main>
-			<h1 className="text-3xl font-bold leading-none tracking-tight text-foreground">
+			<h1 className="text-3xl my-8 font-bold text-center leading-none tracking-tight text-foreground">
 				{t("title", { query })}
 			</h1>
 			{products?.length ? <ProductList products={products} /> : <ProductNotFound query={query} />}

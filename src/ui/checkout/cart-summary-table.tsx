@@ -28,7 +28,7 @@ export const ProductCard = ({ line }: { line: CheckoutLine }) => {
 				</div>
 				<div>
 					<h3 className="text-sm font-medium text-gray-900">{line?.variant.product.name}</h3>
-					<p className="text-sm text-gray-500">{line?.variant.name}</p>
+					<p className="text-sm text-gray-500 max-w-[170px]">{line?.variant.name}</p>
 				</div>
 			</div>
 			<div className="text-sm font-normal grid text-gray-900">

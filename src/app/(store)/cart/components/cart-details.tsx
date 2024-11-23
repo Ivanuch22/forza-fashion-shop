@@ -8,7 +8,7 @@ import { useCheckoutStore } from "@/zustand/providers/checkout-store-provider";
 const CartDetails = ({ locale }: { locale: string, }) => {
   const { checkout: cart } = useCheckoutStore((store) => store)
   return (
-    <div className="row-start-1 bg-[hsl(0,0%,96%)] border-t-[1px] border-b-[1px] border-[hsl(0,0%,87%)] border-solid lg:py-8 lg:row-start-auto lg:col-span-6 px-4 lg:px-8">
+    <div className="max-w-[100vw] row-start-1 bg-[hsl(0,0%,96%)] border-t-[1px] border-b-[1px] border-[hsl(0,0%,87%)] border-solid lg:py-8 lg:row-start-auto lg:col-span-6 px-4 lg:px-8">
       {/* for biggest  dispay */}
       <div className="hidden lg:block sticky top-1 max-w-lg mr-auto ">
         <h1 className="lg:mb-4 lg:text-3xl lg:font-bold leading-none tracking-tight">{"Your Cart"}</h1>

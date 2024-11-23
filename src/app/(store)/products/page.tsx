@@ -42,7 +42,8 @@ export default async function AllProductsPage({ searchParams }: Props) {
 
 	return (
 		<main className="pb-8">
-			<h1 className="text-3xl font-bold leading-none tracking-tight text-foreground">{t("title")}</h1>
+			<h1 className="text-3xl my-8 font-bold text-center leading-none tracking-tight text-foreground">
+				{t("title")}</h1>
 			<ProductList products={products.edges.map((e) => e.node)} />
 			<Pagination pageInfo={products.pageInfo} />
 		</main>

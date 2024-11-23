@@ -17,6 +17,5 @@ query ProductListByCollection($slug: String = "", $first: Int = 10) {
 		seoTitle
 		slug
 		description
-		descriptionJson
 	}
 }
