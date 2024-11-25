@@ -1,43 +1,48 @@
+import { GetNavigationDocument, type GetNavigationQuery } from "@/gql/graphql";
 import { getTranslations } from "@/i18n/server";
+import { executeGraphQL } from "@/lib/graphql";
 import { Newsletter } from "@/ui/footer/newsletter.client";
 import { YnsLink } from "@/ui/yns-link";
-import type { SVGAttributes } from "react";
 
-const sections = [
-	{
-		header: "Products",
-		links: [
-			{
-				label: "Apparel",
-				href: "/category/apparel",
-			},
-			{
-				label: "Accessories",
-				href: "/category/accessories",
-			},
-		],
-	},
-	{
-		header: "Support",
-		links: [
-			{
-				label: "Features",
-				href: "https://yournextstore.com/#features",
-			},
-			{
-				label: "Pricing",
-				href: "https://yournextstore.com/#pricing",
-			},
-			{
-				label: "Contact Us",
-				href: "mailto:hi@yournextstore.com",
-			},
-		],
-	},
-];
+function transformData(data: GetNavigationQuery) {
+	if (data?.menu?.items) {
+		return data.menu.items.map((item) => {
+			const header = item.name;
+			const links = item?.children
+				? item.children.map((child) => {
+					let href = "/"; // дефолтне значення, якщо немає slug чи інших посилань
+					if (child.page?.slug) {
+						href = `/page/${child.page.slug}`;
+					} else if (child.collection?.slug) {
+						href = `/collection/${child.collection.slug}`;
+					} else if (child.category?.slug) {
+						href = `/category/${child.category.slug}`;
+					}
+					return {
+						label: child.name,
+						href: href,
+					};
+				})
+				: [];
+			return {
+				header: header,
+				links: links,
+			};
+		});
+	}
+}
 
 export async function Footer() {
 	const t = await getTranslations("Global.footer");
+	const navLinks = await executeGraphQL(GetNavigationDocument, {
+		variables: { slug: "footer" },
+		revalidate: 60 * 60 * 24,
+	});
+	if (!navLinks?.menu?.items) return;
+	const data = transformData(navLinks);
+	console.log(data);
+
+	console.log(navLinks);
 
 	return (
 		<footer className="w-full bg-neutral-50 p-6 text-neutral-800 md:py-12">
@@ -50,7 +55,8 @@ export async function Footer() {
 				</div>
 
 				<nav className="grid grid-cols-2 gap-16">
-					{sections.map((section) => (
+
+					{(data !== undefined) && data.map((section) => (
 						<section key={section.header}>
 							<h3 className="mb-2 font-semibold">{section.header}</h3>
 							<ul role="list" className="grid gap-1">
@@ -72,33 +78,15 @@ export async function Footer() {
 					<p>Delightfully commerce for everyone</p>
 				</div>
 				<div className="flex items-center gap-4">
+					Delevop by
 					<YnsLink
 						className="inline-flex items-center gap-1 transition-colors hover:text-neutral-700"
-						href="https://x.com/zaiste"
+						href="http://kalynych.com"
 					>
-						<TwitterIcon className="h-4 w-4" /> @zaiste
-						<span className="sr-only">Twitter</span>
-					</YnsLink>
-					<YnsLink
-						className="inline-flex items-center gap-1 transition-colors hover:text-neutral-700"
-						href="https://x.com/typeofweb"
-					>
-						<TwitterIcon className="h-4 w-4" /> @typeofweb
-						<span className="sr-only">Twitter</span>
+						kalynych.com
 					</YnsLink>
 				</div>
 			</div>
 		</footer>
-	);
-}
-
-function TwitterIcon(props: SVGAttributes<SVGSVGElement>) {
-	return (
-		<svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 596 596" fill="none">
-			<path
-				fill="#fff"
-				d="m1 19 230 307L0 577h52l203-219 164 219h177L353 252 568 19h-52L329 221 179 19H1Zm77 38h82l359 481h-81L78 57Z"
-			/>
-		</svg>
 	);
 }

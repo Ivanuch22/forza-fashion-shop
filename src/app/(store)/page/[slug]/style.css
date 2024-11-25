@@ -1,0 +1,14 @@
+main p{
+  margin: 10px 0;
+}
+main .content a {
+  text-decoration: underline;
+}
+.content{
+  font-family: 'HarmoniaSansProCyr', sans-serif;
+}
+.content p {
+  font-size: 16px;
+  font-family: 'HarmoniaSansProCyr', sans-serif;
+
+}
