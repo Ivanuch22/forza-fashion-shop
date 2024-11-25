@@ -20,13 +20,10 @@ export const Newsletter = () => {
 			action={async (formData) => {
 				try {
 					const result = await signForNewsletter(formData);
-					if (result?.status && result.status < 400) {
-						toast.info(t("success"), {
-							position: "bottom-left",
-						});
-					} else {
-						toast.error(t("error"), { position: "bottom-left" });
-					}
+					console.log(result)
+					toast.info(t("success"), {
+						position: "bottom-left",
+					});
 				} catch (error) {
 					toast.error(t("error"), { position: "bottom-left" });
 				} finally {

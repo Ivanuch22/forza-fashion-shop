@@ -18,7 +18,7 @@ export const NavMobileMenu = ({ className, children }: { className?: string; chi
 				<DrawerTrigger aria-label="mobile menu">
 					<MenuIcon />
 				</DrawerTrigger>
-				<DrawerContent className=" fixed top-[-100px] bottom-[-100px] left-0 sm:fixed sm:bottom-0 rigth-auto sm:right-0 sm:top-0 sm:mt-0 sm:flex sm:h-full w-2/3 sm:flex-col sm:overflow-hidden rounded-none sm:bg-white sm:shadow-xl lg:w-1/3">
+				<DrawerContent className="fixed top-[-100px] bottom-[-100px] left-0 sm:fixed sm:bottom-0 rigth-auto sm:right-0 sm:top-0 sm:mt-0 sm:flex sm:h-full w-2/3 sm:flex-col sm:overflow-hidden rounded-none sm:bg-white sm:shadow-xl lg:w-1/3">
 					<div className=" divide-y divide-neutral-200">
 						<DrawerHeader className="relative">
 							<DrawerTitle className="text-[22px] font-bold text-left">Menu</DrawerTitle>
@@ -54,3 +54,5 @@ export const NavMobileMenu = ({ className, children }: { className?: string; chi
 		</div>
 	);
 };
+
+

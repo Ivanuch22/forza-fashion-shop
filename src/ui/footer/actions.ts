@@ -7,11 +7,13 @@ export async function signForNewsletter(formData: FormData) {
 	if (typeof email !== "string" || !email?.includes("@")) {
 		return;
 	}
-	if (!env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT) {
+	console.log(env.NEXT_SECRET_NEWSLETTER_ENDPOINT)
+
+	if (!env.NEXT_SECRET_NEWSLETTER_ENDPOINT) {
 		return;
 	}
 
-	const result = await fetch(env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT, {
+	const result = await fetch(env.NEXT_PUBLIC_URL + env.NEXT_SECRET_NEWSLETTER_ENDPOINT, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({ email }),

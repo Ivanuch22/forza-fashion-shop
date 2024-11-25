@@ -17,7 +17,7 @@ export const NavMenu = async () => {
 					<RadixAccordion items={navLinks?.menu?.items} />
 				</ul>
 			</div>
-			<div className="sm:hidden relative flex items-center min-h-full ">
+			<div className="sm:hidden  flex items-center min-h-full ">
 				<NavMobileMenu className="">
 					<ul className="h-full flex pb-8 font-normal flex-col items-stretch justify-start gap-x-1  pt-3">
 						<RadixAccordionMobile items={navLinks?.menu?.items} />

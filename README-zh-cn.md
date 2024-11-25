@@ -90,7 +90,7 @@ https://github.com/yournextstore/.github/assets/200613/01d27f69-00dc-446e-bc81-5
 ### 可选的环境变量
 
 - `NEXT_PUBLIC_UMAMI_WEBSITE_ID` – Umami 服务网站分析 ID
-- `NEXT_PUBLIC_NEWSLETTER_ENDPOINT` – **预览功能**：未来新闻通讯表单功能的端点 (endpoint)。它应该接受带有 JSON `{ email: string }` 的 POST 请求，并返回 JSON `{ status: number }`。
+- `NEXT_SECRET_NEWSLETTER_ENDPOINT` – **预览功能**：未来新闻通讯表单功能的端点 (endpoint)。它应该接受带有 JSON `{ email: string }` 的 POST 请求，并返回 JSON `{ status: number }`。
 - `STRIPE_WEBHOOK_SECRET` – **预览功能**：处理 Stripe 事件的 Stripe 网络钩子 (webhook) 密钥。请在底下阅读更多信息。
 - `ENABLE_STRIPE_TAX` – **预览功能**: 设置为任意值（例如 `1`）以在 YNS 中启用 Stripe 税务功能。请在底下阅读更多信息。
 - `NEXT_PUBLIC_LANGUAGE` - 商店语言。

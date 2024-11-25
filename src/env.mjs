@@ -11,6 +11,8 @@ export const env = createEnv({
 		STRIPE_CURRENCY: z.string(),
 		STRIPE_WEBHOOK_SECRET: z.string().optional(),
 		NEXT_SALEOR_TOKEN: z.string(),
+		NEXT_SECRET_NEWSLETTER_ENDPOINT: z.string().optional(),
+
 		ENABLE_STRIPE_TAX: z
 			.string()
 			.optional()
@@ -27,8 +29,6 @@ export const env = createEnv({
 
 		NEXT_PUBLIC_UMAMI_WEBSITE_ID: z.string().optional(),
 
-		NEXT_PUBLIC_NEWSLETTER_ENDPOINT: z.string().optional(),
-
 		NEXT_PUBLIC_LANGUAGE: z.string().optional().default("en-US"),
 	},
 	runtimeEnv: {
@@ -40,7 +40,7 @@ export const env = createEnv({
 		NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
 		NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
 		NEXT_PUBLIC_UMAMI_WEBSITE_ID: process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID,
-		NEXT_PUBLIC_NEWSLETTER_ENDPOINT: process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT,
+		NEXT_SECRET_NEWSLETTER_ENDPOINT: process.env.NEXT_SECRET_NEWSLETTER_ENDPOINT,
 
 		ENABLE_STRIPE_TAX: process.env.ENABLE_STRIPE_TAX,
 
