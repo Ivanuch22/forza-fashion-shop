@@ -46,20 +46,19 @@ const ClientBlock = ({
 	}
 	return (
 		<>
-			<div className=" flex-1 px-2 py-4 sm:px-4">
+			<div className=" px-2 py-4 sm:px-4">
 				<div className="flex relative items-center justify-between">
-					<h2 className="text-[33px] font-bold text-neutral-700">Cart • {count ?? 0} items</h2>
+					<h2 className="text-[25px] lg:text-[33px] font-bold text-neutral-700">Cart • {count ?? 0} items</h2>
 					<ExitButton />
 				</div>
-				<div className="mt-8 overflow-y-auto  ">
-					<ul role="list" className="-my-6 divide-y divide-neutral-200">
-						{cart?.lines?.map((line) => (
-							<Cart key={line.id} line={line} checkoutId={checkoutId} />
-						))}
-					</ul>
-				</div>
 			</div>
-
+			<div className="flex-1 overflow-y-auto  ">
+				<ul role="list" className=" px-2 divide-y divide-neutral-200">
+					{cart?.lines?.map((line) => (
+						<Cart key={line.id} line={line} checkoutId={checkoutId} />
+					))}
+				</ul>
+			</div>
 			<div className="border-t border-neutral-200 px-4 py-6 sm:px-6">
 				<div
 					id="cart-overlay-description"
