@@ -3,6 +3,7 @@ import { getTranslations } from "@/i18n/server";
 import { Search } from "@/lib/api";
 import { ProductList } from "@/ui/products/product-list";
 import { ProductNotFound } from "@/ui/products/product-not-found";
+import { cookies } from "next/headers";
 import { RedirectType, redirect } from "next/navigation";
 import type { Metadata } from "next/types";
 
@@ -26,8 +27,9 @@ export default async function SearchPage(props: { searchParams: Promise<{ q?: st
 	}
 
 	const t = await getTranslations("/search.page");
-
-	const products = await Search.searchProducts(query);
+	const cookie = await cookies();
+	const channel = cookie.get("channel")?.value || "default-channel";
+	const products = await Search.searchProducts(query, channel);
 	console.log(products, "searchedProduct");
 
 	return (

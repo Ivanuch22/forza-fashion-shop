@@ -12,14 +12,14 @@ export async function POST(request: NextRequest) {
 	try {
 		// Парсимо JSON як unknown
 		const requestData: unknown = await request.json();
-
+		const currency = request.cookies.get("currency")?.value || "usd";
 		// Перевіряємо, чи є amount в тілі запиту
 		if (isValidPaymentRequestBody(requestData)) {
 			const { amount } = requestData;
 
 			const paymentIntent = await stripe.paymentIntents.create({
 				amount,
-				currency: "usd",
+				currency,
 				automatic_payment_methods: { enabled: true },
 			});
 

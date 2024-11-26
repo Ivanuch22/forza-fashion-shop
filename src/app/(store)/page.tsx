@@ -2,15 +2,12 @@
 
 import image from "@/assets/mainPageImage.webp";
 import { publicUrl } from "@/env.mjs";
-import {
-	CollectionListDocument,
-	GetApparelChildrenDocument,
-	ProductListDocument,
-} from "@/gql/graphql";
+import { CollectionListDocument, GetApparelChildrenDocument, ProductListDocument } from "@/gql/graphql";
 import { getTranslations } from "@/i18n/server";
 import { executeGraphQL } from "@/lib/graphql";
 import type { EmblaOptionsType } from "embla-carousel";
 import dynamic from "next/dynamic";
+import { cookies } from "next/headers";
 import Image from "next/image";
 import type { Metadata } from "next/types";
 
@@ -18,41 +15,44 @@ export const metadata = {
 	alternates: { canonical: publicUrl },
 } satisfies Metadata;
 
-const WhyChooseUs = dynamic(() => import('@/components/why-choose-us'), {
+const WhyChooseUs = dynamic(() => import("@/components/why-choose-us"), {
 	loading: () => <p>Loading...</p>,
-})
-const CollectionEmblaCarousel = dynamic(() => import("@/modules/mainPage/components/category-embla-arousel"), {
+});
+const CollectionEmblaCarousel = dynamic(
+	() => import("@/modules/mainPage/components/category-embla-arousel"),
+	{
+		loading: () => <p>Loading...</p>,
+	},
+);
+const MainProductList = dynamic(() => import("@/components/mainProductList/mainProductList"), {
 	loading: () => <p>Loading...</p>,
-})
-const MainProductList = dynamic(() => import('@/components/mainProductList/mainProductList'), {
-	loading: () => <p>Loading...</p>,
-})
-
+});
 
 export default async function Home() {
+	const cookie = await cookies();
+	const getChanel = cookie.get("channel")?.value || "default-channel";
+
 	const [getCategory, { collections }, t, getProducts] = await Promise.all([
 		executeGraphQL(GetApparelChildrenDocument, {
 			variables: { first1: 10 },
 			revalidate: 60, // ISR (оновлення кожні 60 секунд)
-			cache: 'force-cache' // використання кешу для збереження результатів
+			cache: "force-cache", // використання кешу для збереження результатів
 		}),
 		executeGraphQL(CollectionListDocument, {
-			variables: { first1: 10 },
+			variables: { first1: 10, channel: getChanel },
 			revalidate: 60, // ISR
-			cache: 'force-cache' // кешування
+			cache: "force-cache", // кешування
 		}),
 		getTranslations("/"),
 		executeGraphQL(ProductListDocument, {
-			variables: { first: 8 },
-			cache: 'force-cache', // кешування
-			revalidate: 60
+			variables: { first: 8, channel: getChanel },
+			cache: "force-cache", // кешування
+			revalidate: 60,
 		}),
-
 	]);
 	if (!getProducts.products) throw Error("No products found");
 
 	const products = getProducts.products.edges.map(({ node: product }) => product);
-
 
 	const OPTIONS: EmblaOptionsType = { dragFree: false };
 	const categorySlides = getCategory.category?.children?.edges || [];
@@ -93,14 +93,22 @@ export default async function Home() {
 					<h4 className="text-[rgba(5,5,5,0.9)] font-bold  flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] tracking-[0.06em] mb-6 mx-0 my-12 px-6 mt-6">
 						Apparel
 					</h4>
-					{categorySlides.length > 0 && <CollectionEmblaCarousel type="category" slides={categorySlides} options={OPTIONS} />}
+					{categorySlides.length > 0 && (
+						<CollectionEmblaCarousel type="category" slides={categorySlides} options={OPTIONS} />
+					)}
 				</section>
 				<section className="md:max-w-[560px] lg:max-w-[780px] m-[0_auto] w-full py-8 text-[rgb(5,5,5)]">
 					<h5 className="tracking-[0.02rem]   font-bold flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] mb-6 mx-0 my-12 px-6 mt-6">
-
-						Inspired Living from Dusk to Dawn</h5>
-					<p style={{ fontFamily: "'HarmoniaSansProCyr', sans-serif" }} className="px-5 tracking-[0.02rem] text-[1rem] text-center">
-						At Ridge & Dawn, we believe that life’s journey is defined by the small details. From home decor that inspires to apparel and footwear that empowers, and tech accessories that simplify your everyday, our curated collections are designed to elevate your lifestyle.</p>
+						Inspired Living from Dusk to Dawn
+					</h5>
+					<p
+						style={{ fontFamily: "'HarmoniaSansProCyr', sans-serif" }}
+						className="px-5 tracking-[0.02rem] text-[1rem] text-center"
+					>
+						At Ridge & Dawn, we believe that life’s journey is defined by the small details. From home decor
+						that inspires to apparel and footwear that empowers, and tech accessories that simplify your
+						everyday, our curated collections are designed to elevate your lifestyle.
+					</p>
 				</section>
 				<MainProductList products={products} />
 				<WhyChooseUs />

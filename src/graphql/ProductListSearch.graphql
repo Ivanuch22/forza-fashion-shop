@@ -1,9 +1,5 @@
-query ProductListSearch($searchTerm: String!, $first: Int = 10) {
-	products(
-		channel: "default-channel"
-		filter: { search: $searchTerm, channel: "default-channel" }
-		first: $first
-	) {
+query ProductListSearch($channel: String = "default-channel", $searchTerm: String!, $first: Int = 10) {
+	products(channel: $channel, filter: { search: $searchTerm, channel: $channel }, first: $first) {
 		edges {
 			node {
 				...ProductListItem

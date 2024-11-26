@@ -1,7 +1,7 @@
 "use server";
 
 import { CheckoutAddLineDocument } from "@/gql/graphql";
-import { clearCartCookie, getCartCookieJson, setCartCookieJson } from "@/lib/cart";
+import { CART_COOKIE, clearCartCookie, getCartCookieJson, setCartCookieJson } from "@/lib/cart";
 import * as Checkout from "@/lib/checkout";
 import { executeGraphQL } from "@/lib/graphql";
 import * as Commerce from "commerce-kit";
@@ -13,7 +13,7 @@ const shouldUseHttps =
 
 export async function getCartFromCookiesAction() {
 	const cookie = await cookies();
-	let checkoutId = cookie.get("checkoutId")?.value;
+	let checkoutId = cookie.get(CART_COOKIE)?.value;
 
 	if (!checkoutId) {
 		return null;
@@ -61,12 +61,13 @@ export async function addToCartAction(formData: FormData) {
 	}
 
 	const cookie = await cookies();
-	let checkoutId = cookie.get("checkoutId")?.value;
+	const channel = cookie.get("channel")?.value || "default-channel";
+	let checkoutId = cookie.get(CART_COOKIE)?.value;
 
 	if (!checkoutId) {
-		const { checkoutCreate } = await Checkout.create();
+		const { checkoutCreate } = await Checkout.create(channel);
 		if (checkoutCreate?.checkout?.id) {
-			cookie.set("checkoutId", checkoutCreate.checkout?.id, {
+			cookie.set(CART_COOKIE, checkoutCreate.checkout?.id, {
 				secure: shouldUseHttps,
 				sameSite: "lax",
 				httpOnly: true,
@@ -79,7 +80,7 @@ export async function addToCartAction(formData: FormData) {
 		const checkout = await Checkout.find(checkoutId);
 
 		if (!checkout) {
-			cookie.delete("checkoutId");
+			cookie.delete(CART_COOKIE);
 		}
 
 		await executeGraphQL(CheckoutAddLineDocument, {

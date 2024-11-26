@@ -1,13 +1,13 @@
-query GetCategoryID($slug: String = "") {
-  category(slug: $slug) {
-    id
-    name
-    description
-    seoDescription
-    seoTitle
-    slug
-    products(channel: "default-channel") {
-      totalCount
-    }
-  }
+query GetCategoryID($channel: String = "default-channel", $slug: String = "") {
+	category(slug: $slug) {
+		id
+		name
+		description
+		seoDescription
+		seoTitle
+		slug
+		products(channel: $channel) {
+			totalCount
+		}
+	}
 }

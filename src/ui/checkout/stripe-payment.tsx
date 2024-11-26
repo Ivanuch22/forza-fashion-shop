@@ -191,6 +191,14 @@ const PaymentForm = ({
 				},
 			};
 
+			const createOrderInSaleor = await fetch("/api/saleor-create-order", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ input: inputTemplate }),
+			});
+
 			const result = await stripe.confirmPayment({
 				elements,
 				redirect: "if_required",
@@ -229,14 +237,6 @@ const PaymentForm = ({
 				setIsLoading(false);
 				setFormErrorMessage(result.error.message ?? t("unexpectedError"));
 			} else {
-				const createOrderInSaleor = await fetch("/api/saleor-create-order", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ input: inputTemplate }),
-				});
-
 				if (!createOrderInSaleor.ok) {
 					setIsLoading(false);
 
@@ -381,8 +381,12 @@ const PaymentForm = ({
 						<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 					) : (
 						<>
-							{t("payNowButton")}  • {" "}
-							{checkout?.totalPrice?.gross?.amount && formatMoney(checkout?.totalPrice?.gross?.amount || 0, checkout?.totalPrice?.gross?.currency || "")}
+							{t("payNowButton")} •{" "}
+							{checkout?.totalPrice?.gross?.amount &&
+								formatMoney(
+									checkout?.totalPrice?.gross?.amount || 0,
+									checkout?.totalPrice?.gross?.currency || "",
+								)}
 						</>
 					)}
 				</Button>

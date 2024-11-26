@@ -1,5 +1,5 @@
-mutation CheckoutCreate {
-	checkoutCreate(input: { channel: "default-channel", lines: [] }) {
+mutation CheckoutCreate($channel: String = "default-channel") {
+	checkoutCreate(input: { channel: $channel, lines: [] }) {
 		checkout {
 			id
 		}

@@ -1,8 +1,8 @@
 import { publicUrl } from "@/env.mjs";
 import { ProductListPaginatedDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
-import type { MetadataRoute } from "next";
 import { ProductsPerPage } from "@/lib/graphql";
+import type { MetadataRoute } from "next";
 
 // const Categories = [
 // 	{ name: "Apparel", slug: "apparel" },
@@ -11,15 +11,16 @@ import { ProductsPerPage } from "@/lib/graphql";
 
 type Item = MetadataRoute.Sitemap[number];
 interface IProcutsUrls {
-	url: string,
-	lastModified: Date,
-	changeFrequency: "daily" | "always" | "hourly" | "weekly" | "monthly" | "yearly" | "never" | undefined,
-	priority: number
+	url: string;
+	lastModified: Date;
+	changeFrequency: "daily" | "always" | "hourly" | "weekly" | "monthly" | "yearly" | "never" | undefined;
+	priority: number;
 }
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	// const products = await Commerce.productBrowse({ first: 100 });
 	const { products } = await executeGraphQL(ProductListPaginatedDocument, {
 		variables: {
+			channel: "default-channel",
 			first: ProductsPerPage,
 			after: "",
 		},

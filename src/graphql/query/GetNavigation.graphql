@@ -1,44 +1,44 @@
-query GetNavigation($slug: String!) {
-  menu(slug: $slug, channel: "default-channel") {
-    items {
-      id
-      name
-      url
-      category {
-        slug
-      }
-      collection {
-        slug
-      }
-      page {
-        slug
-      }
-      children {
-        id
-        name
-        category {
-          slug
-        }
-        collection {
-          slug
-        }
-        page {
-          slug
-        }
-        children {
-          id
-          name
-          category {
-            slug
-          }
-          collection {
-            slug
-          }
-          page {
-            slug
-          }
-        }
-      }
-    }
-  }
+query GetNavigation($channel: String = "default-channel", $slug: String!) {
+	menu(slug: $slug, channel: $channel) {
+		items {
+			id
+			name
+			url
+			category {
+				slug
+			}
+			collection {
+				slug
+			}
+			page {
+				slug
+			}
+			children {
+				id
+				name
+				category {
+					slug
+				}
+				collection {
+					slug
+				}
+				page {
+					slug
+				}
+				children {
+					id
+					name
+					category {
+						slug
+					}
+					collection {
+						slug
+					}
+					page {
+						slug
+					}
+				}
+			}
+		}
+	}
 }

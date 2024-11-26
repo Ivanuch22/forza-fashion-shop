@@ -3,6 +3,7 @@ import { executeGraphQL } from "@/lib/graphql";
 import { deslugify } from "@/lib/utils";
 import { Pagination } from "@/ui/Pagination";
 import { ProductList } from "@/ui/products/product-list";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next/types";
 // import { publicUrl } from "@/env.mjs";
@@ -33,9 +34,12 @@ export const generateMetadata = async (props: {
 	params: Promise<{ slug: string }>;
 }): Promise<Metadata> => {
 	const params = await props.params;
+	const cookie = await cookies();
+	const channel = cookie.get("channel")?.value || "default-channel";
+
 	const { category } = await executeGraphQL(GetCategoryIdDocument, {
-		variables: { slug: params.slug }
-	})
+		variables: { slug: params.slug, channel },
+	});
 	return {
 		title: `${category?.seoTitle || "Category"} · Saleor Storefront example`,
 		description: category?.seoDescription || category?.name,
@@ -46,23 +50,27 @@ export default async function CategoryPage(props: {
 	params: Promise<{ slug: string }>;
 	searchParams: Promise<{ cursor?: string }>;
 }) {
+	const cookie = await cookies();
+	const channel = cookie.get("channel")?.value || "default-channel";
+
 	const params = await props.params;
 	const { category } = await executeGraphQL(GetCategoryIdDocument, {
-		variables: { slug: params.slug }
-	})
-	const cursor = (await props.searchParams).cursor || ""
+		variables: { slug: params.slug, channel },
+	});
+	const cursor = (await props.searchParams).cursor || "";
+
 	const { products: getProducts } = await executeGraphQL(ProductListByCategoryDocument, {
 		variables: {
 			first: 12,
 			after: cursor,
+			channel,
 			filter: {
-				categories: [category?.id || ""]
-
-			}
+				categories: [category?.id || ""],
+			},
 		},
 		revalidate: 60,
 	});
-	const products = getProducts?.edges || []
+	const products = getProducts?.edges || [];
 
 	if (products.length == 0) {
 		notFound();
@@ -76,7 +84,6 @@ export default async function CategoryPage(props: {
 			<p className="text-right text-[16px]">{category?.products?.totalCount || 0} products</p>
 			<ProductList products={products.map((e) => e.node)} />
 			<Pagination pageInfo={getProducts?.pageInfo} />
-
 		</main>
 	);
 }

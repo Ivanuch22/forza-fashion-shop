@@ -3,11 +3,11 @@ import { executeGraphQL } from "@/lib/graphql";
 import { unstable_cache } from "next/cache";
 
 export const searchProducts = unstable_cache(
-	async (query: string) => {
+	async (query: string, channel: string) => {
 		const { products } = await executeGraphQL(ProductListSearchDocument, {
 			variables: {
 				searchTerm: query,
-				channel: "",
+				channel,
 				first: 100,
 			},
 			revalidate: 60,

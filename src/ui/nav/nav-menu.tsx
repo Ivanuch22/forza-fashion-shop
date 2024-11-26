@@ -3,11 +3,14 @@ import { executeGraphQL } from "@/lib/graphql";
 import RadixAccordion from "@/ui/nav/RadixAccordion";
 import RadixAccordionMobile from "@/ui/nav/RadixAccordionMobile";
 import { NavMobileMenu } from "@/ui/nav/nav-mobile-menu.client";
-
+import { cookies } from "next/headers";
 
 export const NavMenu = async () => {
+	const cookie = await cookies();
+	const channel = cookie.get("channel")?.value || "default-channel";
+
 	const navLinks = await executeGraphQL(GetNavigationDocument, {
-		variables: { slug: "navbar" },
+		variables: { slug: "navbar", channel },
 		revalidate: 60 * 60 * 24,
 	});
 	return (

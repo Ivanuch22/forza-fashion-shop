@@ -11,7 +11,7 @@ if (!env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
 }
 const stripePromise = loadStripe(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "");
 
-export default function ViewStripe() {
+export default function ViewStripe({ currency }: { currency: string }) {
 	const amount = 38.88;
 
 	return (
@@ -21,7 +21,7 @@ export default function ViewStripe() {
 				options={{
 					mode: "payment",
 					amount: convertToSubcurrency(amount),
-					currency: "usd",
+					currency: currency,
 				}}
 			>
 				<CheckoutPage amount={amount} />

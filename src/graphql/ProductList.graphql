@@ -1,5 +1,5 @@
-query ProductList ($first: Int=12) {
-	products(first: $first, channel: "default-channel") {
+query ProductList($first: Int = 12, $channel: String = "defaul-chanel") {
+	products(first: $first, channel: $channel) {
 		edges {
 			node {
 				...ProductListItem

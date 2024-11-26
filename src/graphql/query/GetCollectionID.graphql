@@ -1,13 +1,13 @@
-query GetCollectionID($slug: String = "") {
-  collection(slug: $slug, channel: "default-channel") {
-    id
-    name
-    description
-    seoDescription
-    seoTitle
-    slug
-    products{
-      totalCount
-    }
-  }
+query GetCollectionID($slug: String = "", $channel: String = "default-channel") {
+	collection(slug: $slug, channel: $channel) {
+		id
+		name
+		description
+		seoDescription
+		seoTitle
+		slug
+		products {
+			totalCount
+		}
+	}
 }

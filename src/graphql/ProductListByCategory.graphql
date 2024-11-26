@@ -1,22 +1,22 @@
-query ProductListByCategory($first: Int!, $after: String, $filter: ProductFilterInput = {}) {
-  products(
-    first: $first
-    channel: "default-channel"
-    after: $after
-    filter: $filter
-  ) {
-    totalCount
-    pageInfo {
-hasPreviousPage
-startCursor
-      endCursor
-      hasNextPage
-    }
-    edges {
-      node {
+query ProductListByCategory(
+	$channel: String = "default-channel"
+	$first: Int!
+	$after: String
+	$filter: ProductFilterInput = {}
+) {
+	products(first: $first, channel: $channel, after: $after, filter: $filter) {
+		totalCount
+		pageInfo {
+			hasPreviousPage
+			startCursor
+			endCursor
+			hasNextPage
+		}
+		edges {
+			node {
 				...ProductListItem
-      }
-      cursor
-    }
-  }
+			}
+			cursor
+		}
+	}
 }

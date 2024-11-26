@@ -1,5 +1,5 @@
-query ProductListByCollection($slug: String = "", $first: Int = 10) {
-	collection(channel: "default-channel", slug: $slug) {
+query ProductListByCollection($channel: String = "default-channel", $slug: String = "", $first: Int = 10) {
+	collection(channel: $channel, slug: $slug) {
 		backgroundImage {
 			alt
 			url

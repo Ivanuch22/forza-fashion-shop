@@ -55,4 +55,5 @@ export async function deleteItem(checkoutId: string, lineId: string) {
 	return checkoutLineDelete?.checkoutLinesDelete;
 }
 
-export const create = () => executeGraphQL(CheckoutCreateDocument, { cache: "no-cache" });
+export const create = (channel: string) =>
+	executeGraphQL(CheckoutCreateDocument, { variables: { channel }, cache: "no-cache" });

@@ -1,5 +1,5 @@
-query CollectionList($first1: Int = 100) {
-	collections(first: $first1, channel: "default-channel") {
+query CollectionList($first1: Int = 100, $channel: String = "default-channel") {
+	collections(first: $first1, channel: $channel) {
 		edges {
 			node {
 				backgroundImage {

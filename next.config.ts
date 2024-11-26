@@ -39,6 +39,7 @@ const nextConfig: NextConfig = {
 	webpack: (config) => {
 		return {
 			...config,
+
 			resolve: {
 				...config.resolve,
 				alias: {

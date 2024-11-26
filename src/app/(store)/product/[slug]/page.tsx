@@ -14,26 +14,27 @@ import {
 import { StickyBottom } from "@/ui/sticky-bottom";
 import { YnsLink } from "@/ui/yns-link";
 
+import SimilarProducts from "@/components/SimilarProducts/SimilarProducts";
 import { AddToCartButton } from "@/ui/add-to-cart-button";
+import { JsonLd, mappedProductToJsonLd } from "@/ui/json-ld";
 import edjsHTML from "editorjs-html";
 import type { EmblaOptionsType } from "embla-carousel";
-import { notFound } from "next/navigation";
-import { JsonLd, mappedProductToJsonLd } from "@/ui/json-ld";
 import dynamic from "next/dynamic";
-import SimilarProducts from "@/components/SimilarProducts/SimilarProducts";
+import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 const EmblaCarousel = dynamic(() => import("@/modules/product/components/image-embela-carousel"), {
 	loading: () => <p>Loading...</p>,
-})
+});
 
-const WhyChooseUs = dynamic(() => import('@/components/why-choose-us'), {
+const WhyChooseUs = dynamic(() => import("@/components/why-choose-us"), {
 	loading: () => <p>Loading...</p>,
-})
+});
 
-const Guarantee = dynamic(() => import('@/components/guarantee/guarantee'), {
+const Guarantee = dynamic(() => import("@/components/guarantee/guarantee"), {
 	loading: () => <p>Loading...</p>,
-})
+});
 
 const parser = edjsHTML();
 
@@ -72,12 +73,14 @@ export async function generateMetadata(props: {
 }
 
 export async function generateStaticParams() {
-	const { products } = await executeGraphQL(ProductListDocument, { variables: { first: 100 }, revalidate: 60 });
+	const { products } = await executeGraphQL(ProductListDocument, {
+		variables: { first: 100 },
+		revalidate: 60,
+	});
 
 	const paths = products?.edges.map(({ node: { slug } }) => ({ slug })) || [];
 	return paths;
 }
-
 
 export default async function SingleProductPage(props: {
 	params: Promise<{ slug: string }>;
@@ -85,9 +88,12 @@ export default async function SingleProductPage(props: {
 }) {
 	const searchParams = await props.searchParams;
 	const params = await props.params;
+	const cookie = await cookies();
+	const channel = cookie.get("channel")?.value || "default-channel";
 
 	const { product } = await executeGraphQL(ProductDetailsDocument, {
 		variables: {
+			channel,
 			slug: decodeURIComponent(params?.slug),
 		},
 		revalidate: 60,
@@ -95,7 +101,6 @@ export default async function SingleProductPage(props: {
 	if (!product) {
 		notFound();
 	}
-
 
 	const t = await getTranslations("/product.page");
 	const locale = await getLocale();

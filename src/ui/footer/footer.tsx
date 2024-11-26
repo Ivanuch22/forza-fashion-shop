@@ -1,8 +1,10 @@
+import CurrencyModal from "@/components/currencyModal/currencyModal";
 import { GetNavigationDocument, type GetNavigationQuery } from "@/gql/graphql";
 import { getTranslations } from "@/i18n/server";
 import { executeGraphQL } from "@/lib/graphql";
 import { Newsletter } from "@/ui/footer/newsletter.client";
 import { YnsLink } from "@/ui/yns-link";
+import { cookies } from "next/headers";
 
 function transformData(data: GetNavigationQuery) {
 	if (data?.menu?.items) {
@@ -10,19 +12,19 @@ function transformData(data: GetNavigationQuery) {
 			const header = item.name;
 			const links = item?.children
 				? item.children.map((child) => {
-					let href = "/"; // дефолтне значення, якщо немає slug чи інших посилань
-					if (child.page?.slug) {
-						href = `/page/${child.page.slug}`;
-					} else if (child.collection?.slug) {
-						href = `/collection/${child.collection.slug}`;
-					} else if (child.category?.slug) {
-						href = `/category/${child.category.slug}`;
-					}
-					return {
-						label: child.name,
-						href: href,
-					};
-				})
+						let href = "/"; // дефолтне значення, якщо немає slug чи інших посилань
+						if (child.page?.slug) {
+							href = `/page/${child.page.slug}`;
+						} else if (child.collection?.slug) {
+							href = `/collection/${child.collection.slug}`;
+						} else if (child.category?.slug) {
+							href = `/category/${child.category.slug}`;
+						}
+						return {
+							label: child.name,
+							href: href,
+						};
+					})
 				: [];
 			return {
 				header: header,
@@ -34,15 +36,29 @@ function transformData(data: GetNavigationQuery) {
 
 export async function Footer() {
 	const t = await getTranslations("Global.footer");
+	const cookie = await cookies();
+	const channel = cookie.get("channel")?.value;
+
 	const navLinks = await executeGraphQL(GetNavigationDocument, {
-		variables: { slug: "footer" },
+		variables: { slug: "footer", channel },
 		revalidate: 60 * 60 * 24,
 	});
 	if (!navLinks?.menu?.items) return;
 	const data = transformData(navLinks);
-	console.log(data);
-
-	console.log(navLinks);
+	const example = [
+		{
+			channel: "default-channel",
+			currency: "USD",
+		},
+		{
+			channel: "channel-eur",
+			currency: "EUR",
+		},
+		{
+			channel: "channel-pln",
+			currency: "PLN",
+		},
+	];
 
 	return (
 		<footer className="w-full bg-neutral-50 p-6 text-neutral-800 md:py-12">
@@ -53,10 +69,12 @@ export async function Footer() {
 						<Newsletter />
 					</div>
 				</div>
+				<div className="bg:black w-[40px] h-[40px] ">
+					<CurrencyModal channel={String(channel)} channels={example} />
+				</div>
 
 				<nav className="grid grid-cols-2 gap-16">
-
-					{(data !== undefined) && data.map((section) => (
+					{data?.map((section) => (
 						<section key={section.header}>
 							<h3 className="mb-2 font-semibold">{section.header}</h3>
 							<ul role="list" className="grid gap-1">

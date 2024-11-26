@@ -1,5 +1,6 @@
 import { DraftOrderCreateDocument } from "@/gql/graphql";
 import type { DraftOrderCreateMutationVariables } from "@/gql/graphql";
+import { CART_COOKIE } from "@/lib/cart";
 import { executeAdminGraphQL } from "@/lib/graphql";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -35,7 +36,7 @@ export async function POST(request: NextRequest) {
 				message: "Order Create Successful",
 			});
 
-			response.cookies.set("checkoutId", "", {
+			response.cookies.set(CART_COOKIE, "", {
 				expires: new Date(0), // Set the expiration date to the past to delete the cookie
 			});
 

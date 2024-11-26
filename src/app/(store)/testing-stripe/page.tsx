@@ -1,9 +1,13 @@
 import ViewStripe from "@/app/(store)/testing-stripe/components/view";
+import { cookies } from "next/headers";
 
-export default function TestingStripePage() {
+export default async function TestingStripePage() {
+	const cookie = await cookies();
+	let currency = cookie.get("currency")?.value || "currency";
+
 	return (
 		<>
-			<ViewStripe />
+			<ViewStripe currency={currency} />
 		</>
 	);
 }
