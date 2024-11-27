@@ -1,7 +1,6 @@
 import { channels } from "@/const/channels";
 import { UploadTrieveProductsListDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
-import { cookies } from "next/headers";
 import { type ChunkReqPayload, TrieveSDK } from "trieve-ts-sdk";
 
 export type TrieveProductMetadata = {

@@ -30,7 +30,7 @@ export const getRecommendedProducts = cache(
 							must: [
 								{
 									field: "metadata.currency",
-									match: [currency],
+									match_any: [currency],
 								},
 							],
 						},
