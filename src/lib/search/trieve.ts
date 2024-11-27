@@ -7,46 +7,56 @@ const apiKey = env.TRIEVE_API_KEY;
 const datasetId = env.TRIEVE_DATASET_ID;
 
 export const trieve = apiKey && datasetId ? new TrieveSDK({ apiKey, datasetId }) : null;
-
-export const getRecommendedProducts = cache(({ productId, limit }: { productId: string; limit: number }) =>
-	unstable_cache(
-		async () => {
-			if (!trieve) {
-				return null;
-			}
-
-			try {
-				console.log(productId)
-				const response = await trieve.getRecommendedChunks({
-					positive_tracking_ids: [productId],
-					strategy: "average_vector",
-					recommend_type: "semantic",
-					limit,
-				});
-				console.log("sldfkj response")
-
-
-
-				const chunks = Array.isArray(response) ? null : response.chunks;
-				if (!chunks) {
+export const getRecommendedProducts = cache(
+	({
+		productId,
+		limit,
+		channel,
+		currency,
+	}: { productId: string; limit: number; channel: string; currency: string }) =>
+		unstable_cache(
+			async () => {
+				if (!trieve) {
 					return null;
 				}
+				try {
+					console.log(productId);
+					const response = await trieve.getRecommendedChunks({
+						positive_tracking_ids: [`${productId}-${channel}`],
+						strategy: "best_score",
+						recommend_type: "bm25",
+						limit,
+						filters: {
+							must: [
+								{
+									field: "metadata.currency",
+									match: [currency],
+								},
+							],
+						},
+					});
+					console.log("sldfkj response");
 
-				const products = chunks.flatMap((chunk) => {
-					if ("metadata" in chunk.chunk && chunk.chunk.metadata) {
-						return chunk.chunk;
+					const chunks = Array.isArray(response) ? null : response.chunks;
+					if (!chunks) {
+						return null;
 					}
-					return [];
-				});
-				return products;
-			} catch (error) {
-				console.error(error);
-				return null;
-			}
-		},
-		[`getRecommendedProducts-${productId}-${limit}`],
-		{
-			tags: ["getRecommendedProducts", `getRecommendedProducts-${productId}`],
-		},
-	)(),
+
+					const products = chunks.flatMap((chunk) => {
+						if ("metadata" in chunk.chunk && chunk.chunk.metadata) {
+							return chunk.chunk;
+						}
+						return [];
+					});
+					return products;
+				} catch (error) {
+					console.error(error);
+					return null;
+				}
+			},
+			[`getRecommendedProducts-${productId}-${limit}-${channel}-${currency}`],
+			{
+				tags: ["getRecommendedProducts", `getRecommendedProducts-${productId}`],
+			},
+		)(),
 );

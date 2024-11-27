@@ -1,4 +1,5 @@
 import CurrencyModal from "@/components/currencyModal/currencyModal";
+import { channels } from "@/const/channels";
 import { GetNavigationDocument, type GetNavigationQuery } from "@/gql/graphql";
 import { getTranslations } from "@/i18n/server";
 import { executeGraphQL } from "@/lib/graphql";
@@ -45,20 +46,6 @@ export async function Footer() {
 	});
 	if (!navLinks?.menu?.items) return;
 	const data = transformData(navLinks);
-	const example = [
-		{
-			channel: "default-channel",
-			currency: "USD",
-		},
-		{
-			channel: "channel-eur",
-			currency: "EUR",
-		},
-		{
-			channel: "channel-pln",
-			currency: "PLN",
-		},
-	];
 
 	return (
 		<footer className="w-full bg-neutral-50 p-6 text-neutral-800 md:py-12">
@@ -70,7 +57,7 @@ export async function Footer() {
 					</div>
 				</div>
 				<div className="bg:black w-[40px] h-[40px] ">
-					<CurrencyModal channel={String(channel)} channels={example} />
+					<CurrencyModal channel={String(channel)} channels={channels} />
 				</div>
 
 				<nav className="grid grid-cols-2 gap-16">

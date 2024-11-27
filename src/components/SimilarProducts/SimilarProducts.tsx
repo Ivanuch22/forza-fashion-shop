@@ -4,6 +4,7 @@ import { getRecommendedProducts } from "@/lib/search/trieve";
 import { formatMoney } from "@/lib/utils";
 import { YnsLink } from "@/ui/yns-link";
 import { getStripeAmountFromDecimal } from "commerce-kit/currencies";
+import { cookies } from "next/headers";
 import Image from "next/image";
 
 export type TrieveProductMetadata = {
@@ -17,7 +18,11 @@ export type TrieveProductMetadata = {
 };
 
 async function SimilarProducts({ id }: { id: string }) {
-	const products = await getRecommendedProducts({ productId: id, limit: 4 });
+	const cookie = await cookies();
+	const channel = cookie.get("channel")?.value || "defaul-channel";
+	const currency = cookie.get("currency")?.value || "USD";
+
+	const products = await getRecommendedProducts({ productId: id, limit: 4, channel, currency });
 
 	if (!products) {
 		return null;

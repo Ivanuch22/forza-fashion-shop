@@ -43,7 +43,7 @@ const CurrencyModal = ({ channel, channels }: ICurrencyModal) => {
 				className="flex text-center items-center hover: zIndex-3 text-[18px] hover:cursor-pointer  "
 			>
 				{channels.map((chanel, index, array) => (
-					<div>
+					<div key={`${index}-${chanel.channel}`}>
 						{chanel?.currency}
 						{index !== array.length - 1 && "/"}
 					</div>
