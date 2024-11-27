@@ -9,6 +9,21 @@ interface DraftOrderCreateRequestBody {
 	input: DraftOrderCreateMutationVariables["input"];
 }
 
+const channelsId = [
+	{
+		id: "Q2hhbm5lbDo0",
+		slug: "channel-eur",
+	},
+	{
+		id: "Q2hhbm5lbDoy",
+		slug: "channel-pln",
+	},
+	{
+		id: "Q2hhbm5lbDox",
+		slug: "default-channel",
+	},
+];
+
 export async function POST(request: NextRequest) {
 	try {
 		// Парсимо JSON як unknown
@@ -19,7 +34,11 @@ export async function POST(request: NextRequest) {
 			const { input } = requestData;
 
 			if (!input) {
-				return NextResponse.json({ message: "Input is required" }, { status: 400 });
+				return NextResponse.json({ message: "Input is required" }, { status: 500 });
+			}
+			const findChannelId = channelsId.find((element) => element.slug === input.channelId)?.id;
+			if (!findChannelId) {
+				return NextResponse.json({ message: "Channel is invalid" }, { status: 500 });
 			}
 			console.log(input, "input");
 
@@ -27,6 +46,7 @@ export async function POST(request: NextRequest) {
 				variables: {
 					input: {
 						...input,
+						channelId: findChannelId,
 					},
 				},
 			});

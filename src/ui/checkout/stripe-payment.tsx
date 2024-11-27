@@ -28,11 +28,13 @@ import { useRouter } from "next/navigation";
 import { type ChangeEvent, type FormEventHandler, useState, useTransition } from "react";
 
 export const StripePayment = ({
+	channel,
 	shippingRateId,
 	shippingRates,
 	allProductsDigital,
 	locale,
 }: {
+	channel: string;
 	shippingRateId?: string | null;
 	shippingRates: Commerce.MappedShippingRate[];
 	allProductsDigital: boolean;
@@ -40,6 +42,7 @@ export const StripePayment = ({
 }) => {
 	return (
 		<PaymentForm
+			channel={channel}
 			shippingRates={shippingRates}
 			cartShippingRateId={shippingRateId ?? null}
 			allProductsDigital={allProductsDigital}
@@ -49,11 +52,13 @@ export const StripePayment = ({
 };
 
 const PaymentForm = ({
+	channel,
 	shippingRates,
 	cartShippingRateId,
 	allProductsDigital,
 	locale,
 }: {
+	channel: string;
 	shippingRates: Commerce.MappedShippingRate[];
 	cartShippingRateId: string | null;
 	allProductsDigital: boolean;
@@ -160,7 +165,7 @@ const PaymentForm = ({
 				});
 			}
 			const inputTemplate = {
-				channelId: "Q2hhbm5lbDox",
+				channelId: channel,
 				billingAddress: {
 					city: billingAddressValues.city || "",
 					cityArea: "",
@@ -174,7 +179,8 @@ const PaymentForm = ({
 					streetAddress1: billingAddressValues.line1 || "",
 					streetAddress2: billingAddressValues.line2 ?? "",
 				},
-				userEmail: billingAddress.email ?? "",
+				user: billingAddressValues.email ?? "",
+				userEmail: billingAddressValues.email ?? "",
 				lines: checkout?.lines.map((line) => ({ variantId: line.variant.id, quantity: line.quantity })) || [],
 				shippingAddress: {
 					city: shippingAddress.city || "",
