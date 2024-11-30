@@ -6,7 +6,7 @@ import { YnsLink } from "@/ui/yns-link";
 
 export const Nav = async () => {
 	return (
-		<header className="z-50 py-4 sticky top-0 bg-white/90 backdrop-blur-sm nav-border-reveal">
+		<header className="z-50 py-4 sm:sticky top-0 bg-white/90 backdrop-blur-sm nav-border-reveal">
 			<div className="mx-auto flex  items-center gap-2 px-4 flex-row sm:px-6 lg:px-8">
 				<div className="max-w-full flex h-full  w-auto  overflow-auto max-sm:order-2">
 					<NavMenu />

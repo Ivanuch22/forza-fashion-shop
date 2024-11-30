@@ -284,6 +284,7 @@ const PaymentForm = ({
 					if (!sameAsShipping) {
 						return;
 					}
+					console.log(e.value, "shipping value");
 					setBillingAddressValues((prev) => ({
 						...prev,
 						name: e.value.name,

@@ -4,6 +4,7 @@ import image from "@/assets/mainPageImage.webp";
 import { publicUrl } from "@/env.mjs";
 import { CollectionListDocument, GetApparelChildrenDocument, ProductListDocument } from "@/gql/graphql";
 import { getTranslations } from "@/i18n/server";
+import { CART_COOKIE } from "@/lib/cart";
 import { executeGraphQL } from "@/lib/graphql";
 import type { EmblaOptionsType } from "embla-carousel";
 import dynamic from "next/dynamic";
@@ -31,6 +32,7 @@ const MainProductList = dynamic(() => import("@/components/mainProductList/mainP
 export default async function Home() {
 	const cookie = await cookies();
 	const getChanel = cookie.get("channel")?.value || "default-channel";
+	console.log(cookie.get(CART_COOKIE)?.value, "chekcout id");
 
 	const [getCategory, { collections }, t, getProducts] = await Promise.all([
 		executeGraphQL(GetApparelChildrenDocument, {
@@ -57,7 +59,6 @@ export default async function Home() {
 	const OPTIONS: EmblaOptionsType = { dragFree: false };
 	const categorySlides = getCategory.category?.children?.edges || [];
 	const collectionSlides = collections?.edges || [];
-
 	return (
 		<main>
 			<section className=" relative rounded bg-neutral-100   after:bg-black after:content-[''] after:absolute after:opacity-[0.5] after:z-5 after:w-full after:h-full after:top-0">

@@ -7,7 +7,7 @@ import {
 import { executeGraphQL } from "@/lib/graphql";
 
 export async function find(checkoutId: string) {
-	const { checkout } = checkoutId
+	const getCheckout = checkoutId
 		? await executeGraphQL(CheckoutFindDocument, {
 				variables: {
 					id: checkoutId,
@@ -16,7 +16,7 @@ export async function find(checkoutId: string) {
 			})
 		: { checkout: null };
 
-	return checkout;
+	return getCheckout?.checkout;
 }
 export async function updateCart(checkoutId: string, lines: { id: string; quantity: number }[]) {
 	if (!checkoutId) {
