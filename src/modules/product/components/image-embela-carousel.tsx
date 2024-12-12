@@ -7,7 +7,6 @@ import type React from "react";
 import { useCallback, useEffect, useState } from "react";
 import "../styles/embela-carousel.css";
 import { Thumb } from "@/modules/product/components/embla-carousel-thumbs-button";
-// import Image from "next/image";
 type PropType = {
 	slides: {
 		url: string;

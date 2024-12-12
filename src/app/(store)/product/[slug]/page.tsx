@@ -112,6 +112,7 @@ export default async function SingleProductPage(props: {
 	const parseDescription = product?.description && JSON.parse(product?.description);
 	const description = product?.description ? parser.parse(parseDescription) : "";
 	const OPTIONS: EmblaOptionsType = {};
+	console.log(selectedVariant, product, "123");
 
 	return (
 		<>
@@ -166,18 +167,20 @@ export default async function SingleProductPage(props: {
 									})}
 								</p>
 							)}
-							{selectedVariant?.pricing?.priceUndiscounted?.gross.amount && (
-								<p className="mt-2 text-lg line-through ml-2 font-semibold leading-none tracking-tight text-foreground/70">
-									{formatMoney({
-										amount: getStripeAmountFromDecimal({
-											amount: selectedVariant?.pricing?.priceUndiscounted?.gross.amount,
+							{selectedVariant?.pricing?.priceUndiscounted?.gross.amount !==
+								selectedVariant?.pricing?.price?.gross.amount &&
+								selectedVariant?.pricing?.priceUndiscounted?.gross.amount && (
+									<p className="mt-2 text-lg line-through ml-2 font-semibold leading-none tracking-tight text-foreground/70">
+										{formatMoney({
+											amount: getStripeAmountFromDecimal({
+												amount: selectedVariant?.pricing?.priceUndiscounted?.gross.amount,
+												currency: selectedVariant?.pricing?.priceUndiscounted?.gross.currency,
+											}),
 											currency: selectedVariant?.pricing?.priceUndiscounted?.gross.currency,
-										}),
-										currency: selectedVariant?.pricing?.priceUndiscounted?.gross.currency,
-										locale,
-									})}
-								</p>
-							)}
+											locale,
+										})}
+									</p>
+								)}
 						</div>
 						<div className="mt-2">{!isAvailable && <div>Out of stock</div>}</div>
 					</div>
