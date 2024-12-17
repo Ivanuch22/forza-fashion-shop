@@ -1,6 +1,5 @@
 // @ts-nocheck
-
-import image from "@/assets/mainPageImage.webp";
+import image from "@/assets/mainPageImage.jpeg";
 import { publicUrl } from "@/env.mjs";
 import { CollectionListDocument, GetApparelChildrenDocument, ProductListDocument } from "@/gql/graphql";
 import { getTranslations } from "@/i18n/server";
