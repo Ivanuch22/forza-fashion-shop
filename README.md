@@ -1,4 +1,4 @@
-# Your Next Store
+# Forza Fashion
 
 <div align="center">
 <table>
@@ -62,7 +62,7 @@ Alternatively, follow the instructions for your operating system found here: [pn
 
 ## Create Stripe account
 
-YNS is tightly integrated with [Stripe](https://stripe.com), so you need a Stripe account to use Your Next Store. Follow the instructions from Stripe to [create an account](https://dashboard.stripe.com/register).
+YNS is tightly integrated with [Stripe](https://stripe.com), so you need a Stripe account to use Forza Fashion. Follow the instructions from Stripe to [create an account](https://dashboard.stripe.com/register).
 
 It's important to remember that Stripe works in two different modes: **Test Mode** and **Production Mode**. For local development and testing purposes, you should use the **Test Mode**. This way, Stripe will never charge real money, and you can use special test credentials such as credit card numbers and BLIK numbers to complete payments. For more detailed information, please refer to the Stripe documentation at [docs.stripe.com/testing](https://docs.stripe.com/testing).
 
@@ -97,11 +97,11 @@ https://github.com/yournextstore/.github/assets/200613/01d27f69-00dc-446e-bc81-5
 
 ## Run the store
 
-After following the above steps, run `pnpm install` to install the required dependencies, and then run `pnpm dev` to start the development server on your machine. Your Next Store will be available at [localhost:3000](http://localhost:3000)
+After following the above steps, run `pnpm install` to install the required dependencies, and then run `pnpm dev` to start the development server on your machine. Forza Fashion will be available at [localhost:3000](http://localhost:3000)
 
 ## Add products
 
-Your Next Store gets all the products, prices, descriptions, and categories from Stripe. So, if you know Stripe already, you'll feel right at home!
+Forza Fashion gets all the products, prices, descriptions, and categories from Stripe. So, if you know Stripe already, you'll feel right at home!
 
 You need to add products to the Stripe Dashboard to show in YNS. After logging in, click **More** in the left sidebar and select **Product catalogue**. You may also use the direct link:
 
@@ -117,7 +117,7 @@ Then, click on **Add product** and fill in all the required information:
 
 ### Metadata
 
-Additionally, Your Next Store uses product metadata to provide more context information about the products. You can specify the following metadata fields:
+Additionally, Forza Fashion uses product metadata to provide more context information about the products. You can specify the following metadata fields:
 
 | Field      | Required | Description                                                                     |
 | ---------- | :------: | ------------------------------------------------------------------------------- |
@@ -126,11 +126,11 @@ Additionally, Your Next Store uses product metadata to provide more context info
 | `order`    |    No    | The product order used for sorting products. Lower numbers are displayed first. |
 | `variant`  |    No    | The product variant slug. Read below for details.                               |
 
-Now you should see all added products in Your Next Store.
+Now you should see all added products in Forza Fashion.
 
 ## Variants
 
-Your Next Store supports simple product variants. To create a product with variants, you must add multiple products to Stripe with the same `slug` metadata field. YNS uses the `variant` metadata field to distinguish between different variants of the same product. For example, if you have a T-shirt in multiple sizes, you can create three products with the `slug` of `t-shirt` and `variant` values of `small`, `medium`, and `large`.
+Forza Fashion supports simple product variants. To create a product with variants, you must add multiple products to Stripe with the same `slug` metadata field. YNS uses the `variant` metadata field to distinguish between different variants of the same product. For example, if you have a T-shirt in multiple sizes, you can create three products with the `slug` of `t-shirt` and `variant` values of `small`, `medium`, and `large`.
 
 Variants are displayed on the product page. Variants can have different prices, descriptions, and images. It's important to note that the `category` should be the same for all variants of the same product for the best browsing experience.
 
@@ -139,7 +139,7 @@ Variants are displayed on the product page. Variants can have different prices, 
 
 ## Stripe Webhooks
 
-Your Next Store uses Stripe Webhooks to handle events from Stripe. Currently, the endpoint is used to automatically revalidate cart page and to create tax transaction (if enabled). To set up Webhooks, follow the Stripe docs. The exact steps depend on whether you've activated Stripe Workbench in your Stripe account: [docs.stripe.com/webhooks#add-a-webhook-endpoint](https://docs.stripe.com/webhooks#add-a-webhook-endpoint).
+Forza Fashion uses Stripe Webhooks to handle events from Stripe. Currently, the endpoint is used to automatically revalidate cart page and to create tax transaction (if enabled). To set up Webhooks, follow the Stripe docs. The exact steps depend on whether you've activated Stripe Workbench in your Stripe account: [docs.stripe.com/webhooks#add-a-webhook-endpoint](https://docs.stripe.com/webhooks#add-a-webhook-endpoint).
 
 The endpoint for the webhook is `https://{YOUR_DOMAIN}/api/stripe-webhook`. The only required event is `payment_intent.succeeded`. When the webhook is configured in Stripe, set the `STRIPE_WEBHOOK_SECRET` environment variable to the secret key created by Stripe.
 
@@ -148,7 +148,7 @@ The endpoint for the webhook is `https://{YOUR_DOMAIN}/api/stripe-webhook`. The 
 
 ## Stripe Tax
 
-Your Next Store comes with a preview of Stripe Tax support. To enable it, set the `ENABLE_STRIPE_TAX` environment variable to any value (i.e., `1`).
+Forza Fashion comes with a preview of Stripe Tax support. To enable it, set the `ENABLE_STRIPE_TAX` environment variable to any value (i.e., `1`).
 
 For this feature to work, you must set your Tax settings in Stripe Dashboard: [dashboard.stripe.com/register/tax](https://dashboard.stripe.com/register/tax). When enabled and configured, taxes will be automatically calculated and added to the total price of the product based on:
 

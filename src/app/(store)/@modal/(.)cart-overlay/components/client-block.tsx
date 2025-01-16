@@ -20,7 +20,7 @@ const ClientBlock = ({
 	const [cart, setCart] = useState<CheckoutFindQuery["checkout"]>();
 	const { checkout } = useCheckoutStore((state) => state);
 	const [checkoutId, setCheckoutId] = useState("");
-	const [loading, setLoading] = useState(false)
+	const [loading, setLoading] = useState(false);
 	const [currency, setCurrency] = useState("USD");
 	useEffect(() => {
 		setCart(checkout);
@@ -36,7 +36,7 @@ const ClientBlock = ({
 			<div className="min-w-full flex flex-col min-h-[100vh] justify-center  items-center overflow-y-auto px-2 py-4 sm:px-4">
 				<h3 className="font-bold text-[28px] mb-[10px] ">Your cart is empty</h3>
 				<Link
-					href={"/category/apparel"}
+					href={"/category"}
 					className="text-[1.5rem] font-bold mx-w-[220px] block overflow-hidden m-[0_auto] p-[.5rem_2rem] text-white rounded-[5px] border-0 bg-[rgba(173,0,0,.9)] "
 				>
 					Continue shopping
@@ -70,8 +70,11 @@ const ClientBlock = ({
 				<p className="mt-0.5 text-sm text-neutral-500">Shipping and taxes will be added at the next step</p>
 				<Button asChild={true} size={"lg"} className="mt-6 w-full rounded-[5px] text-lg">
 					<YnsLink className="font-bold block" onClick={() => setLoading(true)} href={`/cart`}>
-
-						{loading ? <Loading></Loading> : `Checkout • ${formatMoney(cart?.totalPrice?.gross?.amount || 0, currency)}${" "}`}
+						{loading ? (
+							<Loading></Loading>
+						) : (
+							`Checkout • ${formatMoney(cart?.totalPrice?.gross?.amount || 0, currency)}${" "}`
+						)}
 					</YnsLink>
 				</Button>
 			</div>

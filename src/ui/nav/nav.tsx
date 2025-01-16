@@ -12,7 +12,7 @@ export const Nav = async () => {
 					<NavMenu />
 				</div>
 				<YnsLink href="/" className="flex-shrink sm:m-auto max-w-full flex">
-					<SeoH1 className="-mt-0.5 whitespace-nowrap text-xl font-bold">Your Next Store</SeoH1>
+					<SeoH1 className="-mt-0.5 whitespace-nowrap text-xl font-bold">Forza Fashion</SeoH1>
 				</YnsLink>
 				<div className="mr-3 ml-auto sm:ml-0">
 					<SearchNav />

@@ -44,7 +44,23 @@ export const ProductList = async ({ products }: { products: ProductListItemFragm
 													})}
 												</p>
 											)}
-											{product?.pricing?.priceRangeUndiscounted?.start?.gross?.amount && (
+											{product?.pricing?.priceRangeUndiscounted?.start?.gross?.amount !==
+												product?.pricing?.priceRange?.start?.gross.amount &&
+												product?.pricing?.priceRangeUndiscounted?.start?.gross?.amount && (
+													<p className="text-xs line-through ">
+														{formatMoney({
+															amount: getStripeAmountFromDecimal({
+																amount: product?.pricing?.priceRangeUndiscounted?.start?.gross?.amount,
+																currency: product?.pricing?.priceRangeUndiscounted?.start?.gross?.currency,
+															}),
+															currency: product?.pricing?.priceRangeUndiscounted?.start?.gross?.currency,
+															locale,
+														})}
+													</p>
+												)}
+											{/* {product?.pricing?.priceRangeUndiscounted?.start?.gross?.amount && (
+
+
 												<p className="text-xs line-through ">
 													{formatMoney({
 														amount: getStripeAmountFromDecimal({
@@ -55,7 +71,7 @@ export const ProductList = async ({ products }: { products: ProductListItemFragm
 														locale,
 													})}
 												</p>
-											)}
+											)} */}
 										</footer>
 									</div>
 								</article>

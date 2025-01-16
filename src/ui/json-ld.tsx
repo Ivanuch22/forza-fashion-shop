@@ -21,7 +21,10 @@ export const mappedProductToJsonLd = (product: ProductDetailsQuery["product"]): 
 		sku: variants[0]?.sku || "",
 		offers: {
 			"@type": "Offer",
-			price: formatMoney(variants[0]?.pricing?.price?.gross?.amount ?? 0, variants[0]?.pricing?.price?.gross?.currency || ""),
+			price: formatMoney(
+				variants[0]?.pricing?.price?.gross?.amount ?? 0,
+				variants[0]?.pricing?.price?.gross?.currency || "",
+			),
 			priceCurrency: variants[0]?.pricing?.price?.gross?.currency,
 			availability:
 				(variants[0]?.quantityAvailable ?? 0 > 0)
@@ -51,7 +54,7 @@ export const accountToWebsiteJsonLd = ({
 	return {
 		"@context": "https://schema.org",
 		"@type": "WebSite",
-		name: account?.business_profile?.name ?? "Your Next Store",
+		name: account?.business_profile?.name ?? "Forza Fashion",
 		url: account?.business_profile?.url ?? "https://yournextstore.com",
 		mainEntityOfPage: {
 			"@type": "WebPage",
@@ -65,7 +68,7 @@ export const accountToWebsiteJsonLd = ({
 		}),
 		publisher: {
 			"@type": "Organization",
-			name: account?.business_profile?.name ?? "Your Next Store",
+			name: account?.business_profile?.name ?? "Forza Fashion",
 			url: account?.business_profile?.url ?? "https://yournextstore.com",
 		},
 	};

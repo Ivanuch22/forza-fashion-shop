@@ -40,13 +40,13 @@ export const AddToCartButton = ({
 			}}
 			aria-disabled={isDisabled}
 		>
-			<span className={cn("transition-opacity ease-in", isDisabled ? "opacity-0" : "opacity-100")}>
+			<span className={cn("transition-opacity ease-in", loading ? "opacity-0" : "opacity-100")}>
 				{disabled ? t("disabled") : t("actionButton")}
 			</span>
 			<span
 				className={cn(
 					"ease-out transition-opacity pointer-events-none absolute z-10",
-					isDisabled ? "opacity-100" : "opacity-0",
+					loading ? "opacity-100" : "opacity-0",
 				)}
 			>
 				<Loader2Icon className="h-4 w-4 animate-spin" />

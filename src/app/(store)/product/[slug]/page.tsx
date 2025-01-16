@@ -14,6 +14,7 @@ import {
 import { StickyBottom } from "@/ui/sticky-bottom";
 import { YnsLink } from "@/ui/yns-link";
 
+import ProductVarians from "@/app/(store)/product/[slug]/product-varians";
 import SimilarProducts from "@/components/SimilarProducts/SimilarProducts";
 import { AddToCartButton } from "@/ui/add-to-cart-button";
 import { JsonLd, mappedProductToJsonLd } from "@/ui/json-ld";
@@ -23,7 +24,6 @@ import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-
 const EmblaCarousel = dynamic(() => import("@/modules/product/components/image-embela-carousel"), {
 	loading: () => <p>Loading...</p>,
 });
@@ -112,7 +112,7 @@ export default async function SingleProductPage(props: {
 	const parseDescription = product?.description && JSON.parse(product?.description);
 	const description = product?.description ? parser.parse(parseDescription) : "";
 	const OPTIONS: EmblaOptionsType = {};
-	console.log(selectedVariant, product, "123");
+	console.log(selectedVariant?.quantityAvailable, "123");
 
 	return (
 		<>
@@ -199,38 +199,10 @@ export default async function SingleProductPage(props: {
 
 					<div className="grid gap-8 lg:col-span-6  px-4 sm:px-6 lg:px-8">
 						{variants.length > 1 && (
-							<div className="grid gap-2">
-								<p className="text-base font-medium" id="variant-label">
-									{t("variantTitle")}
-								</p>
-								<ul role="list" className="grid grid-cols-4 gap-2" aria-labelledby="variant-label">
-									{variants.map((variant) => {
-										const isSelected = selectedVariant?.name === variant.name;
-										return (
-											variant.id && (
-												<li key={variant.id}>
-													<YnsLink
-														aria-label={`product variant ${variant.name}`}
-														scroll={false}
-														prefetch={true}
-														href={`/product/${product.slug}?variant=${variant.id}`}
-														className={cn(
-															"flex cursor-pointer items-center justify-center gap-2 rounded-md border p-2 transition-colors hover:bg-neutral-100",
-															isSelected && "border-black bg-neutral-50 font-medium",
-														)}
-														aria-selected={isSelected}
-													>
-														{deslugify(variant.name)}
-													</YnsLink>
-												</li>
-											)
-										);
-									})}
-								</ul>
-							</div>
+							<ProductVarians product={product} selectedVariant={selectedVariant} variants={variants} />
 						)}
 						<AddToCartButton
-							disabled={!selectedVariant || !selectedVariant?.quantityAvailable}
+							disabled={!Boolean(selectedVariant) || !Boolean(selectedVariant?.quantityAvailable)}
 							productId={selectedVariant?.id || ""}
 						/>
 						<section>

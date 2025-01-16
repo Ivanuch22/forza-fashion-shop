@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 "use client";
 import type { CheckoutFindQuery, CheckoutLine } from "@/gql/graphql";
 import { formatMoney } from "@/lib/graphql";
@@ -8,7 +7,6 @@ import Image from "next/image";
 import { useOptimistic } from "react";
 
 export const ProductCard = ({ line }: { line: CheckoutLine }) => {
-	console.log(line)
 	return (
 		<div className="flex items-center justify-between border-b border-gray-200 py-4 px-1">
 			<div className="flex items-center gap-4">
@@ -32,11 +30,19 @@ export const ProductCard = ({ line }: { line: CheckoutLine }) => {
 				</div>
 			</div>
 			<div className="text-sm font-normal grid text-gray-900">
-				<span className="text-xs text-right line-through ">
-					{line?.undiscountedTotalPrice?.amount && formatMoney(line?.undiscountedTotalPrice?.amount || 0, line?.undiscountedTotalPrice?.currency || "")}
-				</span>
+				{line?.undiscountedTotalPrice?.amount !== line?.totalPrice.gross.amount &&
+					line?.undiscountedTotalPrice?.amount && (
+						<span className="text-xs text-right line-through ">
+							{line?.undiscountedTotalPrice?.amount &&
+								formatMoney(
+									line?.undiscountedTotalPrice?.amount || 0,
+									line?.undiscountedTotalPrice?.currency || "",
+								)}
+						</span>
+					)}
 				<span>
-					{line?.totalPrice.gross.amount && formatMoney(line?.totalPrice.gross.amount || 0, line?.totalPrice.gross.currency || "")}
+					{line?.totalPrice.gross.amount &&
+						formatMoney(line?.totalPrice.gross.amount || 0, line?.totalPrice.gross.currency || "")}
 				</span>
 			</div>
 		</div>

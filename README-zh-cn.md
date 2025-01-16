@@ -1,4 +1,4 @@
-# Your Next Store
+# Forza Fashion
 
 <div align="center">
 <table>
@@ -62,7 +62,7 @@ corepack install
 
 ## 创建 Stripe 账户
 
-YNS 与 [Stripe](https://stripe.com) 紧密整合，因此你需要有一个 Stripe 账户才能使用 Your Next Store。根据以下 Stripe 的说明来[创建一个账户](https://dashboard.stripe.com/register)。
+YNS 与 [Stripe](https://stripe.com) 紧密整合，因此你需要有一个 Stripe 账户才能使用 Forza Fashion。根据以下 Stripe 的说明来[创建一个账户](https://dashboard.stripe.com/register)。
 
 需切记的是， Stripe 有两种不同的工作模式：**测试模式 (Test Mode)** 和 **生产模式 (Production Mode)**。对于在本地开发和测试目的，你应该使用**测试模式**。通过这种方式，Stripe 将不会产生实际扣款，你可以使用特殊的测试凭证，例如信用卡号码和 BLIK 号码来完成支付。更多详情，请参阅 [Stripe 测试文档](https://docs.stripe.com/testing)。
 
@@ -97,11 +97,11 @@ https://github.com/yournextstore/.github/assets/200613/01d27f69-00dc-446e-bc81-5
 
 ## 运行商店
 
-完成上述步骤后，运行 `pnpm install` 安装所需的依赖项，然后运行 `pnpm dev` 启动。Your Next Store 将运行在 [localhost:3000](http://localhost:3000) 上。
+完成上述步骤后，运行 `pnpm install` 安装所需的依赖项，然后运行 `pnpm dev` 启动。Forza Fashion 将运行在 [localhost:3000](http://localhost:3000) 上。
 
 ## 添加产品
 
-Your Next Store 从 Stripe 获取所有产品、价格、描述和类别数据。因此，如果你已经熟悉 Stripe，那你会很快上手！
+Forza Fashion 从 Stripe 获取所有产品、价格、描述和类别数据。因此，如果你已经熟悉 Stripe，那你会很快上手！
 
 要在 YNS 中显示，你需要先在 Stripe 管理面板中添加产品。登录后，点击左侧边栏中的**更多**，然后选择**产品目录**。你也可以使用直接链接：
 
@@ -117,7 +117,7 @@ Your Next Store 从 Stripe 获取所有产品、价格、描述和类别数据�
 
 ### 元数据 (Metadata)
 
-此外，Your Next Store 使用元数据来提供更多有关产品的信息。你可以指定以下元数据字段：
+此外，Forza Fashion 使用元数据来提供更多有关产品的信息。你可以指定以下元数据字段：
 
 | 字段      | 必填 | 描述                                                                     |
 | ---------- | :------: | ------------------------------------------------------------------------------- |
@@ -126,11 +126,11 @@ Your Next Store 从 Stripe 获取所有产品、价格、描述和类别数据�
 | `order`    |    否    | 用于对产品进行排序。较小的数字优先显示。 |
 | `variant`  |    否    | 变体产品标识。请在底下阅读更多信息。                              |
 
-现在你应该能在 Your Next Store 中看到所有添加的产品。
+现在你应该能在 Forza Fashion 中看到所有添加的产品。
 
 ## 变体
 
-Your Next Store 支持简单的变体产品。要创建带变体的产品，你必须在 Stripe 中添加多个产品，并使用相同的 `slug` 元数据字段。YNS 使用 `variant` 元数据字段来区分同一产品的不同变体。例如，你有一件有多个尺寸的 T 恤产品，你可以创建三个产品，`slug` 字段均为 `t-shirt`，`variant` 字段分别为 `small`、`medium` 和 `large`。
+Forza Fashion 支持简单的变体产品。要创建带变体的产品，你必须在 Stripe 中添加多个产品，并使用相同的 `slug` 元数据字段。YNS 使用 `variant` 元数据字段来区分同一产品的不同变体。例如，你有一件有多个尺寸的 T 恤产品，你可以创建三个产品，`slug` 字段均为 `t-shirt`，`variant` 字段分别为 `small`、`medium` 和 `large`。
 
 变体显示在产品页面上。变体可以有不同的价格、描述和图片。值得注意的是，为了获得最佳浏览体验，同一产品的所有变体的`类别`都应该相同。
 
@@ -139,7 +139,7 @@ Your Next Store 支持简单的变体产品。要创建带变体的产品，你�
 
 ## Stripe 网络钩子 (Webhooks)
 
-Your Next Store 使用 Stripe 网络钩子处理来自 Stripe 的事件。目前，该端点用于自动重新验证购物车页面和创建税务交易（如果启用）。要设置网络钩子，请参考 Stripe 文档。具体步骤取决于你是否在 Stripe 账户中激活了 Stripe 工作台：[docs.stripe.com/webhooks#add-a-webhook-endpoint](https://docs.stripe.com/webhooks#add-a-webhook-endpoint).
+Forza Fashion 使用 Stripe 网络钩子处理来自 Stripe 的事件。目前，该端点用于自动重新验证购物车页面和创建税务交易（如果启用）。要设置网络钩子，请参考 Stripe 文档。具体步骤取决于你是否在 Stripe 账户中激活了 Stripe 工作台：[docs.stripe.com/webhooks#add-a-webhook-endpoint](https://docs.stripe.com/webhooks#add-a-webhook-endpoint).
 
 网络钩子的端点是 `https://{YOUR_DOMAIN}/api/stripe-webhook`。唯一必需的事件是 `payment_intent.successed`。在 Stripe 中配置网络钩子后，将 `STRIPE_WEBHOOK_SECRET` 变量值设置为 Stripe 创建的密钥 (secret key)。
 
@@ -148,7 +148,7 @@ Your Next Store 使用 Stripe 网络钩子处理来自 Stripe 的事件。目前
 
 ## Stripe 税务
 
-Your Next Store 集成了 Stripe 税务的预览功能。要启用它，请将 `ENABLE_STRIPE_TAX` 环境变量值设置为任何值（例如 `1`）。
+Forza Fashion 集成了 Stripe 税务的预览功能。要启用它，请将 `ENABLE_STRIPE_TAX` 环境变量值设置为任何值（例如 `1`）。
 
 为正常运运行此功能，你必须在 Stripe 管理面板中完成税务相关设置：[dashboard.stripe.com/register/tax](https://dashboard.stripe.com/register/tax)。在启用功能并配置后，税费会基于产品价格自动计算并添加到总价格中。
 

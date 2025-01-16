@@ -3,10 +3,11 @@ import { LazyLoadImage } from "@/modules/product/components/cmbla-carousel-lazy-
 import { DotButton, useDotButton } from "@/ui/embla-carousel-arrow-buttons";
 import type { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
-import type React from "react";
+import React from "react";
 import { useCallback, useEffect, useState } from "react";
 import "../styles/embela-carousel.css";
 import { Thumb } from "@/modules/product/components/embla-carousel-thumbs-button";
+import Image from "next/image";
 type PropType = {
 	slides: {
 		url: string;
@@ -57,22 +58,25 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 			<div className="product_embla__viewport" ref={emblaRed}>
 				<div className="product_embla__container">
 					{slides.map((slide, index) => (
-						// index == 0 ?
-						// 	<Image
-						// 		className="product_embla__slide__img"
-
-						// 		key={slide.id}
-						// 		src={slide?.url}
-						// 		alt={"product image"}
-						// 		width={500}
-						// 		height={500}
-						// 	/> :
-						<LazyLoadImage
-							key={slide.id}
-							index={index}
-							imgSrc={slide?.url}
-							inView={slidesInView.indexOf(index) > -1}
-						/>
+						<React.Fragment key={slide.id}>
+							{index == 0 ? (
+								<Image
+									className="product_embla__slide"
+									key={slide.id}
+									src={slide?.url}
+									alt={"product image"}
+									width={800}
+									height={800}
+								/>
+							) : (
+								<LazyLoadImage
+									key={slide.id}
+									index={index}
+									imgSrc={slide?.url}
+									inView={slidesInView.indexOf(index) > -1}
+								/>
+							)}
+						</React.Fragment>
 					))}
 				</div>
 			</div>

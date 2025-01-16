@@ -1,11 +1,10 @@
-// @ts-nocheck
 import image from "@/assets/mainPageImage.jpeg";
 import { publicUrl } from "@/env.mjs";
-import { CollectionListDocument, GetApparelChildrenDocument, ProductListDocument } from "@/gql/graphql";
+import { ProductListDocument } from "@/gql/graphql";
 import { getTranslations } from "@/i18n/server";
 import { CART_COOKIE } from "@/lib/cart";
 import { executeGraphQL } from "@/lib/graphql";
-import type { EmblaOptionsType } from "embla-carousel";
+// import type { EmblaOptionsType } from "embla-carousel";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import Image from "next/image";
@@ -18,12 +17,12 @@ export const metadata = {
 const WhyChooseUs = dynamic(() => import("@/components/why-choose-us"), {
 	loading: () => <p>Loading...</p>,
 });
-const CollectionEmblaCarousel = dynamic(
-	() => import("@/modules/mainPage/components/category-embla-arousel"),
-	{
-		loading: () => <p>Loading...</p>,
-	},
-);
+// const CollectionEmblaCarousel = dynamic(
+// 	() => import("@/modules/mainPage/components/category-embla-arousel"),
+// 	{
+// 		loading: () => <p>Loading...</p>,
+// 	},
+// );
 const MainProductList = dynamic(() => import("@/components/mainProductList/mainProductList"), {
 	loading: () => <p>Loading...</p>,
 });
@@ -33,17 +32,22 @@ export default async function Home() {
 	const getChanel = cookie.get("channel")?.value || "default-channel";
 	console.log(cookie.get(CART_COOKIE)?.value, "chekcout id");
 
-	const [getCategory, { collections }, t, getProducts] = await Promise.all([
-		executeGraphQL(GetApparelChildrenDocument, {
-			variables: { first1: 10 },
-			revalidate: 60, // ISR (оновлення кожні 60 секунд)
-			cache: "force-cache", // використання кешу для збереження результатів
-		}),
-		executeGraphQL(CollectionListDocument, {
-			variables: { first1: 10, channel: getChanel },
-			revalidate: 60, // ISR
-			cache: "force-cache", // кешування
-		}),
+	const [
+		// getCategory,
+		//  { collections },
+		t,
+		getProducts,
+	] = await Promise.all([
+		// executeGraphQL(GetApparelChildrenDocument, {
+		// 	variables: { first1: 10 },
+		// 	revalidate: 60, // ISR (оновлення кожні 60 секунд)
+		// 	cache: "force-cache", // використання кешу для збереження результатів
+		// }),
+		// executeGraphQL(CollectionListDocument, {
+		// 	variables: { first1: 10, channel: getChanel },
+		// 	revalidate: 60, // ISR
+		// 	cache: "force-cache", // кешування
+		// }),
 		getTranslations("/"),
 		executeGraphQL(ProductListDocument, {
 			variables: { first: 8, channel: getChanel },
@@ -55,9 +59,9 @@ export default async function Home() {
 
 	const products = getProducts.products.edges.map(({ node: product }) => product);
 
-	const OPTIONS: EmblaOptionsType = { dragFree: false };
-	const categorySlides = getCategory.category?.children?.edges || [];
-	const collectionSlides = collections?.edges || [];
+	// const OPTIONS: EmblaOptionsType = { dragFree: false };
+	// const categorySlides = getCategory.category?.children?.edges || [];
+	// const collectionSlides = collections?.edges || [];
 	return (
 		<main>
 			<section className=" relative rounded bg-neutral-100   after:bg-black after:content-[''] after:absolute after:opacity-[0.5] after:z-5 after:w-full after:h-full after:top-0">
@@ -81,23 +85,23 @@ export default async function Home() {
 				</div>
 			</section>
 			<div className="sm:px-6 lg:px-8 m-[0_auto] lg:max-w-[1500px] lg:w-auto">
-				<section className="w-full py-8">
+				{/* <section className="w-full py-8">
 					<h4 className="text-[rgba(5,5,5,0.9)] font-bold flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] tracking-[0.06em] mb-6 mx-0 my-12 px-6 mt-6">
 						Collections
 					</h4>
 					{collectionSlides.length > 0 && (
 						<CollectionEmblaCarousel type="collection" slides={collectionSlides} options={OPTIONS} />
 					)}
-				</section>
-				<section className="w-full py-8 ">
+				</section> */}
+				{/* <section className="w-full py-8 ">
 					<h4 className="text-[rgba(5,5,5,0.9)] font-bold  flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] tracking-[0.06em] mb-6 mx-0 my-12 px-6 mt-6">
 						Apparel
 					</h4>
 					{categorySlides.length > 0 && (
 						<CollectionEmblaCarousel type="category" slides={categorySlides} options={OPTIONS} />
 					)}
-				</section>
-				<section className="md:max-w-[560px] lg:max-w-[780px] m-[0_auto] w-full py-8 text-[rgb(5,5,5)]">
+				</section> */}
+				{/* <section className="md:max-w-[560px] lg:max-w-[780px] m-[0_auto] w-full py-8 text-[rgb(5,5,5)]">
 					<h5 className="tracking-[0.02rem]   font-bold flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] mb-6 mx-0 my-12 px-6 mt-6">
 						Inspired Living from Dusk to Dawn
 					</h5>
@@ -109,7 +113,7 @@ export default async function Home() {
 						that inspires to apparel and footwear that empowers, and tech accessories that simplify your
 						everyday, our curated collections are designed to elevate your lifestyle.
 					</p>
-				</section>
+				</section> */}
 				<MainProductList products={products} />
 				<WhyChooseUs />
 			</div>

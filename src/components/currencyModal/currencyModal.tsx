@@ -17,10 +17,8 @@ const CurrencyModal = ({ channel, channels }: ICurrencyModal) => {
 		currency: "USD",
 	});
 	const [isShow, setShow] = useState(false);
-	console.log(channel);
 	const handleSubmit = async () => {
-		const updateCookies = await updateCurrency(value.channel, value.currency);
-		console.log("true", updateCookies);
+		await updateCurrency(value.channel, value.currency);
 		setShow(false);
 	};
 	useEffect(() => {

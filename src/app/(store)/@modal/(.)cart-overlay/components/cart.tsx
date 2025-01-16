@@ -40,7 +40,6 @@ const Cart = ({ line, checkoutId }: { line: CheckoutLine; checkoutId: string }) 
 			changeCheckout(updateLineQnt.checkout);
 		}
 	};
-	console.log(line)
 	return (
 		<li key={line.id} className="grid relative grid-cols-[74px,max-content] gap-x-3 py-6">
 			{line?.variant?.product?.thumbnail?.url ? (
@@ -70,11 +69,12 @@ const Cart = ({ line, checkoutId }: { line: CheckoutLine; checkoutId: string }) 
 			<div className="absolute right-[10px] w-[15px] h-[15px] overflow-hidden flex justify-center items-center top-[25px]">
 				<DeleteButton onClick={onDelete} />{" "}
 			</div>
-			<p className="absolute bottom-[40px]  right-[10px] text-gray-500  text-[16px] font-semibold line-through leading-none">
-				{line.undiscountedTotalPrice?.amount &&
-					line.undiscountedTotalPrice?.currency &&
-					formatMoney(line.undiscountedTotalPrice?.amount, line.undiscountedTotalPrice?.currency)}
-			</p>
+			{line?.undiscountedTotalPrice?.amount !== line?.totalPrice.gross.amount &&
+				line?.undiscountedTotalPrice?.amount && (
+					<p className="absolute bottom-[40px]  right-[10px] text-gray-500  text-[16px] font-semibold line-through leading-none">
+						{formatMoney(line.undiscountedTotalPrice?.amount, line.undiscountedTotalPrice?.currency)}
+					</p>
+				)}
 			<p className="absolute bottom-[20px]  right-[10px] text-[rgb(189,9,27)]  text-[20px] font-bold leading-none">
 				{line.totalPrice?.gross?.amount &&
 					line.totalPrice?.gross?.currency &&

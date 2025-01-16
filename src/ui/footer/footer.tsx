@@ -79,7 +79,7 @@ export async function Footer() {
 			</div>
 			<div className=" mt-8 flex  flex-col items-center justify-between gap-4 text-sm text-neutral-500 md:flex-row">
 				<div>
-					<p>© 2024 Your Next Store</p>
+					<p>© 2024 Forza Fashion</p>
 					<p>Delightfully commerce for everyone</p>
 				</div>
 				<div className="flex items-center gap-4">

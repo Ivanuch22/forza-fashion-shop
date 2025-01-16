@@ -11,7 +11,7 @@ type PropType = {
 
 export const Thumb: React.FC<PropType> = (props) => {
 	const { slidesInView, slide, selected, index, onClick } = props;
-
+	console.log(slidesInView);
 	return (
 		<div
 			className={"product_embla-thumbs__slide".concat(
@@ -19,7 +19,7 @@ export const Thumb: React.FC<PropType> = (props) => {
 			)}
 		>
 			<button onClick={onClick} type="button" className="product_embla-thumbs__slide__number">
-				<LazyLoadImage index={index} imgSrc={slide?.url} inView={slidesInView.indexOf(index) > -1} />
+				<LazyLoadImage index={index} imgSrc={slide?.url} inView={true} />
 			</button>
 		</div>
 	);
