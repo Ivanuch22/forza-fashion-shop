@@ -11,7 +11,7 @@ export const NavMenu = async () => {
 
 	const navLinks = await executeGraphQL(GetNavigationDocument, {
 		variables: { slug: "navbar", channel },
-		revalidate: 60 * 60 * 24,
+		revalidate: 60 * 5,
 	});
 	return (
 		<>
