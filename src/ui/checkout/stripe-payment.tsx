@@ -65,8 +65,8 @@ const PaymentForm = ({
 	locale: string;
 }) => {
 	const t = useTranslations("/cart.page.stripePayment");
-
 	const ft = useTranslations("/cart.page.formErrors");
+
 	const addressSchema = getAddressSchema({
 		cityRequired: ft("cityRequired"),
 		countryRequired: ft("countryRequired"),
@@ -104,6 +104,13 @@ const PaymentForm = ({
 
 	const [sameAsShipping, setSameAsShipping] = useState(true);
 
+	const [acceptTerms, setAcceptTerms] = useState(false);
+	const [acceptPrivacy, setAcceptPrivacy] = useState(false);
+	const [checkboxErrors, setCheckboxErrors] = useState<{
+		terms?: string;
+		privacy?: string;
+	}>({});
+
 	const stripe = useStripe();
 	const elements = useElements();
 	const router = useRouter();
@@ -112,6 +119,21 @@ const PaymentForm = ({
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
 		event.preventDefault();
+
+		const errors: { terms?: string; privacy?: string } = {};
+		if (!acceptTerms) {
+			errors.terms = "Akceptacja Regulaminu jest wymagana";
+		}
+		if (!acceptPrivacy) {
+			errors.privacy = "Zgoda na przetwarzanie danych osobowych jest wymagana";
+		}
+		if (Object.keys(errors).length > 0) {
+			setCheckboxErrors(errors);
+			setFormErrorMessage("Proszę zaakceptować wymagane zgody przed złożeniem zamówienia");
+			return;
+		}
+		setCheckboxErrors({});
+		setFormErrorMessage(null);
 
 		if (!stripe || !elements) {
 			console.warn("Stripe or Elements not ready");
@@ -267,6 +289,7 @@ const PaymentForm = ({
 			setFormErrorMessage(error instanceof Error ? error.message : t("unexpectedError"));
 		}
 	};
+
 	return (
 		<form onSubmit={handleSubmit} className="grid gap-4">
 			<LinkAuthenticationElement
@@ -317,6 +340,42 @@ const PaymentForm = ({
 			)}
 
 			{readyToRender && (
+				<div className="space-y-1">
+					<Label className="flex flex-row items-center gap-x-2">
+						<Checkbox
+							onCheckedChange={(checked) => setAcceptTerms(checked === true)}
+							checked={acceptTerms}
+							name="acceptTerms"
+							value={acceptTerms ? "true" : "false"}
+							required
+						/>
+						<span>Akceptuję Regulamin i zgadzam się na zawarcie umowy sprzedaży.</span>
+					</Label>
+					{checkboxErrors.terms && <p className="text-sm text-red-500 pl-6">{checkboxErrors.terms}</p>}
+				</div>
+			)}
+
+			{/* Required Privacy Policy Checkbox */}
+			{readyToRender && (
+				<div className="space-y-1">
+					<Label className="flex flex-row items-center gap-x-2">
+						<Checkbox
+							onCheckedChange={(checked) => setAcceptPrivacy(checked === true)}
+							checked={acceptPrivacy}
+							name="acceptPrivacy"
+							value={acceptPrivacy ? "true" : "false"}
+							required
+						/>
+						<span>
+							Zgadzam się na przetwarzanie moich danych osobowych w celu realizacji zamówienia zgodnie z
+							Polityką Prywatności.
+						</span>
+					</Label>
+					{checkboxErrors.privacy && <p className="text-sm text-red-500 pl-6">{checkboxErrors.privacy}</p>}
+				</div>
+			)}
+
+			{readyToRender && (
 				<Label
 					className="flex flex-row items-center gap-x-2"
 					aria-controls="billingAddressCollapsibleContent"
@@ -333,6 +392,7 @@ const PaymentForm = ({
 					{t("billingSameAsShipping")}
 				</Label>
 			)}
+			{/* Required Terms Checkbox */}
 
 			{readyToRender && (
 				<Collapsible className="" open={!sameAsShipping}>

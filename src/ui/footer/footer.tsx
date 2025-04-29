@@ -56,7 +56,7 @@ export async function Footer() {
 						<Newsletter />
 					</div>
 				</div>
-				<div className="bg:black w-[40px] h-[40px] ">
+				<div className="bg:black">
 					<CurrencyModal channel={String(channel)} channels={channels} />
 				</div>
 
@@ -79,8 +79,39 @@ export async function Footer() {
 			</div>
 			<div className=" mt-8 flex  flex-col items-center justify-between gap-4 text-sm text-neutral-500 md:flex-row">
 				<div>
-					<p>© 2024 Forza Fashion</p>
+					<p>© 2025 Forza Fashion</p>
 					<p>Delightfully commerce for everyone</p>
+				</div>
+				<div>
+					<div className="min-w-[80vw] md:min-w-[30vw] flex justify-center content-center">
+						<svg viewBox="0 0 100 25" xmlns="http://www.w3.org/2000/svg">
+							<text x="0" y="20" font-size="20" font-family="Arial" fill="#6cbe45">
+								PayU
+							</text>
+						</svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64">
+							<text x="0" y="45" font-size="40" font-family="Arial" fill="#000">
+								 Pay
+							</text>
+						</svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64">
+							<text x="0" y="45" font-size="40" font-family="Arial" fill="#4285F4">
+								G
+							</text>
+							<text x="30" y="45" font-size="40" font-family="Arial" fill="#000">
+								Pay
+							</text>
+						</svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30">
+							<text x="0" y="25" font-size="24" font-family="Arial" fill="#1a1f71">
+								VISA
+							</text>
+						</svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40">
+							<circle cx="35" cy="20" r="15" fill="#eb001b" />
+							<circle cx="50" cy="20" r="15" fill="#f79e1b" />
+						</svg>
+					</div>
 				</div>
 				<div className="flex items-center gap-4">
 					Delevop by
