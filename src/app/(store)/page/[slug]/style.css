@@ -1,14 +1,76 @@
-main p{
-  margin: 10px 0;
+main p {
+	margin: 10px 0;
 }
 main .content a {
-  text-decoration: underline;
+	text-decoration: underline;
 }
-.content{
-  font-family: 'HarmoniaSansProCyr', sans-serif;
+.content {
+	font-family: "HarmoniaSansProCyr", sans-serif;
 }
-.content p {
-  font-size: 16px;
-  font-family: 'HarmoniaSansProCyr', sans-serif;
 
+.content {
+	all: revert;
+	font-family: system-ui, sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+	color: inherit;
+}
+
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+	all: revert;
+	margin: 1em 0 0.5em;
+	font-weight: bold;
+}
+
+.content p {
+	all: revert;
+	margin: 0.75em 0;
+}
+
+.content ul,
+.content ol {
+	all: revert;
+	margin: 1em 0;
+	padding-left: 2em;
+}
+
+.content li {
+	all: revert;
+	margin: 0.3em 0;
+}
+
+.content a {
+	all: revert;
+	color: blue;
+	text-decoration: underline;
+}
+
+.content strong {
+	all: revert;
+	font-weight: bold;
+}
+
+.content em {
+	all: revert;
+	font-style: italic;
+}
+
+.content table {
+	all: revert;
+	border-collapse: collapse;
+	width: 100%;
+	margin: 1em 0;
+}
+
+.content th,
+.content td {
+	all: revert;
+	border: 1px solid #ccc;
+	padding: 0.5em;
+	text-align: left;
 }
