@@ -5,7 +5,7 @@ import { invariant } from "@/lib/invariant";
 import { useCheckoutStore } from "@/zustand/providers/checkout-store-provider";
 import { Elements } from "@stripe/react-stripe-js";
 import { type StripeElementLocale, type StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
-import { type ReactNode, useMemo, useState, useEffect } from "react";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
 
 import { convertToSubcurrency } from "@/lib/convertToSubcurrency";
 
@@ -19,7 +19,9 @@ async function fetchClientSecret(amount: number): Promise<string | undefined> {
 	});
 
 	// Парсимо відповідь і типізуємо її як { clientSecret?: string }
-	const data = await response.json().catch(() => ({ clientSecret: undefined })) as { clientSecret?: string };
+	const data = (await response.json().catch(() => ({ clientSecret: undefined }))) as {
+		clientSecret?: string;
+	};
 
 	// Перевірка, чи містить відповідь необхідну властивість
 	if (data.clientSecret && typeof data.clientSecret === "string") {
@@ -37,8 +39,8 @@ export const StripeElementsContainer = ({
 	stripeAccount?: string;
 	locale: string;
 }) => {
-	const { checkout: cart } = useCheckoutStore(store => store)
-	const [clientSecret, setClientSecret] = useState("")
+	const { checkout: cart } = useCheckoutStore((store) => store);
+	const [clientSecret, setClientSecret] = useState("");
 	useEffect(() => {
 		// Огорніть асинхронну функцію у звичайну функцію
 		const getClientSecret = async () => {
@@ -52,8 +54,8 @@ export const StripeElementsContainer = ({
 		getClientSecret();
 	}, [cart]);
 	useEffect(() => {
-		console.log(clientSecret, "clieent secret")
-	}, [clientSecret])
+		console.log(clientSecret, "clieent secret");
+	}, [clientSecret]);
 	const stripePublishableKey = env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 
 	invariant(stripePublishableKey, "Stripe publishable key is required");
