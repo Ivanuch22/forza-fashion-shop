@@ -1,7 +1,7 @@
 "use client";
+import { YnsLink } from "@/ui/yns-link";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
 import { useState } from "react";
 
 interface IMenuItems {
@@ -32,12 +32,9 @@ interface IMenuItems {
 
 const RadixAccordion = ({ items }: { items: Array<IMenuItems | null> | null | undefined }) => {
 	const [activeItems, setActiveItems] = useState<Array<string>>([]);
-
 	const handleLinkClick = () => {
-		// Закриваємо всі елементи аккордеону при кліку на лінку
 		setActiveItems([]);
 	};
-
 	return (
 		<Accordion.Root
 			type="multiple"
@@ -56,7 +53,6 @@ interface IAccordionProps {
 	items: Array<IMenuItems | null> | null | undefined;
 	onLinkClick: () => void;
 }
-
 const RadixAccordionChildren = ({ items, onLinkClick }: IAccordionProps) => {
 	return (
 		<Accordion.Root type="multiple" className="grid">
@@ -119,13 +115,13 @@ const AccordionItem = ({
 				</Accordion.Item>
 			)}
 			{!hasChildren && (
-				<Link
+				<YnsLink
 					href={getLinkUrl()}
 					className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none max-w-[130px] "
 					onClick={onLinkClick} // Додаємо обробник кліку для закриття аккордеону
 				>
 					{item.name}
-				</Link>
+				</YnsLink>
 			)}
 		</>
 	);
@@ -164,13 +160,13 @@ const AccordionItemSecond = ({
 					</Accordion.Content>
 				</Accordion.Item>
 			) : (
-				<Link
+				<YnsLink
 					href={getLinkUrl()}
 					className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none max-w-[130px] "
 					onClick={onLinkClick} // Додаємо обробник кліку для закриття аккордеону
 				>
 					{item.name}
-				</Link>
+				</YnsLink>
 			)}
 		</>
 	);

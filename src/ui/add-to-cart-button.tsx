@@ -1,9 +1,9 @@
 "use client";
 import { addToCartAction } from "@/actions/cart-actions";
-import { useTranslations } from "@/i18n/client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/shadcn/button";
 import { Loader2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 

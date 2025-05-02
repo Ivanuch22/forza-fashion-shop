@@ -1,4 +1,5 @@
 import { ProductList } from "@/ui/products/product-list";
+import { getTranslations } from "next-intl/server";
 
 interface IMainProduct {
 	__typename?: "Product";
@@ -43,10 +44,11 @@ interface IMainProduct {
 }
 
 const MainProductList = async ({ products }: { products: IMainProduct[] | undefined | null }) => {
+	const t = await getTranslations("/");
 	return (
 		<div className="px-2 py-5">
 			<h5 className="tracking-[0.02rem]   font-bold flex justify-center items-end gap-4 flex-wrap text-center text-[1.8rem] md:text-[2.3rem] mb-6 mx-0 my-12 px-6 mt-6">
-				Discover Our Collection
+				{t("collection")}
 			</h5>
 
 			<ProductList products={products || []} />

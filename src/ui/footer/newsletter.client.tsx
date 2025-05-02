@@ -1,10 +1,10 @@
 "use client";
 
-import { useTranslations } from "@/i18n/client";
 import { signForNewsletter } from "@/ui/footer/actions";
 import { Button } from "@/ui/shadcn/button";
 import { Input } from "@/ui/shadcn/input";
 import { Loader2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -20,7 +20,7 @@ export const Newsletter = () => {
 			action={async (formData) => {
 				try {
 					const result = await signForNewsletter(formData);
-					console.log(result)
+					console.log(result);
 					toast.info(t("success"), {
 						position: "bottom-left",
 					});
@@ -44,4 +44,3 @@ export const Newsletter = () => {
 		</form>
 	);
 };
-

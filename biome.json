@@ -63,7 +63,14 @@
 				"useNamespaceKeyword": "error"
 			}
 		},
-		"ignore": ["**/*.js", "**/*.jsx", "**/*.mjs", "src/script/**/*.ts"]
+		"ignore": [
+			"**/*.js",
+			"**/*.jsx",
+			"**/*.mjs",
+			"src/script/**/*.ts",
+			"src/actions/create-auth.ts",
+			"src/ui/checkout/payu-payments.tsx"
+		]
 	},
 	"javascript": {
 		"formatter": {

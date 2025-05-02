@@ -1,0 +1,233 @@
+{
+	"Global": {
+		"metadata": {
+			"title": "Forza Fashion",
+			"description": "Szablon Next.js do błyskawicznego tworzenia Twojego sklepu internetowego: prosty, szybki, potężny."
+		},
+		"notFound": {
+			"title": "Nie znaleziono",
+			"description": "Strona, której szukasz, nie istnieje.",
+			"goBackLink": "Wróć do strony głównej"
+		},
+		"globalError": {
+			"title": "Coś poszło nie tak!",
+			"moreDetails": "Więcej szczegółów",
+			"tryAgainButton": "Spróbuj ponownie"
+		},
+		"error": {
+			"title": "Ups, coś poszło nie tak!",
+			"goBackLink": "Spróbuj ponownie"
+		},
+		"footer": {
+			"newsletterTitle": "Zapisz się do naszego newslettera",
+			"categoriesTitle": "Produkty"
+		},
+		"newsletter": {
+			"emailPlaceholder": "Wprowadź swój email",
+			"subscribeButton": "Zapisz się",
+			"success": "Pomyślnie zapisano się do naszego newslettera.",
+			"error": "Nie udało się zapisać do naszego newslettera."
+		},
+		"nav": {
+			"search": {
+				"title": "Szukaj",
+				"placeholder": "Szukaj produktów..."
+			},
+			"cartSummary": {
+				"itemsInCart": "Produkty w koszyku",
+				"total": "Suma",
+				"totalItems": "{count, plural, =0 {Brak produktów} =1 {# produkt} few {# produkty} other {# produktów}} w koszyku"
+			}
+		},
+		"addToCart": {
+			"success": "Dodano {productName} do koszyka",
+			"actionButton": "Dodaj do koszyka",
+			"disabled": "Brak w magazynie"
+		},
+		"deliveryEstimates": {
+			"atLeast": "Co najmniej",
+			"upTo": "Do",
+			"businessDay": "{count, plural, =1 {# dzień roboczy} few {# dni robocze} other {# dni roboczych}}",
+			"day": "{count, plural, =1 {# dzień} few {# dni} other {# dni}}",
+			"hour": "{count, plural, =1 {# godzina} few {# godziny} other {# godzin}}",
+			"month": "{count, plural, =1 {# miesiąc} few {# miesiące} other {# miesięcy}}",
+			"week": "{count, plural, =1 {# tydzień} few {# tygodnie} other {# tygodni}}"
+		},
+		"actions": {
+			"shopNow": "Kup teraz"
+		},
+		"CustomersLove": {
+			"title": "Dlaczego nasi klienci nas kochają",
+			"blocks": [
+				{
+					"title": "Osiągnięcie kamienia milowego Shopify",
+					"description": "Wspaniała wartość każdego dnia"
+				},
+				{
+					"title": "Wspaniała wartość każdego dnia",
+					"description": "Produkty, które pokochasz w cenach dopasowanych do Twojego budżetu"
+				},
+				{
+					"title": "Profesjonalna obsługa klienta",
+					"description": "Nasz przyjazny zespół jest dostępny przez pięć dni w tygodniu, aby odpowiedzieć na wszystkie Twoje pytania"
+				},
+				{
+					"title": "Gwarancja satysfakcji",
+					"description": "Stoimy za naszymi produktami i naszą obietnicą zapewnienia Twojej satysfakcji. Każde zamówienie objęte jest 30-dniową gwarancją satysfakcji"
+				}
+			]
+		}
+	},
+	"/": {
+		"collection": "Odkryj naszą kolekcję",
+		"hero": {
+			"title": "Kolekcja Eclipse",
+			"description": "Twój styl lśni przez każdy projekt, dniem i nocą.",
+			"action": "Kup teraz",
+			"link": "/category"
+		}
+	},
+	"/search": {
+		"notFound": {
+			"title": "Brak wyników dla \"{query}\"",
+			"description": "Przepraszamy, nie znaleźliśmy żadnych wyników pasujących do Twojego zapytania. Spróbuj doprecyzować wyszukiwanie."
+		},
+		"metadata": {
+			"title": "Wyszukiwanie: {query} · Forza Fashion"
+		},
+		"page": {
+			"title": "Wyszukiwanie \"{query}\""
+		},
+		"loading": {
+			"title": "Wyszukiwanie"
+		}
+	},
+	"/products": {
+		"metadata": {
+			"title": "Wszystkie produkty · Forza Fashion"
+		},
+		"page": {
+			"title": "Wszystkie produkty"
+		}
+	},
+	"/product": {
+		"metadata": {
+			"title": "{productName} · Forza Fashion"
+		},
+		"page": {
+			"allProducts": "Wszystkie produkty",
+			"imagesTitle": "Zdjęcia",
+			"descriptionTitle": "Opis",
+			"variantTitle": "Wariant"
+		}
+	},
+	"/category": {
+		"metadata": {
+			"title": "Kategoria {categoryName} · Forza Fashion"
+		},
+		"page": {
+			"title": "Wszystkie kategorie"
+		},
+		"slug": {
+			"products": "{count} produktów",
+			"nextPageBtn": "Następna strona"
+		}
+	},
+	"cart": {
+		"modal": {
+			"title": "Koszyk",
+			"openFullView": "(otwórz pełny widok)",
+			"quantity": "Ilość: {quantity}",
+			"total": "Suma",
+			"shippingAndTaxesInfo": "Koszty wysyłki i podatki zostaną dodane w następnym kroku",
+			"goToPaymentButton": "Do kasy •"
+		},
+		"metadata": {
+			"title": "Koszyk · Forza Fashion"
+		},
+		"page": {
+			"title": "Twój koszyk",
+			"checkoutTitle": "Zamówienie",
+			"checkoutDescription": "Podaj dane do faktury i wysyłki poniżej.",
+			"summaryTable": {
+				"imageCol": "Zdjęcie",
+				"productCol": "Produkt",
+				"priceCol": "Cena",
+				"quantityCol": "Ilość",
+				"subtotal": "Suma częściowa • {count} produktów",
+				"shipping": "Wysyłka",
+				"totalCol": "Suma",
+				"totalSavings": "CAŁKOWITE OSZCZĘDNOŚCI {number}",
+				"totalSummary": "SUMA",
+				"showButton": "Pokaż podsumowanie zamówienia",
+				"applyButton": "Zastosuj",
+				"discountPlayceholder": "Kod rabatowy"
+			},
+			"stripePayment": {
+				"acceptTerms": "Akceptuję Regulamin i wyrażam zgodę na zawarcie umowy sprzedaży.",
+				"acceptPrivacy": "Wyrażam zgodę na przetwarzanie moich danych osobowych w celu realizacji zamówienia zgodnie z Polityką Prywatności.",
+				"fillRequiredFields": "Proszę wypełnić wymagane pola.",
+				"unexpectedError": "Wystąpił nieoczekiwany błąd.",
+				"billingSameAsShipping": "Adres rozliczeniowy taki sam jak adres dostawy",
+				"billingAddressTitle": "Adres rozliczeniowy",
+				"payNowButton": "Zapłać teraz",
+				"errorTitle": "Błąd",
+				"fullName": "Imię i nazwisko",
+				"address1": "Adres",
+				"address2": "Adres (cd.)",
+				"postalCode": "Kod pocztowy",
+				"city": "Miasto",
+				"state": "Województwo / Region",
+				"country": "Kraj",
+				"phone": "Numer telefonu",
+				"taxId": "NIP",
+				"taxIdPlaceholder": "np. PL123456789",
+				"countryInpPlaceholder": "Znajdź kraj...",
+				"countryInpNoResults": "Nie znaleziono wyników.",
+				"countryBtnText": "Wybierz kraj..."
+			},
+			"formErrors": {
+				"nameRequired": "Imię i nazwisko jest wymagane",
+				"cityRequired": "Miasto jest wymagane",
+				"countryRequired": "Kraj jest wymagany",
+				"line1Required": "Adres jest wymagany",
+				"postalCodeRequired": "Kod pocztowy jest wymagany"
+			}
+		},
+		"empty": {
+			"title": "Twój koszyk jest pusty",
+			"description": "Wygląda na to, że nie dodałeś jeszcze nic do koszyka.",
+			"continueShoppingButton": "Kontynuuj zakupy"
+		}
+	},
+	"/order": {
+		"metadata": {
+			"title": "Potwierdzenie zamówienia · Forza Fashion"
+		},
+		"page": {
+			"title": "Potwierdzenie zamówienia",
+			"description": "Dziękujemy! Poniżej znajdziesz szczegóły swojego zamówienia.",
+			"orderNumberTitle": "Numer zamówienia",
+			"productsTitle": "Produkty w tym zamówieniu",
+			"price": "Cena",
+			"quantity": "Ilość",
+			"total": "Suma",
+			"detailsTitle": "Szczegóły zamówienia",
+			"shippingAddress": "Adres dostawy",
+			"billingAddress": "Adres rozliczeniowy",
+			"taxId": "NIP",
+			"paymentMethod": "Metoda płatności",
+			"cardBrand": "Marka karty",
+			"last4CardDigitsLabel": "Numer karty kończący się na"
+		},
+		"paymentStatus": {
+			"canceled": "Anulowane",
+			"processing": "W trakcie przetwarzania",
+			"requires_action": "Wymaga działania",
+			"requires_capture": "Wymaga zatwierdzenia",
+			"requires_confirmation": "Wymaga potwierdzenia",
+			"requires_payment_method": "Wymaga metody płatności",
+			"succeeded": "Zakończone powodzeniem"
+		}
+	}
+}

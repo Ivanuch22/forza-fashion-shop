@@ -1,5 +1,8 @@
 "use client";
 
+import { countries, findMatchingCountry } from "@/lib/countries";
+import { ElWithErrors, type ElWithErrorsProps } from "@/ui/input-errors";
+import { useMediaQuery } from "@/ui/shadcn/hooks/use-media-query";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import { Button } from "@ui/shadcn/button";
 import {
@@ -12,11 +15,8 @@ import {
 } from "@ui/shadcn/command";
 import { Drawer, DrawerContent, DrawerTrigger } from "@ui/shadcn/drawer";
 import { Popover, PopoverContent, PopoverTrigger } from "@ui/shadcn/popover";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-
-import { countries, findMatchingCountry } from "@/lib/countries";
-import { ElWithErrors, type ElWithErrorsProps } from "@/ui/input-errors";
-import { useMediaQuery } from "@/ui/shadcn/hooks/use-media-query";
 
 type ListItem = (typeof countries)[number];
 
@@ -27,8 +27,8 @@ export function CountrySelect({
 }: ElWithErrorsProps & { onChangeValue?: (value: string) => void }) {
 	const [open, setOpen] = useState(false);
 	const isDesktop = useMediaQuery("(min-width: 768px)");
-
 	const selectedCountry = findMatchingCountry(value) ?? null;
+	const t = useTranslations("cart");
 
 	return (
 		<ElWithErrors {...props}>
@@ -38,7 +38,7 @@ export function CountrySelect({
 						<Popover open={open} onOpenChange={setOpen}>
 							<PopoverTrigger asChild>
 								<Button variant="outline" className="mt-3 w-full justify-between text-base">
-									{selectedCountry ? <>{selectedCountry.label}</> : "Select country…"}
+									{selectedCountry ? <>{selectedCountry.label}</> : t("page.stripePayment.countryBtnText")}
 									<CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 								</Button>
 							</PopoverTrigger>
@@ -48,7 +48,6 @@ export function CountrySelect({
 						</Popover>
 					);
 				}
-
 				return (
 					<Drawer open={open} onOpenChange={setOpen}>
 						<DrawerTrigger asChild>
@@ -75,6 +74,8 @@ function CountryList({
 	setOpen: (open: boolean) => void;
 	setSelectedCountry: (country: ListItem | null) => void;
 }) {
+	const t = useTranslations("cart");
+
 	return (
 		<Command
 			filter={(value, search) => {
@@ -83,11 +84,11 @@ function CountryList({
 			}}
 		>
 			<CommandInput
-				placeholder="Find country…"
+				placeholder={t("page.stripePayment.countryInpPlaceholder")}
 				className="my-2 h-8 border border-neutral-200 py-0 focus:border-neutral-300 focus:outline-none focus:ring focus:ring-neutral-100"
 			/>
 			<CommandList>
-				<CommandEmpty>No results found.</CommandEmpty>
+				<CommandEmpty>{t("page.stripePayment.countryInpNoResults")}</CommandEmpty>
 				<CommandGroup>
 					{countries.map((country) => (
 						<CommandItem

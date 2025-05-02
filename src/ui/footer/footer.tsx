@@ -1,10 +1,10 @@
 import CurrencyModal from "@/components/currencyModal/currencyModal";
 import { channels } from "@/const/channels";
 import { GetNavigationDocument, type GetNavigationQuery } from "@/gql/graphql";
-import { getTranslations } from "@/i18n/server";
 import { executeGraphQL } from "@/lib/graphql";
 import { Newsletter } from "@/ui/footer/newsletter.client";
 import { YnsLink } from "@/ui/yns-link";
+import { getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
 
 function transformData(data: GetNavigationQuery) {
@@ -85,25 +85,25 @@ export async function Footer() {
 				<div>
 					<div className="min-w-[80vw] md:min-w-[30vw] flex justify-center content-center">
 						<svg viewBox="0 0 100 25" xmlns="http://www.w3.org/2000/svg">
-							<text x="0" y="20" font-size="20" font-family="Arial" fill="#6cbe45">
+							<text x="0" y="20" fontSize="20" fontFamily="Arial" fill="#6cbe45">
 								PayU
 							</text>
 						</svg>
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64">
-							<text x="0" y="45" font-size="40" font-family="Arial" fill="#000">
+							<text x="0" y="45" fontSize="40" fontFamily="Arial" fill="#000">
 								 Pay
 							</text>
 						</svg>
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64">
-							<text x="0" y="45" font-size="40" font-family="Arial" fill="#4285F4">
+							<text x="0" y="45" fontSize="40" fontFamily="Arial" fill="#4285F4">
 								G
 							</text>
-							<text x="30" y="45" font-size="40" font-family="Arial" fill="#000">
+							<text x="30" y="45" fontSize="40" fontFamily="Arial" fill="#000">
 								Pay
 							</text>
 						</svg>
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30">
-							<text x="0" y="25" font-size="24" font-family="Arial" fill="#1a1f71">
+							<text x="0" y="25" fontSize="24" fontFamily="Arial" fill="#1a1f71">
 								VISA
 							</text>
 						</svg>

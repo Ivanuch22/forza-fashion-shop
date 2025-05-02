@@ -1,7 +1,7 @@
-import { useTranslations } from "@/i18n/client";
 import { cn, formatMoney } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "@/ui/shadcn/radio-group";
 import type * as Commerce from "commerce-kit";
+import { useTranslations } from "next-intl";
 import { useOptimistic, useTransition } from "react";
 import type Stripe from "stripe";
 

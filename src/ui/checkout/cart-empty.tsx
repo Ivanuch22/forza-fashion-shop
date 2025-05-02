@@ -1,8 +1,8 @@
-import { getTranslations } from "@/i18n/server";
 import { YnsLink } from "@/ui/yns-link";
+import { getTranslations } from "next-intl/server";
 
 export async function CartEmpty() {
-	const t = await getTranslations("/cart.empty");
+	const t = await getTranslations("cart.empty");
 	return (
 		<div className="flex max-h-80 flex-1 flex-col items-center justify-center gap-4">
 			<div className="flex flex-col items-center justify-center space-y-2 text-center">

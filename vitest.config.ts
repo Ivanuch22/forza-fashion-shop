@@ -5,7 +5,12 @@ import { defineConfig } from "vitest/config";
 // @ts-ignore -- throws Excessive stack depth comparing types
 export default defineConfig({
 	// @ts-ignore -- types mismatch between versions
-	plugins: [tsConfigPaths(), react()],
+	plugins: [
+		tsConfigPaths({
+			projects: ["./tsconfig.json"], // Явно вказуємо файл конфігурації TypeScript
+		}),
+		react(),
+	],
 	test: {
 		globals: true,
 		passWithNoTests: true,

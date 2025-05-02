@@ -12,6 +12,7 @@ export async function POST(request: NextRequest) {
 	try {
 		// Парсимо JSON як unknown
 		const requestData: unknown = await request.json();
+		console.log(requestData);
 		const currency = request.cookies.get("currency")?.value || "usd";
 		// Перевіряємо, чи є amount в тілі запиту
 		if (isValidPaymentRequestBody(requestData)) {

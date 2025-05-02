@@ -6,7 +6,9 @@ import { revalidateTag } from "next/cache";
 
 export async function POST(request: Request) {
 	if (!env.STRIPE_WEBHOOK_SECRET) {
-		return new Response("STRIPE_WEBHOOK_SECRET is not configured", { status: 500 });
+		return new Response("STRIPE_WEBHOOK_SECRET is not configured", {
+			status: 500,
+		});
 	}
 
 	const signature = (await request.headers).get("Stripe-Signature");
@@ -21,7 +23,7 @@ export async function POST(request: Request) {
 	});
 
 	const [error, event] = await unpackPromise(
-		stripe.webhooks.constructEventAsync(await (await request.text)(), signature, env.STRIPE_WEBHOOK_SECRET),
+		stripe.webhooks.constructEventAsync(await request.text(), signature, env.STRIPE_WEBHOOK_SECRET),
 	);
 
 	if (error) {

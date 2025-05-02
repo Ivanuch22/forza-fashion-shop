@@ -1,8 +1,10 @@
 "use client";
-
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./style.css";
 import { updateCurrency } from "@/actions/channel-actions";
+import { useLocale } from "next-intl";
+import { usePathname, useRouter } from "next/navigation";
+
 interface ICurrencyModal {
 	channel: string | null | undefined;
 	channels: {
@@ -10,35 +12,69 @@ interface ICurrencyModal {
 		currency: string;
 	}[];
 }
+
 const CurrencyModal = ({ channel, channels }: ICurrencyModal) => {
 	const [open, setOpen] = useState(false);
+	const [isShow, setShow] = useState(false);
 	const [value, setValue] = useState({
 		channel: "default-channel",
 		currency: "USD",
 	});
-	const [isShow, setShow] = useState(false);
+
+	const router = useRouter();
+	const pathname = usePathname();
+	const locale = useLocale();
+
 	const handleSubmit = async () => {
 		await updateCurrency(value.channel, value.currency);
+
+		// Switch language based on currency
+		const newLocale = value.currency === "PLN" ? "pl" : "en";
+
+		// Only redirect if the locale is different from current
+		if (newLocale !== locale) {
+			// Extract the path without the locale prefix
+			let path = pathname;
+			if (pathname.startsWith(`/${locale}`)) {
+				path = pathname.substring(locale.length + 1);
+			}
+
+			// Redirect to the new locale path
+			router.push(`/${newLocale}${path}`);
+		}
+
 		setShow(false);
 	};
-	useEffect(() => {
-		if (channel !== "undefined") {
-			const findChanel = channels.find((element) => element.channel === channel) || {
-				channel: "default-channel",
-				currency: "USD",
-			};
-			setValue(findChanel);
-		}
-		if (channel == "undefined" || !channel) {
-			setShow(true);
-		}
-	}, [channel]);
+
+	// useEffect(() => {
+	// 	if (channel !== "undefined") {
+	// 		const findChannel = channels.find((element) => element.channel === channel) || {
+	// 			channel: "default-channel",
+	// 			currency: "USD",
+	// 		};
+	// 		setValue(findChannel);
+	// 	}
+
+	// 	if (channel == "undefined" || !channel) {
+	// 		setShow(true);
+	// 	}
+
+	// 	// First load handling
+	// 	if (locale === "pl" && value.currency !== "PLN") {
+	// 		// If URL has "pl" locale but currency is not PLN, update to PLN
+	// 		const plnChannel = channels.find(ch => ch.currency === "PLN");
+	// 		if (plnChannel) {
+	// 			setValue(plnChannel);
+	// 			updateCurrency(plnChannel.channel, "PLN");
+	// 		}
+	// 	}
+	// }, [channel, locale]);
 
 	return (
 		<>
 			<div
 				onClick={() => setShow(true)}
-				className="flex text-center items-center hover: zIndex-3 text-[18px] hover:cursor-pointer  "
+				className="flex text-center items-center hover: zIndex-3 text-[18px] hover:cursor-pointer"
 			>
 				{channels.map((chanel, index, array) => (
 					<div key={`${index}-${chanel.channel}`}>
@@ -131,4 +167,5 @@ const CurrencyModal = ({ channel, channels }: ICurrencyModal) => {
 		</>
 	);
 };
+
 export default CurrencyModal;

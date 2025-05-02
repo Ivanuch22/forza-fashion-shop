@@ -1,8 +1,7 @@
 import type { ProductListItemFragment } from "@/gql/graphql";
-import { getLocale } from "@/i18n/server";
 import { formatMoney, getStripeAmountFromDecimal } from "@/lib/utils";
-// import { JsonLd, mappedProductsToJsonLd } from "@/ui/json-ld";
 import { YnsLink } from "@/ui/yns-link";
+import { getLocale } from "next-intl/server";
 import Image from "next/image";
 
 export const ProductList = async ({ products }: { products: ProductListItemFragment[] }) => {
@@ -58,20 +57,6 @@ export const ProductList = async ({ products }: { products: ProductListItemFragm
 														})}
 													</p>
 												)}
-											{/* {product?.pricing?.priceRangeUndiscounted?.start?.gross?.amount && (
-
-
-												<p className="text-xs line-through ">
-													{formatMoney({
-														amount: getStripeAmountFromDecimal({
-															amount: product?.pricing?.priceRangeUndiscounted?.start?.gross?.amount,
-															currency: product?.pricing?.priceRangeUndiscounted?.start?.gross?.currency,
-														}),
-														currency: product?.pricing?.priceRangeUndiscounted?.start?.gross?.currency,
-														locale,
-													})}
-												</p>
-											)} */}
 										</footer>
 									</div>
 								</article>

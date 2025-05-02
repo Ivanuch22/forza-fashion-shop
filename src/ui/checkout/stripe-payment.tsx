@@ -1,6 +1,5 @@
 "use client";
 import { clearCartCookieAction } from "@/actions/cart-actions";
-import { useTranslations } from "@/i18n/client";
 import { formatMoney } from "@/lib/graphql";
 import { useDebouncedValue } from "@/lib/hooks";
 import { saveShippingRateAction } from "@/ui/checkout/checkout-actions";
@@ -24,6 +23,7 @@ import {
 } from "@stripe/react-stripe-js";
 import type * as Commerce from "commerce-kit";
 import { AlertCircle, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type ChangeEvent, type FormEventHandler, useState, useTransition } from "react";
 
@@ -64,8 +64,8 @@ const PaymentForm = ({
 	allProductsDigital: boolean;
 	locale: string;
 }) => {
-	const t = useTranslations("/cart.page.stripePayment");
-	const ft = useTranslations("/cart.page.formErrors");
+	const t = useTranslations("cart.page.stripePayment");
+	const ft = useTranslations("cart.page.formErrors");
 
 	const addressSchema = getAddressSchema({
 		cityRequired: ft("cityRequired"),
@@ -471,7 +471,7 @@ const BillingAddressSection = ({
 	onChange: (values: AddressSchema) => void;
 	errors: Record<string, string[] | null | undefined>;
 }) => {
-	const t = useTranslations("/cart.page.stripePayment");
+	const t = useTranslations("cart.page.stripePayment");
 	const onFieldChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
 		const { name, value } = e.currentTarget;
 		onChange({ ...values, [name]: value });

@@ -1,8 +1,8 @@
-import { getLocale } from "@/i18n/server";
 import google_pay from "@/images/payments/google_pay.svg";
 import mastercard from "@/images/payments/mastercard.svg";
 import visa from "@/images/payments/visa.svg";
 import { StripePayment } from "@/ui/checkout/stripe-payment";
+import { getLocale } from "next-intl/server";
 import { cookies } from "next/headers";
 // import amex from "@/images/payments/amex.svg";
 // import blik from "@/images/payments/blik.svg";
