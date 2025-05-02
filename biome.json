@@ -69,7 +69,8 @@
 			"**/*.mjs",
 			"src/script/**/*.ts",
 			"src/actions/create-auth.ts",
-			"src/ui/checkout/payu-payments.tsx"
+			"src/ui/checkout/payu-payments.tsx",
+			"src/app/[locale]/(store)/product/[slug]/page.tsx"
 		]
 	},
 	"javascript": {

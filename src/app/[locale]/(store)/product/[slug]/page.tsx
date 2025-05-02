@@ -118,7 +118,7 @@ export default async function SingleProductPage(props: {
 	const selectedVariant = variants?.find(({ id }) => id === selectedVariantID) || variants[0];
 	const isAvailable = variants?.some((variant) => Boolean(variant.quantityAvailable)) ?? false;
 	const parseDescription = product?.description && JSON.parse(product?.description);
-	const description = product?.description ? parser.parse(parseDescription) : "";
+	const description = parseDescription ? parser.parse(parseDescription as any) : "";
 	const OPTIONS: EmblaOptionsType = {};
 	return (
 		<>
