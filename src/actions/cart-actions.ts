@@ -1,6 +1,6 @@
 "use server";
 
-import { CheckoutAddLineDocument } from "@/gql/graphql";
+import { CheckoutAddLineDocument, CheckoutAddPromoCodeDocument } from "@/gql/graphql";
 import { CART_COOKIE, clearCartCookie, getCartCookieJson, setCartCookieJson } from "@/lib/cart";
 import * as Checkout from "@/lib/checkout";
 import { executeGraphQL } from "@/lib/graphql";
@@ -24,22 +24,6 @@ export async function getCartFromCookiesAction() {
 		return cart;
 	}
 	return null;
-}
-
-export async function findOrCreateCartIdFromCookiesAction() {
-	const cart = await getCartFromCookiesAction();
-	if (cart) {
-		return cart;
-	}
-
-	const newCart = await Commerce.cartCreate();
-	setCartCookieJson({
-		id: newCart.id,
-		linesCount: 0,
-	});
-	revalidateTag(`cart-${newCart.id}`);
-
-	return newCart.id;
 }
 
 export async function clearCartCookieAction() {
@@ -96,30 +80,6 @@ export async function addToCartAction(formData: FormData) {
 	}
 }
 
-export async function increaseQuantity(productId: string) {
-	const cart = await getCartFromCookiesAction();
-	if (!cart) {
-		throw new Error("Cart not found");
-	}
-	await Commerce.cartChangeQuantity({
-		productId,
-		cartId: cart.id,
-		operation: "INCREASE",
-	});
-}
-
-export async function decreaseQuantity(productId: string) {
-	const cart = await getCartFromCookiesAction();
-	if (!cart) {
-		throw new Error("Cart not found");
-	}
-	await Commerce.cartChangeQuantity({
-		productId,
-		cartId: cart.id,
-		operation: "DECREASE",
-	});
-}
-
 export async function setQuantity({
 	productId,
 	cartId,
@@ -134,4 +94,16 @@ export async function setQuantity({
 		throw new Error("Cart not found");
 	}
 	await Commerce.cartSetQuantity({ productId, cartId, quantity });
+}
+export async function addPromoCode(promoCode: string, cartId: string) {
+	const { checkoutAddPromoCode } = await executeGraphQL(CheckoutAddPromoCodeDocument, {
+		variables: {
+			promoCode: promoCode,
+			checkoutId: cartId,
+		},
+	});
+	if (checkoutAddPromoCode) {
+		return checkoutAddPromoCode;
+	}
+	return null;
 }

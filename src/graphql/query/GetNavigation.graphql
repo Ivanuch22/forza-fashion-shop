@@ -1,41 +1,67 @@
+fragment MenuItemTranslation on MenuItemTranslation {
+	name
+}
+
+fragment MenuItemBasic on MenuItem {
+	id
+	name
+	url
+	category {
+		slug
+	}
+	collection {
+		slug
+	}
+	page {
+		slug
+	}
+}
+
+fragment MenuItemWithTranslation on MenuItem {
+	...MenuItemBasic
+	translation(languageCode: $languageCode) {
+		...MenuItemTranslation
+	}
+}
+
+fragment MenuItemNested on MenuItem {
+	...MenuItemBasic
+	children {
+		...MenuItemBasic
+		children {
+			...MenuItemBasic
+		}
+	}
+}
+
 query GetNavigation($channel: String = "default-channel", $slug: String!) {
 	menu(slug: $slug, channel: $channel) {
 		items {
-			id
-			name
-			url
-			category {
-				slug
-			}
-			collection {
-				slug
-			}
-			page {
-				slug
+			...MenuItemNested
+		}
+	}
+}
+
+query GetNavigationLocalized(
+	$channel: String = "default-channel"
+	$slug: String!
+	$languageCode: LanguageCodeEnum!
+) {
+	menu(slug: $slug, channel: $channel) {
+		items {
+			...MenuItemBasic
+			translation(languageCode: $languageCode) {
+				...MenuItemTranslation
 			}
 			children {
-				id
-				name
-				category {
-					slug
-				}
-				collection {
-					slug
-				}
-				page {
-					slug
+				...MenuItemBasic
+				translation(languageCode: $languageCode) {
+					...MenuItemTranslation
 				}
 				children {
-					id
-					name
-					category {
-						slug
-					}
-					collection {
-						slug
-					}
-					page {
-						slug
+					...MenuItemBasic
+					translation(languageCode: $languageCode) {
+						...MenuItemTranslation
 					}
 				}
 			}

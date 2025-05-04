@@ -3,7 +3,7 @@ import { addToCartAction } from "@/actions/cart-actions";
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/shadcn/button";
 import { Loader2Icon } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
@@ -15,6 +15,7 @@ export const AddToCartButton = ({
 	disabled?: boolean;
 }) => {
 	const t = useTranslations("Global.addToCart");
+	const locale = useLocale();
 	const router = useRouter();
 	const [pending, startTransition] = useTransition();
 	const [loading, setLoading] = useState(false);
@@ -36,7 +37,9 @@ export const AddToCartButton = ({
 				formData.append("productId", productId);
 				await addToCartAction(formData);
 				setLoading(false);
-				startTransition(() => router.push(`/cart-overlay?add=${productId}`));
+				startTransition(() =>
+					router.push(`${locale === "en" ? "" : `/${locale}`}/cart-overlay?add=${productId}`),
+				);
 			}}
 			aria-disabled={isDisabled}
 		>

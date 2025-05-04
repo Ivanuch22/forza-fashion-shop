@@ -235,7 +235,7 @@ const PaymentForm = ({
 					payment_method_data: {
 						billing_details: {
 							name: validatedBillingAddress.data.name,
-							phone: validatedBillingAddress.data.phone ?? undefined,
+							phone: validatedBillingAddress.data.phone ?? "",
 							address: {
 								city: validatedBillingAddress.data.city,
 								country: validatedBillingAddress.data.country,
@@ -248,7 +248,7 @@ const PaymentForm = ({
 					},
 					shipping: {
 						name: validatedShippingAddress.data.name,
-						phone: validatedShippingAddress.data.phone ?? undefined,
+						phone: validatedShippingAddress.data.phone ?? "",
 						address: {
 							city: validatedShippingAddress.data.city,
 							country: validatedShippingAddress.data.country,
@@ -483,7 +483,7 @@ const BillingAddressSection = ({
 				// required
 				label={t("fullName")}
 				name="name"
-				defaultValue={values.name ?? undefined}
+				defaultValue={values.name ?? ""}
 				autoComplete="shipping name"
 				className="mt-3 w-full"
 				errors={errors}
@@ -493,7 +493,7 @@ const BillingAddressSection = ({
 				// required
 				label={t("address1")}
 				name="line1"
-				defaultValue={values.line1 ?? undefined}
+				defaultValue={values.line1 ?? ""}
 				autoComplete="shipping address-line1"
 				className="mt-3 w-full"
 				errors={errors}
@@ -502,7 +502,7 @@ const BillingAddressSection = ({
 			<InputWithErrors
 				label={t("address2")}
 				name="line2"
-				defaultValue={values.line2 ?? undefined}
+				defaultValue={values.line2 ?? ""}
 				autoComplete="shipping address-line2"
 				className="mt-3 w-full"
 				errors={errors}
@@ -513,7 +513,7 @@ const BillingAddressSection = ({
 					// required
 					label={t("postalCode")}
 					name="postalCode"
-					defaultValue={values.postalCode ?? undefined}
+					defaultValue={values.postalCode ?? ""}
 					autoComplete="shipping postal-code"
 					className="mt-3 w-full"
 					errors={errors}
@@ -523,7 +523,7 @@ const BillingAddressSection = ({
 					// required
 					label={t("city")}
 					name="city"
-					defaultValue={values.city ?? undefined}
+					defaultValue={values.city ?? ""}
 					autoComplete="shipping home city"
 					className="mt-3 w-full"
 					errors={errors}
@@ -534,7 +534,7 @@ const BillingAddressSection = ({
 				<InputWithErrors
 					label={t("state")}
 					name="state"
-					defaultValue={values.state ?? undefined}
+					defaultValue={values.state ?? ""}
 					autoComplete="shipping address-level1"
 					className="mt-3 w-full"
 					errors={errors}
@@ -553,7 +553,7 @@ const BillingAddressSection = ({
 				// required
 				label={t("phone")}
 				name="phone"
-				defaultValue={values.phone ?? undefined}
+				defaultValue={values.phone ?? ""}
 				autoComplete="shipping tel"
 				type="tel"
 				className="mt-3 w-full"
@@ -564,7 +564,7 @@ const BillingAddressSection = ({
 				// required
 				label={t("taxId")}
 				name="taxId"
-				defaultValue={values.taxId ?? undefined}
+				defaultValue={values.taxId ?? ""}
 				autoComplete=""
 				placeholder={t("taxIdPlaceholder")}
 				type="text"

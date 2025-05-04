@@ -1,5 +1,4 @@
 import ProductVarians from "@/app/[locale]/(store)/product/[slug]/product-varians";
-import SimilarProducts from "@/components/SimilarProducts/SimilarProducts";
 import {
 	type Product,
 	ProductDetailsDocument,
@@ -27,7 +26,8 @@ import { getTranslations } from "next-intl/server";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
+// import { Suspense } from "react";
+// import SimilarProducts from "@/components/SimilarProducts/SimilarProducts";
 const EmblaCarousel = dynamic(
 	() => import("@/app/[locale]/(store)/product/carousel/components/image-embela-carousel"),
 	{
@@ -110,7 +110,7 @@ export default async function SingleProductPage(props: {
 	}
 
 	const t = await getTranslations("/product.page");
-	const tg = await getTranslations("/Global");
+	const tg = await getTranslations("Global");
 	const locale = params.locale || "en";
 	const category = product.category;
 	const variants = product.variants || [];
@@ -227,9 +227,9 @@ export default async function SingleProductPage(props: {
 					</div>
 				</div>
 			</StickyBottom>
-			<Suspense>
+			{/* <Suspense>
 				<SimilarProducts id={product.id} />
-			</Suspense>
+			</Suspense> */}
 			<Guarantee />
 			<WhyChooseUs />
 

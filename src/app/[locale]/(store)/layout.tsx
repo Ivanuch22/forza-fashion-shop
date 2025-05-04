@@ -36,9 +36,11 @@ export const generateMetadata = async (): Promise<Metadata> => {
 export default async function StoreLayout({
 	children,
 	modal,
+	params,
 }: Readonly<{
 	children: React.ReactNode;
 	modal: React.ReactNode;
+	params: Promise<{ locale: string }>;
 }>) {
 	const messages = await getMessages();
 
@@ -49,13 +51,13 @@ export default async function StoreLayout({
 					<NextIntlClientProvider messages={messages}>
 						<div className="flex min-h-full flex-1 flex-col bg-white" vaul-drawer-wrapper="">
 							<CheckoutStoreProvider>
-								<Nav />
+								<Nav params={params} />
 								<TooltipProvider>
 									<main className="mx-auto flex w-full flex-1 flex-col overflow-x-hidden">
 										{children}
 										{modal}
 									</main>
-									<Footer />
+									<Footer params={params} />
 								</TooltipProvider>
 							</CheckoutStoreProvider>
 						</div>

@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import "./style.css";
 import { updateCurrency } from "@/actions/channel-actions";
 import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
-
 interface ICurrencyModal {
 	channel: string | null | undefined;
 	channels: {
@@ -24,51 +24,20 @@ const CurrencyModal = ({ channel, channels }: ICurrencyModal) => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const locale = useLocale();
+	const t = useTranslations("Global.currencyModal");
 
 	const handleSubmit = async () => {
 		await updateCurrency(value.channel, value.currency);
-
-		// Switch language based on currency
 		const newLocale = value.currency === "PLN" ? "pl" : "en";
-
-		// Only redirect if the locale is different from current
 		if (newLocale !== locale) {
-			// Extract the path without the locale prefix
 			let path = pathname;
 			if (pathname.startsWith(`/${locale}`)) {
 				path = pathname.substring(locale.length + 1);
 			}
-
-			// Redirect to the new locale path
 			router.push(`/${newLocale}${path}`);
 		}
-
 		setShow(false);
 	};
-
-	// useEffect(() => {
-	// 	if (channel !== "undefined") {
-	// 		const findChannel = channels.find((element) => element.channel === channel) || {
-	// 			channel: "default-channel",
-	// 			currency: "USD",
-	// 		};
-	// 		setValue(findChannel);
-	// 	}
-
-	// 	if (channel == "undefined" || !channel) {
-	// 		setShow(true);
-	// 	}
-
-	// 	// First load handling
-	// 	if (locale === "pl" && value.currency !== "PLN") {
-	// 		// If URL has "pl" locale but currency is not PLN, update to PLN
-	// 		const plnChannel = channels.find(ch => ch.currency === "PLN");
-	// 		if (plnChannel) {
-	// 			setValue(plnChannel);
-	// 			updateCurrency(plnChannel.channel, "PLN");
-	// 		}
-	// 	}
-	// }, [channel, locale]);
 
 	return (
 		<>
@@ -100,8 +69,8 @@ const CurrencyModal = ({ channel, channels }: ICurrencyModal) => {
 								</svg>
 							</button>
 							<div className="sc-bdOgaJ dsCfhL">
-								<h2 className="sc-empnci fwHrss">Currency Language Preferences</h2>
-								<label className="sc-fThUAz cwyZjf">View currency in</label>
+								<h2 className="sc-empnci fwHrss">{t("title")}</h2>
+								<label className="sc-fThUAz cwyZjf">{t("description")}</label>
 								<div className="sc-czkgLR drllRK">
 									<div className=" css-58o6oo-container">
 										<span
@@ -157,7 +126,7 @@ const CurrencyModal = ({ channel, channels }: ICurrencyModal) => {
 									</div>
 								</div>
 								<button className="sc-iGgWBj hbmJCW" onClick={handleSubmit}>
-									<span className="sc-kAyceB eDIMmw">Submit</span>
+									<span className="sc-kAyceB eDIMmw">{t("button")}</span>
 								</button>
 							</div>
 						</div>

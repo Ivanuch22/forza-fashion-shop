@@ -76,6 +76,11 @@
 					"description": "Stoimy za naszymi produktami i naszą obietnicą zapewnienia Twojej satysfakcji. Każde zamówienie objęte jest 30-dniową gwarancją satysfakcji"
 				}
 			]
+		},
+		"currencyModal": {
+			"title": "Preferencje języka i waluty",
+			"description": "Wyświetl walutę w",
+			"button": "ZATWIERDŹ"
 		}
 	},
 	"/": {
@@ -119,6 +124,10 @@
 			"imagesTitle": "Zdjęcia",
 			"descriptionTitle": "Opis",
 			"variantTitle": "Wariant"
+		},
+		"guaranteeBlock": {
+			"title": "30-DNIOWA GWARANCJA ZWROTU",
+			"description": "Niezależnie od tego, czy pokochasz nasze produkty, czy nie - nie stresuj się. Oferujemy prostą 30-dniową politykę zwrotu. Jeśli nasze produkty nie pasują do Twojego stylu, po prostu je odeślij. Prosto, bez komplikacji i na Twoich warunkach. Twoja satysfakcja jest naszym priorytetem."
 		}
 	},
 	"/category": {
@@ -140,7 +149,7 @@
 			"quantity": "Ilość: {quantity}",
 			"total": "Suma",
 			"shippingAndTaxesInfo": "Koszty wysyłki i podatki zostaną dodane w następnym kroku",
-			"goToPaymentButton": "Do kasy •"
+			"goToPaymentButton": "Do kasy • {sum}"
 		},
 		"metadata": {
 			"title": "Koszyk · Forza Fashion"

@@ -1,11 +1,9 @@
 "use client";
-
-import { useDebouncedValue } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 import { Input } from "@/ui/shadcn/input";
+import { useLocale } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-
+import { useCallback, useState } from "react";
 const inputClasses = cn(
 	"appearance-none rounded-md absolute border bg-white py-2 pl-4 pr-10 w-9 opacity-0 transition-opacity ease-linear",
 	"max-smb:focus:w-[calc(100vw-2rem)] max-smb:cursor-default max-smb:focus:left-4 max-smb:focus:z-20 max-smb:focus:opacity-100",
@@ -27,43 +25,36 @@ export const SearchInputPlaceholder = ({ placeholder }: { placeholder: string })
 };
 
 export const SearchInput = ({ placeholder }: { placeholder: string }) => {
+	const locale = useLocale();
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
 	const router = useRouter();
-
 	const searchParamQuery = searchParams.get("q") ?? "";
-
 	const [query, setQuery] = useState(searchParamQuery);
-	const [_isQueryPending, debouncedQuery] = useDebouncedValue(query, 100);
 
-	useEffect(() => {
-		router.prefetch(`/search?q=${encodeURIComponent(query)}`);
-	}, [query, router]);
+	const onSearch = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			const newQuery = e.target.value;
+			setQuery(newQuery);
+			const url = `${locale === "en" ? "" : `/${locale}`}/search?q=${encodeURIComponent(newQuery)}`;
+			router.prefetch(url);
 
-	useEffect(() => {
-		if (debouncedQuery) {
-			router.push(`/search?q=${encodeURIComponent(debouncedQuery)}`, { scroll: false });
-		}
-	}, [debouncedQuery, router]);
+			const timeoutId = setTimeout(() => {
+				if (newQuery) {
+					router.push(url, { scroll: false });
+				} else if (pathname === `/${locale}/search`) {
+					router.push(`${locale === "en" ? "" : `/${locale}`}`, { scroll: true });
+				}
+			}, 200);
 
-	useEffect(() => {
-		if (pathname === "/search" && !query) {
-			router.push(`/`, { scroll: true });
-		}
-	}, [pathname, query, router]);
-
-	useEffect(() => {
-		if (pathname !== "/search") {
-			setQuery("");
-		}
-	}, [pathname]);
+			return () => clearTimeout(timeoutId);
+		},
+		[locale, pathname, router],
+	);
 
 	return (
 		<Input
-			onChange={(e) => {
-				const query = e.target.value;
-				setQuery(query);
-			}}
+			onChange={onSearch}
 			className={inputClasses}
 			placeholder={placeholder}
 			type="search"

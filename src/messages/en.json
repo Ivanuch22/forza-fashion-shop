@@ -76,6 +76,11 @@
 					"description": "We stand by our products and our promise to ensure your satisfaction. Every order comes with a 30 day satisfaction guarantee"
 				}
 			]
+		},
+		"currencyModal": {
+			"title": "Currency Language Preferences",
+			"description": "View currency in",
+			"button": "SUBMIT"
 		}
 	},
 	"/": {
@@ -119,6 +124,10 @@
 			"imagesTitle": "Images",
 			"descriptionTitle": "Description",
 			"variantTitle": "Variant"
+		},
+		"guaranteeBlock": {
+			"title": "30-DAY COOL OFF GUARANTEE",
+			"description": "Love it or not, no stress. We've got you covered with a straightforward 30-day return policy. If our gear doesn't mesh with your style, send it back. Simple, hassle-free, and on your terms. Your satisfaction is our priority."
 		}
 	},
 	"/category": {
@@ -140,7 +149,7 @@
 			"quantity": "Quantity: {quantity}",
 			"total": "Total",
 			"shippingAndTaxesInfo": "Shipping and taxes will be added at the next step",
-			"goToPaymentButton": "Checkout •"
+			"goToPaymentButton": "Checkout • {sum}"
 		},
 		"metadata": {
 			"title": "Shopping Cart · Forza Fashion"

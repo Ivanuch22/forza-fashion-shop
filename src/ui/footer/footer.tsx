@@ -1,7 +1,12 @@
 import CurrencyModal from "@/components/currencyModal/currencyModal";
 import { channels } from "@/const/channels";
-import { GetNavigationDocument, type GetNavigationQuery } from "@/gql/graphql";
+import {
+	GetNavigationDocument,
+	GetNavigationLocalizedDocument,
+	type GetNavigationQuery,
+} from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
+import { mapLocaleToLanguageCode } from "@/lib/mapLocaleToLanguageCode";
 import { Newsletter } from "@/ui/footer/newsletter.client";
 import { YnsLink } from "@/ui/yns-link";
 import { getTranslations } from "next-intl/server";
@@ -35,17 +40,84 @@ function transformData(data: GetNavigationQuery) {
 	}
 }
 
-export async function Footer() {
+// Define types based on fragments
+interface MenuItemTranslation {
+	name?: string | null;
+}
+
+interface CategorySlug {
+	slug: string;
+}
+
+interface CollectionSlug {
+	slug: string;
+}
+
+interface PageSlug {
+	slug: string;
+}
+
+interface MenuItem {
+	id: string;
+	name: string;
+	url?: string | null;
+	category?: CategorySlug | null;
+	collection?: CollectionSlug | null;
+	page?: PageSlug | null;
+	translation?: MenuItemTranslation | null;
+	children?: MenuItem[] | null;
+}
+
+interface ProcessedMenuItem {
+	id: string;
+	name: string;
+	url?: string | null;
+	category?: CategorySlug | null;
+	collection?: CollectionSlug | null;
+	page?: PageSlug | null;
+	children: ProcessedMenuItem[];
+}
+function processItems(items: MenuItem[] = []): ProcessedMenuItem[] {
+	return items.map((item) => ({
+		...item,
+		// Use translated name if available, otherwise fall back to original
+		name: item.translation?.name || item.name,
+		// Recursively process children
+		children: item.children ? processItems(item.children) : [],
+	}));
+}
+
+export async function Footer({ params }: { params: Promise<{ locale: string }> }) {
+	const { locale } = await params;
 	const t = await getTranslations("Global.footer");
 	const cookie = await cookies();
 	const channel = cookie.get("channel")?.value;
+	const languageCode = mapLocaleToLanguageCode(locale);
 
-	const navLinks = await executeGraphQL(GetNavigationDocument, {
-		variables: { slug: "footer", channel },
-		revalidate: 60 * 60 * 24,
-	});
+	let navLinks;
+	if (languageCode) {
+		navLinks = await executeGraphQL(GetNavigationLocalizedDocument, {
+			variables: {
+				slug: "footer",
+				channel,
+				languageCode,
+			},
+			revalidate: 60 * 60 * 24,
+		});
+	} else {
+		navLinks = await executeGraphQL(GetNavigationDocument, {
+			variables: {
+				slug: "footer",
+				channel,
+				languageCode,
+			},
+			revalidate: 60 * 60 * 24,
+		});
+	}
+
 	if (!navLinks?.menu?.items) return;
-	const data = transformData(navLinks);
+	const processedItems = processItems(navLinks?.menu?.items as MenuItem[]);
+	const data = transformData({ menu: { items: processedItems } });
 
 	return (
 		<footer className="w-full bg-neutral-50 p-6 text-neutral-800 md:py-12">

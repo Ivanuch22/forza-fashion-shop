@@ -4,7 +4,6 @@ import { ProductList } from "@/ui/products/product-list";
 import { ProductNotFound } from "@/ui/products/product-not-found";
 import { getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
-import { RedirectType, redirect } from "next/navigation";
 import type { Metadata } from "next/types";
 
 export const generateMetadata = async (props: {
@@ -20,18 +19,11 @@ export const generateMetadata = async (props: {
 
 export default async function SearchPage(props: { searchParams: Promise<{ q?: string }> }) {
 	const searchParams = await props.searchParams;
-	const query = searchParams.q;
-
-	if (!query) {
-		return redirect("/", RedirectType.replace);
-	}
-
+	const query = searchParams.q || "";
 	const t = await getTranslations("/search.page");
 	const cookie = await cookies();
 	const channel = cookie.get("channel")?.value || "default-channel";
 	const products = await Search.searchProducts(query, channel);
-	console.log(products, "searchedProduct");
-
 	return (
 		<main>
 			<h1 className="text-3xl my-8 font-bold text-center leading-none tracking-tight text-foreground">

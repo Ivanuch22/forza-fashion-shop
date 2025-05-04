@@ -93,6 +93,7 @@ export const CheckoutSummary = ({ cart }: { cart: CheckoutFindQuery["checkout"] 
 	const [loading, setLoading] = useState(false);
 	const [errors, setErrors] = useState<IErrorType[]>([]);
 	const { changeCheckout } = useCheckoutStore((store) => store);
+
 	const t = useTranslations("cart");
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -103,6 +104,7 @@ export const CheckoutSummary = ({ cart }: { cart: CheckoutFindQuery["checkout"] 
 				checkoutId: cart?.id,
 			},
 		});
+		console.log(checkoutAddPromoCode);
 		setPromocode("");
 		setLoading(false);
 		if ((checkoutAddPromoCode?.errors?.length || 0) > 0) {

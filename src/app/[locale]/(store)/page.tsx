@@ -39,7 +39,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 	]);
 	if (!getProducts.products) throw Error("No products found");
 	setRequestLocale(locale);
-
 	const products = getProducts.products.edges.map(({ node: product }) => product);
 	return (
 		<main>

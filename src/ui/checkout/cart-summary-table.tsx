@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client";
 import type { CheckoutFindQuery, CheckoutLine } from "@/gql/graphql";
 import { formatMoney } from "@/lib/graphql";
@@ -50,7 +49,7 @@ export const ProductCard = ({ line }: { line: CheckoutLine }) => {
 };
 
 export const CartSummaryTable = ({ cart }: { cart: CheckoutFindQuery["checkout"]; locale: string }) => {
-	const [optimisticCart, dispatchOptimisticCartAction] = useOptimistic(
+	const [optimisticCart] = useOptimistic(
 		cart,
 		(prevCart, action: { productId: string; action: "INCREASE" | "DECREASE" }) => {
 			if (prevCart) {
@@ -73,9 +72,9 @@ export const CartSummaryTable = ({ cart }: { cart: CheckoutFindQuery["checkout"]
 	return (
 		<div>
 			{optimisticCart?.lines.map((line, idx) => (
-				<ProductCard line={line} key={line.id + idx} />
+				<ProductCard line={line as CheckoutLine} key={line.id + idx} />
 			))}
-			<CheckoutSummary cart={cart} />
+			<CheckoutSummary cart={optimisticCart} />
 		</div>
 	);
 };
