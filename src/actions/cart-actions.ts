@@ -1,7 +1,7 @@
 "use server";
 
 import { CheckoutAddLineDocument, CheckoutAddPromoCodeDocument } from "@/gql/graphql";
-import { CART_COOKIE, clearCartCookie, getCartCookieJson, setCartCookieJson } from "@/lib/cart";
+import { CART_COOKIE, clearCartCookie, getCartCookieJson } from "@/lib/cart";
 import * as Checkout from "@/lib/checkout";
 import { executeGraphQL } from "@/lib/graphql";
 import * as Commerce from "commerce-kit";
