@@ -1,4 +1,7 @@
 import ProductVarians from "@/app/[locale]/(store)/product/[slug]/product-varians";
+import EmblaCarousel from "@/app/[locale]/(store)/product/carousel/components/image-embela-carousel";
+import Guarantee from "@/components/guarantee/guarantee";
+import WhyChooseUs from "@/components/why-choose-us";
 import {
 	type Product,
 	ProductDetailsDocument,
@@ -7,6 +10,7 @@ import {
 	type VariantDetailsFragment,
 } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
+import { mapLocaleToLanguageCode } from "@/lib/mapLocaleToLanguageCode";
 import { deslugify, formatMoney, getStripeAmountFromDecimal } from "@/lib/utils";
 import { AddToCartButton } from "@/ui/add-to-cart-button";
 import { JsonLd, mappedProductToJsonLd } from "@/ui/json-ld";
@@ -23,37 +27,23 @@ import { YnsLink } from "@/ui/yns-link";
 import edjsHTML from "editorjs-html";
 import type { EmblaOptionsType } from "embla-carousel";
 import { getTranslations } from "next-intl/server";
-import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-// import { Suspense } from "react";
-// import SimilarProducts from "@/components/SimilarProducts/SimilarProducts";
-const EmblaCarousel = dynamic(
-	() => import("@/app/[locale]/(store)/product/carousel/components/image-embela-carousel"),
-	{
-		loading: () => <p>Loading...</p>,
-	},
-);
-
-const WhyChooseUs = dynamic(() => import("@/components/why-choose-us"), {
-	loading: () => <p>Loading...</p>,
-});
-
-const Guarantee = dynamic(() => import("@/components/guarantee/guarantee"), {
-	loading: () => <p>Loading...</p>,
-});
 
 const parser = edjsHTML();
 
 export async function generateMetadata(props: {
-	params: Promise<{ slug: string }>;
+	params: Promise<{ slug: string; locale: string }>;
 	searchParams: Promise<{ variant?: string }>;
 }) {
 	const searchParams = await props.searchParams;
 	const params = await props.params;
+	const locale = params.locale || "en";
+	const languageCode = mapLocaleToLanguageCode(locale);
 	const { product } = await executeGraphQL(ProductDetailsDocument, {
 		variables: {
 			slug: decodeURIComponent(params?.slug),
+			languageCode,
 		},
 		revalidate: 60,
 	});
@@ -62,15 +52,14 @@ export async function generateMetadata(props: {
 		notFound();
 	}
 	const t = await getTranslations("/product.metadata");
-
-	const productName = product.seoTitle || product.name;
+	const productName = product.translation?.name || product.name;
 	const variantName = product.variants?.find(({ id }) => id === searchParams.variant)?.name;
 
 	const title = variantName ? `${productName} - ${variantName}` : productName;
 
 	return {
 		title: t("title", { productName }),
-		description: product.seoDescription || title,
+		description: product.translation?.seoDescription || product.seoDescription || title,
 		alternates: {
 			canonical: process.env.NEXT_PUBLIC_STOREFRONT_URL
 				? process.env.NEXT_PUBLIC_STOREFRONT_URL + `/product/${encodeURIComponent(params.slug)}`
@@ -97,11 +86,16 @@ export default async function SingleProductPage(props: {
 	const params = await props.params;
 	const cookie = await cookies();
 	const channel = cookie.get("channel")?.value || "default-channel";
+	const t = await getTranslations("/product.page");
+	const tg = await getTranslations("Global");
+	const locale = params.locale || "en";
+	const languageCode = mapLocaleToLanguageCode(locale);
 
 	const { product } = await executeGraphQL(ProductDetailsDocument, {
 		variables: {
 			channel,
 			slug: decodeURIComponent(params?.slug),
+			languageCode,
 		},
 		revalidate: 60,
 	});
@@ -109,17 +103,18 @@ export default async function SingleProductPage(props: {
 		notFound();
 	}
 
-	const t = await getTranslations("/product.page");
-	const tg = await getTranslations("Global");
-	const locale = params.locale || "en";
 	const category = product.category;
 	const variants = product.variants || [];
 	const selectedVariantID = searchParams.variant;
 	const selectedVariant = variants?.find(({ id }) => id === selectedVariantID) || variants[0];
 	const isAvailable = variants?.some((variant) => Boolean(variant.quantityAvailable)) ?? false;
-	const parseDescription = product?.description && JSON.parse(product?.description);
+	const rawDescription = product.translation?.description || product?.description;
+	const parseDescription = rawDescription && JSON.parse(rawDescription);
 	const description = parseDescription ? parser.parse(parseDescription as any) : "";
+	const productName = product.translation?.name || product.name;
+	const categoryName = category?.translation?.name || category?.name;
 	const OPTIONS: EmblaOptionsType = {};
+
 	return (
 		<>
 			<Breadcrumb className=" px-4 sm:px-6 lg:px-8">
@@ -134,16 +129,14 @@ export default async function SingleProductPage(props: {
 							<BreadcrumbSeparator />
 							<BreadcrumbItem>
 								<BreadcrumbLink className="inline-flex min-h-12 min-w-12 items-center justify-center" asChild>
-									<YnsLink href={`/category/${category.name.toLocaleLowerCase()}`}>
-										{deslugify(category?.name)}
-									</YnsLink>
+									<YnsLink href={`/category/${category.name.toLocaleLowerCase()}`}>{categoryName}</YnsLink>
 								</BreadcrumbLink>
 							</BreadcrumbItem>
 						</>
 					)}
 					<BreadcrumbSeparator />
 					<BreadcrumbItem>
-						<BreadcrumbPage>{product.name}</BreadcrumbPage>
+						<BreadcrumbPage>{productName}</BreadcrumbPage>
 					</BreadcrumbItem>
 					{selectedVariant && (
 						<>
@@ -227,9 +220,6 @@ export default async function SingleProductPage(props: {
 					</div>
 				</div>
 			</StickyBottom>
-			{/* <Suspense>
-				<SimilarProducts id={product.id} />
-			</Suspense> */}
 			<Guarantee />
 			<WhyChooseUs />
 

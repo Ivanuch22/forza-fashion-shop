@@ -1,4 +1,4 @@
-query ProductDetails($slug: String!, $channel: String = "default-channel") {
+query ProductDetails($slug: String!, $channel: String = "default-channel", $languageCode: LanguageCodeEnum!) {
 	product(slug: $slug, channel: $channel) {
 		id
 		name
@@ -6,11 +6,26 @@ query ProductDetails($slug: String!, $channel: String = "default-channel") {
 		description
 		seoTitle
 		seoDescription
+		translation(languageCode: $languageCode) {
+			id
+			name
+			description
+			seoTitle
+			seoDescription
+		}
 		category {
 			id
 			name
+			translation(languageCode: $languageCode) {
+				id
+				name
+			}
 			parent {
 				name
+				translation(languageCode: $languageCode) {
+					id
+					name
+				}
 			}
 		}
 		variants {

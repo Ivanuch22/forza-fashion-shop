@@ -1,7 +1,9 @@
 "use client";
 import type { Product, ProductVariant } from "@/gql/graphql";
+import { useRouter } from "@/i18n/routing";
+
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+
 export default function ProductVarians({
 	product,
 	selectedVariant,
@@ -49,28 +51,3 @@ export function VariantSelect({
 		</select>
 	);
 }
-
-// <ul role="list" className="grid grid-cols-4 gap-2" aria-labelledby="variant-label">
-//   {variants.map((variant) => {
-//     const isSelected = selectedVariant?.name === variant.name;
-//     return (
-//       variant.id && (
-//         <li key={variant.id}>
-//           <YnsLink
-//             aria-label={`product variant ${variant.name}`}
-//             scroll={false}
-//             prefetch={true}
-//             href={`/product/${product.slug}?variant=${variant.id}`}
-//             className={cn(
-//               "flex cursor-pointer items-center justify-center gap-2 rounded-md border p-2 transition-colors hover:bg-neutral-100",
-//               isSelected && "border-black bg-neutral-50 font-medium",
-//             )}
-//             aria-selected={isSelected}
-//           >
-//             {deslugify(variant.name)}
-//           </YnsLink>
-//         </li>
-//       )
-//     );
-//   })}
-// </ul>
