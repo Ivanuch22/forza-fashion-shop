@@ -45,13 +45,15 @@ interface ProcessedMenuItem {
 }
 
 // Process menu items to use translated names if available
-function processItems(items: MenuItem[] = []): ProcessedMenuItem[] {
+function processItems(items: MenuItem[] = [], locale: string): ProcessedMenuItem[] {
+	const url = "https://forzafashion.shop";
 	return items.map((item) => ({
 		...item,
+		url: item.url === "https://forzafashion.shop" ? `${url}/${locale === "pl" ? "pl" : ""}` : item.url,
 		// Use translated name if available, otherwise fall back to original
 		name: item.translation?.name || item.name,
 		// Recursively process children
-		children: item.children ? processItems(item.children) : [],
+		children: item.children ? processItems(item.children, locale) : [],
 	}));
 }
 
@@ -63,9 +65,7 @@ export const NavMenu = async ({ params }: NavMenuProps) => {
 	const { locale } = await params;
 	const cookie = await cookies();
 	const channel = cookie.get("channel")?.value || "default-channel";
-
 	const languageCode = mapLocaleToLanguageCode(locale);
-
 	let navLinks;
 
 	if (languageCode) {
@@ -90,7 +90,7 @@ export const NavMenu = async ({ params }: NavMenuProps) => {
 	}
 	console.log(navLinks);
 
-	const processedItems = processItems(navLinks?.menu?.items as MenuItem[]);
+	const processedItems = processItems(navLinks?.menu?.items as MenuItem[], locale);
 
 	return (
 		<>
