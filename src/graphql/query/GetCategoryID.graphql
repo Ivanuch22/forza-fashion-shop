@@ -1,4 +1,8 @@
-query GetCategoryID($channel: String = "default-channel", $slug: String = "") {
+query GetCategoryID(
+	$channel: String = "default-channel"
+	$slug: String = ""
+	$languageCode: LanguageCodeEnum!
+) {
 	category(slug: $slug) {
 		id
 		name
@@ -8,6 +12,9 @@ query GetCategoryID($channel: String = "default-channel", $slug: String = "") {
 		slug
 		products(channel: $channel) {
 			totalCount
+		}
+		translation(languageCode: $languageCode) {
+			name
 		}
 	}
 }
